@@ -13,4 +13,21 @@
 10.User has the ability to edit an existing location name and location coordinates and also to delete an existing location.
 
 ## Wireframes ##
+
+1. Add a new reminder
+
 ![Add Task](Add%20Task.png)
+
+2. List of all Reminders
+
+![Reminders](Reminders.png)
+
+3. List of task lists
+
+![Lists](Lists.png)
+
+4. Choose a location using a map interface
+
+![Location Screen](Location%20Screen.png)
+
+
