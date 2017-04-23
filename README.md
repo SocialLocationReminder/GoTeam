@@ -1,7 +1,7 @@
 # GoTeam
 
 ## User Stories ##
-1. When adding a new task, the user will be prompted to enter a location, date, social contact, list name, or a priority level. See the "Add a new reminder" wireframe for the UI. To differentitate our app, we may empahsize on the adding the location or the adding of a social contact feature when a new task is added. 
+1. When adding a new task, the user will be prompted to enter a location, date, social contact, list name, or a priority level. See the "Add a new reminder" wireframe for the UI. To differentitate our app, we may empahsize on the adding of the location or the adding of a social contact feature when a new task is added. 
 2. The location based reminders will setup geo fencing areas, within a certain radius of the location. User can then choose to be notified upon entering or exiting the geo fenced area
 3. User can create a social circle using the contact list on their phone. Once the social circle has been created, user can send a reminder to a contact on the social circle.
 4. When user adds their contact name to a social circle, then the app requests an approval. If the contact name is an existing user of the app, then the approval is requested in the app. If not then the app sends an invite email or an SMS with a link to AppStore. i.e. User either receives push notification or email or SMS with information that someone would like to add them to their social circle. User is able to approve or reject the incomming request.
