@@ -33,7 +33,14 @@
 
 ***
 
-###  4. Choose a location using a map interface ### 
+###  4. View and Edit Social Circles ### 
+
+![Circles](Circles.png)
+
+***
+
+
+###  5. Choose a location using a map interface ### 
 
 ![Location Screen](Location%20Screen.png)
 
