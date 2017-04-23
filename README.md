@@ -14,19 +14,25 @@
 
 ## Wireframes ##
 
-1. Add a new reminder
+### 1. Add a new reminder ### 
 
 ![Add Task](Add%20Task.png)
 
-2. List of all Reminders
+
+
+### 2. List of all Reminders ### 
 
 ![Reminders](Reminders.png)
 
-3. List of task lists
+
+
+### 3. List of task lists ### 
 
 ![Lists](Lists.png)
 
-4. Choose a location using a map interface
+
+
+###  4. Choose a location using a map interface ### 
 
 ![Location Screen](Location%20Screen.png)
 
