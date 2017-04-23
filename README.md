@@ -29,13 +29,13 @@
 
 ### 3. List of task lists ### 
 
-![Lists](Lists2.png)
+![Lists](Lists3.png)
 
 ***
 
 ###  4. View and Edit Social Circles ### 
 
-![Circles](Circles2.png)
+![Circles](Circles3.png)
 
 ***
 
