@@ -13,4 +13,4 @@
 10.User has the ability to edit an existing location name and location coordinates and also to delete an existing location.
 
 ## Wireframes ##
-![Add Task](Add Task.png)
+![Add Task](Add%20Task.png.png)
