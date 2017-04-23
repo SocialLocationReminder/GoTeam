@@ -39,8 +39,14 @@
 
 ***
 
+###  5. View Circle Details ### 
 
-###  5. Choose a location using a map interface ### 
+![Circle Details](CircleDetails.png)
+
+***
+
+
+###  6. Choose a location using a map interface ### 
 
 ![Location Screen](Location%20Screen.png)
 
