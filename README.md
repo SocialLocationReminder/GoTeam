@@ -11,3 +11,6 @@
 8. User can set and edit reminder alert type for new and existing reminders. Supported alert types are push notifications, SMS and email
 9. User can add the reminder to either a pre-existing list or create a new list into which to add a reminder. 
 10.User has the ability to edit an existing location name and location coordinates and also to delete an existing location.
+
+## Wireframes ##
+![Add Task](Add Task.png)
