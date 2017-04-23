@@ -23,7 +23,7 @@
 
 ### 2. List of all Reminders ### 
 
-![Reminders](RemindersUpdated.png)
+![Reminders](Reminders2.png)
 
 ***
 
