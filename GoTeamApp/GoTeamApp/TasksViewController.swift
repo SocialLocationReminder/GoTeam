@@ -8,8 +8,11 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class TasksViewController: UIViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -20,6 +23,12 @@ class FirstViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
+        
+    }
 
+    @IBAction func addButtonTapped(_ sender: UIButton) {
+        
+    }
 }
 
