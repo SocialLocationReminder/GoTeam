@@ -5,6 +5,7 @@
 ## Build generated
 build/
 DerivedData/
+GoTeamApp/.DS_Store
 
 ## Various settings
 *.pbxuser

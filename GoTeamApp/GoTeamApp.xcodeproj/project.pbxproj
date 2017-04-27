@@ -9,11 +9,16 @@
 /* Begin PBXBuildFile section */
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */; };
-		E2F1C98F1EAF013A0034E0A7 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98E1EAF013A0034E0A7 /* FirstViewController.swift */; };
+		E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */; };
 		E2F1C9911EAF013A0034E0A7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */; };
 		E2F1C9941EAF013A0034E0A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1C9921EAF013A0034E0A7 /* Main.storyboard */; };
 		E2F1C9961EAF013A0034E0A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F1C9951EAF013A0034E0A7 /* Assets.xcassets */; };
 		E2F1C9991EAF013A0034E0A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1C9971EAF013A0034E0A7 /* LaunchScreen.storyboard */; };
+		E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9A41EB1B6790034E0A7 /* TaskCell.swift */; };
+		E2F1C9A71EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9A61EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift */; };
+		E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9A91EB1B85A0034E0A7 /* Task.swift */; };
+		E2F1C9AC1EB1BEEB0034E0A7 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9AB1EB1BEEB0034E0A7 /* AddTaskViewController.swift */; };
+		E2F1C9AE1EB1D7AA0034E0A7 /* AddTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9AD1EB1D7AA0034E0A7 /* AddTaskCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,12 +26,17 @@
 		3C6BE0CBCD5FCF1ED8A0BBDA /* Pods-GoTeamApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoTeamApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoTeamApp/Pods-GoTeamApp.release.xcconfig"; sourceTree = "<group>"; };
 		E2F1C9891EAF013A0034E0A7 /* GoTeamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoTeamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E2F1C98E1EAF013A0034E0A7 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		E2F1C9931EAF013A0034E0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E2F1C9951EAF013A0034E0A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2F1C9981EAF013A0034E0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E2F1C99A1EAF013A0034E0A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2F1C9A41EB1B6790034E0A7 /* TaskCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		E2F1C9A61EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskWithAnnotationsCell.swift; sourceTree = "<group>"; };
+		E2F1C9A91EB1B85A0034E0A7 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		E2F1C9AB1EB1BEEB0034E0A7 /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
+		E2F1C9AD1EB1D7AA0034E0A7 /* AddTaskCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskCell.swift; sourceTree = "<group>"; };
 		EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoTeamApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -80,15 +90,60 @@
 		E2F1C98B1EAF013A0034E0A7 /* GoTeamApp */ = {
 			isa = PBXGroup;
 			children = (
+				E2F1C9A01EB1B4AA0034E0A7 /* UILayer */,
+				E2F1C9A11EB1B4B70034E0A7 /* Application Layer */,
+				E2F1C9A21EB1B4C30034E0A7 /* Service Layer */,
+				E2F1C9A81EB1B84B0034E0A7 /* Entities */,
 				E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */,
-				E2F1C98E1EAF013A0034E0A7 /* FirstViewController.swift */,
-				E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */,
 				E2F1C9921EAF013A0034E0A7 /* Main.storyboard */,
 				E2F1C9951EAF013A0034E0A7 /* Assets.xcassets */,
 				E2F1C9971EAF013A0034E0A7 /* LaunchScreen.storyboard */,
 				E2F1C99A1EAF013A0034E0A7 /* Info.plist */,
 			);
 			path = GoTeamApp;
+			sourceTree = "<group>";
+		};
+		E2F1C9A01EB1B4AA0034E0A7 /* UILayer */ = {
+			isa = PBXGroup;
+			children = (
+				E2F1C9A31EB1B6540034E0A7 /* Task */,
+				E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */,
+			);
+			name = UILayer;
+			sourceTree = "<group>";
+		};
+		E2F1C9A11EB1B4B70034E0A7 /* Application Layer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Application Layer";
+			sourceTree = "<group>";
+		};
+		E2F1C9A21EB1B4C30034E0A7 /* Service Layer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Service Layer";
+			sourceTree = "<group>";
+		};
+		E2F1C9A31EB1B6540034E0A7 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */,
+				E2F1C9A41EB1B6790034E0A7 /* TaskCell.swift */,
+				E2F1C9A61EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift */,
+				E2F1C9AB1EB1BEEB0034E0A7 /* AddTaskViewController.swift */,
+				E2F1C9AD1EB1D7AA0034E0A7 /* AddTaskCell.swift */,
+			);
+			name = Task;
+			sourceTree = "<group>";
+		};
+		E2F1C9A81EB1B84B0034E0A7 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				E2F1C9A91EB1B85A0034E0A7 /* Task.swift */,
+			);
+			name = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,7 +244,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8ADFCEAC9DD4F8ECD28DB6C1 /* [CP] Copy Pods Resources */ = {
@@ -214,9 +269,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2F1C9AE1EB1D7AA0034E0A7 /* AddTaskCell.swift in Sources */,
+				E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */,
 				E2F1C9911EAF013A0034E0A7 /* SecondViewController.swift in Sources */,
 				E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */,
-				E2F1C98F1EAF013A0034E0A7 /* FirstViewController.swift in Sources */,
+				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,
+				E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */,
+				E2F1C9A71EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift in Sources */,
+				E2F1C9AC1EB1BEEB0034E0A7 /* AddTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +440,7 @@
 				E2F1C99F1EAF013A0034E0A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
