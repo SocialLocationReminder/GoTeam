@@ -7,7 +7,6 @@ target 'GoTeamApp' do
 
   # Pods for GoTeamApp
   pod 'AFNetworking'
-  pod 'KVLoading'
   pod 'BDBOAuth1Manager'
   pod 'Parse'
 end

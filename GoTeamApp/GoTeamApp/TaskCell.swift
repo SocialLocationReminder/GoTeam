@@ -19,7 +19,7 @@ class TaskCell: UITableViewCell {
         didSet {
             if let task = task {
                 self.taskName.text = task.taskName
-            
+                taskDate.text = ""
                 if let date = task.taskDate {
                     TaskCell.dateFormatter.dateFormat = "MMM d"
                     taskDate.text = TaskCell.dateFormatter.string(from: date)
