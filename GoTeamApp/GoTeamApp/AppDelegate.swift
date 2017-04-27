@@ -17,11 +17,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        Parse.initialize(with: ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) in
-            configuration.applicationId = "CodePath-Parse"
-            configuration.server = "http://45.79.67.127:1337/parse"
-        }))
-
+      // Initialize Parse
+      // clientKey is not used on Parse open source unless explicitly configured
+      Parse.initialize(
+        with: ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
+          configuration.applicationId = "location_reminders"
+          configuration.clientKey = nil  // set to nil assuming you have not set clientKey
+          configuration.server = "https://social-location-reminder.herokuapp.com/parse"
+        })
+      )
+      
+      let username = "test1@gmail.com"
+      let password = "twk4672kw"
+      
+      //    Parse User Sign Up
+      //    let user = PFUser()
+      //    let email = "test1@gmail.com"
+      //    user.username = username
+      //    user.password = password
+      //    user.email = email
+      //    user.signUpInBackground { (succees: Bool, error: Error?) in
+      //      if let error = error {
+      //        print("Parse Sign Up Error: \(error.localizedDescription)")
+      //      } else {
+      //        print("Sign up succeeded")
+      //      }
+      //    }
+      
+      // Parse User Login
+      PFUser.logInWithUsername(inBackground: username, password: password) { (user: PFUser?, error: Error?) in
+        if user != nil {
+          print("Sucessful login to Parse Server")
+        } else {
+          print("Parse Login Error \(error!.localizedDescription)")
+        }
+      }
         return true
     }
 
