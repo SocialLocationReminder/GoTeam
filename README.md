@@ -16,39 +16,39 @@
 
 ### 1. Add a new reminder ### 
 
-![Add Task](Add%20Task.png)
+![Add Task](wireframes/Add%20Task.png)
 
 
 ***
 
 ### 2. List of all Reminders ### 
 
-![Reminders](Reminders2.png)
+![Reminders](wireframes/Reminders2.png)
 
 ***
 
 ### 3. List of task lists ### 
 
-![Lists](Lists3.png)
+![Lists](wireframes/Lists3.png)
 
 ***
 
 ###  4. View and Edit Social Circles ### 
 
-![Circles](Circles3.png)
+![Circles](wireframes/Circles3.png)
 
 ***
 
 ###  5. View Circle Details ### 
 
-![Circle Details](CircleDetails.png)
+![Circle Details](wireframes/CircleDetails.png)
 
 ***
 
 
 ###  6. Choose a location using a map interface ### 
 
-![Location Screen](Location%20Screen.png)
+![Location Screen](wireframes/Location%20Screen.png)
 
 ***
 
