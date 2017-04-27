@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */; };
 		E2F1C98F1EAF013A0034E0A7 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98E1EAF013A0034E0A7 /* FirstViewController.swift */; };
 		E2F1C9911EAF013A0034E0A7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */; };
@@ -16,6 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		31B4651248491BEA88B12926 /* Pods-GoTeamApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoTeamApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoTeamApp/Pods-GoTeamApp.debug.xcconfig"; sourceTree = "<group>"; };
+		3C6BE0CBCD5FCF1ED8A0BBDA /* Pods-GoTeamApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoTeamApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoTeamApp/Pods-GoTeamApp.release.xcconfig"; sourceTree = "<group>"; };
 		E2F1C9891EAF013A0034E0A7 /* GoTeamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoTeamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2F1C98E1EAF013A0034E0A7 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		E2F1C9951EAF013A0034E0A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2F1C9981EAF013A0034E0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E2F1C99A1EAF013A0034E0A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoTeamApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F0C00C9286083450B99E0D5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8B1B5B6C4D3A371C66FB3034 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				31B4651248491BEA88B12926 /* Pods-GoTeamApp.debug.xcconfig */,
+				3C6BE0CBCD5FCF1ED8A0BBDA /* Pods-GoTeamApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E2F1C9801EAF013A0034E0A7 = {
 			isa = PBXGroup;
 			children = (
 				E2F1C98B1EAF013A0034E0A7 /* GoTeamApp */,
 				E2F1C98A1EAF013A0034E0A7 /* Products */,
+				8B1B5B6C4D3A371C66FB3034 /* Pods */,
+				1F0C00C9286083450B99E0D5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +98,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2F1C99D1EAF013A0034E0A7 /* Build configuration list for PBXNativeTarget "GoTeamApp" */;
 			buildPhases = (
+				1F99B31E3CE2EA5840C12714 /* [CP] Check Pods Manifest.lock */,
 				E2F1C9851EAF013A0034E0A7 /* Sources */,
 				E2F1C9861EAF013A0034E0A7 /* Frameworks */,
 				E2F1C9871EAF013A0034E0A7 /* Resources */,
+				0C52F0008EC69509D5282402 /* [CP] Embed Pods Frameworks */,
+				8ADFCEAC9DD4F8ECD28DB6C1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -133,6 +160,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0C52F0008EC69509D5282402 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoTeamApp/Pods-GoTeamApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1F99B31E3CE2EA5840C12714 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8ADFCEAC9DD4F8ECD28DB6C1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GoTeamApp/Pods-GoTeamApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E2F1C9851EAF013A0034E0A7 /* Sources */ = {
@@ -262,6 +337,7 @@
 		};
 		E2F1C99E1EAF013A0034E0A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31B4651248491BEA88B12926 /* Pods-GoTeamApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = GoTeamApp/Info.plist;
@@ -274,6 +350,7 @@
 		};
 		E2F1C99F1EAF013A0034E0A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C6BE0CBCD5FCF1ED8A0BBDA /* Pods-GoTeamApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = GoTeamApp/Info.plist;
