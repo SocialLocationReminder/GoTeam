@@ -12,6 +12,7 @@ class TasksViewController: UIViewController {
 
     
     let kTaskCell = "TaskCell"
+    let kTaskWithAnnotationsCell = "TaskWithAnnotationsCell"
     
     var tasks : [Task]?
     
@@ -51,22 +52,45 @@ class TasksViewController: UIViewController {
     }
     
     @IBAction func doneUnwindToTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
-        let task = Task()
+
         
         let addTaskVC = segue.source as! AddTaskViewController
         
-        task.taskName = addTaskVC.textView.text
+        let task = addTaskVC.task
         
-        tasks?.append(task)
+        if let task = task {
+            task.taskName = remove(prefix : "^", textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
+            task.taskName = remove(prefix : "!", textArray: ["1", "2", "3"], text: task.taskName!)
+            tasks?.append(task)
+        }
+        
         self.tableView.reloadData()
     }
 
+    func remove(prefix: String, textArray : [String],  text : String) -> String {
+        var text = text
+        for textToRemove in textArray {
+            let strToRemove = prefix + textToRemove
+            let range = text.range(of: strToRemove)
+            if let range = range {
+                text.removeSubrange(range)
+            }
+        }
+        return text
+    }
 }
 
 
 extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if tasks![indexPath.row].taskPriority != nil {
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: kTaskWithAnnotationsCell) as! TaskWithAnnotationsCell
+            cell.task = tasks![indexPath.row]
+            return cell
+        }
+        
         let cell = self.tableView.dequeueReusableCell(withIdentifier: kTaskCell) as! TaskCell
         cell.task = tasks![indexPath.row]
         return cell

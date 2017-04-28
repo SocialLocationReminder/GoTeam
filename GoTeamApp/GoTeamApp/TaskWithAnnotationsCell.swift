@@ -9,6 +9,9 @@
 import UIKit
 
 class TaskWithAnnotationsCell: UITableViewCell {
+    
+    let kExclamation = "exclamation.png"
+    static let priorityTextArray = ["High", "Medium", "Low"]
 
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var taskDateLabel: UILabel!
@@ -24,8 +27,25 @@ class TaskWithAnnotationsCell: UITableViewCell {
     @IBOutlet weak var thirdAnnotationLabel: UILabel!
     @IBOutlet weak var fourthAnnotationLabel: UILabel!
     
-    
-    
+    var task : Task? {
+        didSet {
+            if let task = task {
+                taskNameLabel.text = task.taskName
+                taskDateLabel.text = ""
+                if let date = task.taskDate {
+                    TaskCell.dateFormatter.dateFormat = "MMM d"
+                    taskDateLabel.text = TaskCell.dateFormatter.string(from: date)
+                }
+                
+                if let priority = task.taskPriority {
+                    firstAnnotationImage.image = UIImage(named: kExclamation)
+                    firstAnnotationImage.isHidden = false
+                    firstAnnotationLabel.text = TaskWithAnnotationsCell.priorityTextArray[priority - 1]
+                    firstAnnotationLabel.isHidden = false
+                }
+            }
+        }
+    }
     
     
     override func awakeFromNib() {

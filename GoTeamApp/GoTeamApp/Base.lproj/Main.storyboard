@@ -72,6 +72,7 @@
                                                 <constraint firstItem="MYa-d7-6HV" firstAttribute="centerY" secondItem="9s8-Tl-Dcx" secondAttribute="centerY" id="3nm-rk-iyu"/>
                                                 <constraint firstItem="5X3-E9-3Wq" firstAttribute="centerY" secondItem="9s8-Tl-Dcx" secondAttribute="centerY" id="KV9-Xh-zka"/>
                                                 <constraint firstAttribute="trailing" secondItem="5X3-E9-3Wq" secondAttribute="trailing" constant="15" id="S0R-zI-YNI"/>
+                                                <constraint firstItem="5X3-E9-3Wq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MYa-d7-6HV" secondAttribute="trailing" constant="3" id="cZf-Z8-zi2"/>
                                                 <constraint firstItem="MYa-d7-6HV" firstAttribute="leading" secondItem="9s8-Tl-Dcx" secondAttribute="leading" constant="15" id="vCP-Ss-rCG"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -97,46 +98,46 @@
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="huf-x5-eMi">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="huf-x5-eMi">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="10" id="Gha-3c-3CI"/>
                                                         <constraint firstAttribute="width" constant="10" id="kN0-M2-f1H"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="PV7-sd-wQ7" userLabel="exclamation">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="PV7-sd-wQ7" userLabel="exclamation">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="10" id="0jl-tM-j8o"/>
                                                         <constraint firstAttribute="width" constant="10" id="cHE-7Z-Mzv"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="shK-vU-8gE" userLabel="person">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="shK-vU-8gE" userLabel="person">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="10" id="6Xu-is-soM"/>
                                                         <constraint firstAttribute="height" constant="10" id="g0N-dW-khh"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="Lwb-4Y-Qug" userLabel="list">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="Lwb-4Y-Qug" userLabel="list">
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="10" id="ZbU-8c-7Mf"/>
                                                         <constraint firstAttribute="width" constant="10" id="xvG-Il-Mzi"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work (on exit)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="740-7z-1Se">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work (on exit)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="740-7z-1Se">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="High" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDj-eL-ZKl">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="High" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDj-eL-ZKl">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wife" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSj-Op-vha">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wife" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSj-Op-vha">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Groceries" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="336-DJ-z0r">
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Groceries" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="336-DJ-z0r">
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -144,17 +145,17 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="UZj-11-PBY" firstAttribute="leading" secondItem="cx5-Bs-a69" secondAttribute="leading" constant="15" id="3a9-Mx-pP3"/>
-                                                <constraint firstItem="NDj-eL-ZKl" firstAttribute="leading" secondItem="PV7-sd-wQ7" secondAttribute="trailing" constant="5" id="F6Q-sU-CjD"/>
+                                                <constraint firstItem="NDj-eL-ZKl" firstAttribute="leading" secondItem="PV7-sd-wQ7" secondAttribute="trailing" constant="1" id="F6Q-sU-CjD"/>
                                                 <constraint firstItem="Lwb-4Y-Qug" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="FRn-9B-LDE"/>
                                                 <constraint firstItem="PV7-sd-wQ7" firstAttribute="leading" secondItem="740-7z-1Se" secondAttribute="trailing" constant="8" id="IaB-V8-chz"/>
                                                 <constraint firstItem="huf-x5-eMi" firstAttribute="centerY" secondItem="cx5-Bs-a69" secondAttribute="centerY" constant="15" id="MYA-s5-ofc"/>
                                                 <constraint firstItem="Lwb-4Y-Qug" firstAttribute="leading" secondItem="fSj-Op-vha" secondAttribute="trailing" constant="8" id="PaB-HM-aKh"/>
                                                 <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="336-DJ-z0r" secondAttribute="trailing" constant="3" id="QZj-M3-X5p"/>
                                                 <constraint firstItem="336-DJ-z0r" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="SCn-Ka-9cm"/>
-                                                <constraint firstItem="UZj-11-PBY" firstAttribute="centerY" secondItem="cx5-Bs-a69" secondAttribute="centerY" constant="-10" id="TpM-bQ-H6m"/>
+                                                <constraint firstItem="UZj-11-PBY" firstAttribute="centerY" secondItem="cx5-Bs-a69" secondAttribute="centerY" constant="-5" id="TpM-bQ-H6m"/>
                                                 <constraint firstItem="huf-x5-eMi" firstAttribute="leading" secondItem="cx5-Bs-a69" secondAttribute="leading" constant="15" id="VPg-Hp-861"/>
-                                                <constraint firstItem="740-7z-1Se" firstAttribute="leading" secondItem="huf-x5-eMi" secondAttribute="trailing" constant="5" id="Vdz-wC-Ic2"/>
-                                                <constraint firstItem="fSj-Op-vha" firstAttribute="leading" secondItem="shK-vU-8gE" secondAttribute="trailing" constant="5" id="WdM-Qk-3sz"/>
+                                                <constraint firstItem="740-7z-1Se" firstAttribute="leading" secondItem="huf-x5-eMi" secondAttribute="trailing" constant="1" id="Vdz-wC-Ic2"/>
+                                                <constraint firstItem="fSj-Op-vha" firstAttribute="leading" secondItem="shK-vU-8gE" secondAttribute="trailing" constant="1" id="WdM-Qk-3sz"/>
                                                 <constraint firstItem="lyJ-Lo-cBY" firstAttribute="centerY" secondItem="cx5-Bs-a69" secondAttribute="centerY" id="Wn5-dv-cvt"/>
                                                 <constraint firstItem="PV7-sd-wQ7" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="d9o-DE-fqK"/>
                                                 <constraint firstItem="740-7z-1Se" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="fwe-nf-mWr"/>
@@ -255,7 +256,7 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uVs-Op-gUg" userLabel="Calendar View">
                                                 <subviews>
-                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CalendarButton" translatesAutoresizingMaskIntoConstraints="NO" id="cU2-td-TtI">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CalendarButton" highlightedImage="CalendarButtonHighlighted" translatesAutoresizingMaskIntoConstraints="NO" id="cU2-td-TtI">
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="0p8-KF-uMI"/>
                                                             <constraint firstAttribute="width" constant="50" id="fQB-Dk-2V8"/>
@@ -569,7 +570,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="74d-Gk-jfj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Tasks" image="first" id="acW-dT-cKf"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="cHo-k4-fK5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="cHo-k4-fK5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.090196078430000007" green="0.36862745099999999" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
@@ -604,6 +605,7 @@
     </scenes>
     <resources>
         <image name="CalendarButton" width="54" height="51"/>
+        <image name="CalendarButtonHighlighted" width="54" height="51"/>
         <image name="DueDate" width="54" height="50"/>
         <image name="ListButton" width="54" height="50"/>
         <image name="LocationButton" width="54" height="50"/>
