@@ -51,10 +51,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="Vvh-vc-VP0" customClass="TaskCell" customModule="GoTeamApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vvh-vc-VP0" id="9s8-Tl-Dcx">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="1000" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick up the Milk" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYa-d7-6HV">
@@ -81,10 +81,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskWithAnnotationsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskWithAnnotationsCell" rowHeight="70" id="3Yr-n1-mjs" customClass="TaskWithAnnotationsCell" customModule="GoTeamApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="70"/>
+                                        <rect key="frame" x="0.0" y="72" width="1000" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Yr-n1-mjs" id="cx5-Bs-a69">
-                                            <frame key="frameInset" width="375" height="69"/>
+                                            <frame key="frameInset" width="1000" height="69"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drop off Package at UPS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UZj-11-PBY" userLabel="Drop off Package at UPS">
@@ -255,7 +255,7 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uVs-Op-gUg" userLabel="Calendar View">
                                                 <subviews>
-                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CalendarButton" translatesAutoresizingMaskIntoConstraints="NO" id="cU2-td-TtI">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CalendarButton" highlightedImage="CalendarButtonHighlighted" translatesAutoresizingMaskIntoConstraints="NO" id="cU2-td-TtI">
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="0p8-KF-uMI"/>
                                                             <constraint firstAttribute="width" constant="50" id="fQB-Dk-2V8"/>
@@ -569,7 +569,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="74d-Gk-jfj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Tasks" image="first" id="acW-dT-cKf"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="cHo-k4-fK5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="cHo-k4-fK5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.090196078430000007" green="0.36862745099999999" blue="0.3294117647" alpha="1" colorSpace="calibratedRGB"/>
@@ -604,6 +604,7 @@
     </scenes>
     <resources>
         <image name="CalendarButton" width="54" height="51"/>
+        <image name="CalendarButtonHighlighted" width="54" height="51"/>
         <image name="DueDate" width="54" height="50"/>
         <image name="ListButton" width="54" height="50"/>
         <image name="LocationButton" width="54" height="50"/>
