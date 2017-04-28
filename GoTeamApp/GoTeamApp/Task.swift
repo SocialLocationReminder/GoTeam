@@ -14,7 +14,7 @@ class Task {
     var taskName : String?
     var taskDate : Date?
     
-    var taskPriority : String?
+    var taskPriority : Int?
     var taskList : String?
     var taskSocialContact : String?
     var taskLocation : String?

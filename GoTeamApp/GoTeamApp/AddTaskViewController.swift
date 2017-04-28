@@ -38,12 +38,13 @@ class AddTaskViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    var task : Task!
+    
     var tableState : TableState = .none
     
     let priorityArray = ["1 - High", "2 - Medium", "3 - Low", "None"]
     var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
     
-    var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     
     
     override func viewDidLoad() {
@@ -69,6 +70,8 @@ class AddTaskViewController: UIViewController {
         
         // setup due date
         setupDate()
+        
+        task = Task()
     }
     
     func setupDate() {
@@ -125,6 +128,8 @@ class AddTaskViewController: UIViewController {
     }
 }
 
+
+//MARK: - UITableViewDelegate, UITableViewDataSource
 extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -164,35 +169,53 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    // MARK: - selected row in table view
+    func handlePrioritySelected(_ indexPath : IndexPath) {
+        if indexPath.row == priorityArray.count - 1  {
+            let chars = Array(textView.text.characters)
+            textView.text = String(chars[0..<chars.count - 2])
+            task.taskPriority = nil
+        } else {
+            textView.text = textView.text + String(indexPath.row + 1)
+            priorityButton.isUserInteractionEnabled = false
+            priorityButton.isHighlighted = true
+            task.taskPriority = indexPath.row + 1
+        }
+    }
+
+    func handleDateSelected(_ indexPath : IndexPath) {
+        if indexPath.row == dateArray.count - 1  {
+            let chars = Array(textView.text.characters)
+            textView.text = String(chars[0..<chars.count - 2])
+            task.taskDate = nil
+        } else {
+            textView.text = textView.text + dateArray[indexPath.row]
+            dateButton.isUserInteractionEnabled = false
+            dateButton.isHighlighted = true
+            let today = Date()
+            task.taskDate = Calendar.current.date(byAdding: .day, value: indexPath.row, to: today)
+        }
+    }
+    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch tableState {
         case .priority:
-            
-            if indexPath.row == priorityArray.count - 1  {
-                let chars = Array(textView.text.characters)
-                textView.text = String(chars[0..<chars.count - 2])
-            } else {
-                textView.text = textView.text + String(indexPath.row + 1)
-                priorityButton.isUserInteractionEnabled = false
-                priorityButton.isHighlighted = true
-            }
+            handlePrioritySelected(indexPath)
         case .date:
-            if indexPath.row == dateArray.count - 1  {
-                let chars = Array(textView.text.characters)
-                textView.text = String(chars[0..<chars.count - 2])
-            } else {
-                textView.text = textView.text + dateArray[indexPath.row]
-                dateButton.isUserInteractionEnabled = false
-                dateButton.isHighlighted = true
-            }
-        default: break
+            handleDateSelected(indexPath)
+        default:
+            break
         }
+
         tableState = .none
         tableView.isHidden = true
         maskView.isHidden = false
     }
+    
 }
 
+// MARK: - UITextViewDelegate
 extension AddTaskViewController : UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
@@ -205,18 +228,16 @@ extension AddTaskViewController : UITextViewDelegate {
             self.view.setNeedsDisplay()
         }
         
-        
+        priorityButton.isHighlighted = true
+        priorityButton.isUserInteractionEnabled = false
         if textView.text.contains("!1") == false &&
             textView.text.contains("!2") == false &&
             textView.text.contains("!3") == false {
             
             priorityButton.isHighlighted = false
             priorityButton.isUserInteractionEnabled = true
-        } else {
-            priorityButton.isHighlighted = true
-            priorityButton.isUserInteractionEnabled = false
+            task.taskPriority = nil
         }
-        
         
         dateButton.isHighlighted = false
         dateButton.isUserInteractionEnabled = true
