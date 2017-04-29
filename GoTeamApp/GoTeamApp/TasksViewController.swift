@@ -184,7 +184,6 @@ extension TasksViewController : UISearchBarDelegate {
         
 
         
-        
         filteredTasks = [Task]();
         
         for task in tasks! {

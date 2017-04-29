@@ -9,7 +9,7 @@
 import Foundation
 
 
-class Task {
+class Task : ListItem {
     
     var taskID : Date?
     var taskName : String?
