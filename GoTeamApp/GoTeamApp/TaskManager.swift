@@ -22,4 +22,20 @@ class TaskManager {
             self.dataStoreService.add(task: task)
         }
     }
+    
+    func delete(task : Task) {
+        queue.async {
+            self.tasks = self.tasks.filter() { $0 !== task }
+        }
+    }
+
+    func allTasks(fetch: Bool, success:@escaping (([Task]) -> ()), error: @escaping (Error) -> ()) {
+        queue.async {
+            if fetch == false {
+                success(self.tasks)
+            } else {
+                self.dataStoreService.allTasks(success: success, error: error)
+            }
+        }
+    }
 }

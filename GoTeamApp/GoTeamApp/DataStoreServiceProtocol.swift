@@ -11,4 +11,6 @@ import Foundation
 
 protocol DataStoreServiceProtocol {
     func add(task : Task);
+    func delete(task : Task);
+    func allTasks(success:@escaping ([Task]) -> (), error: @escaping ((Error) -> ()));
 }
