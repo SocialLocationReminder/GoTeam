@@ -33,11 +33,10 @@ class TaskWithAnnotationsCell: UITableViewCell {
     @IBOutlet weak var fourthAnnotationLabel: UILabel!
     
     @IBOutlet weak var topView: UIView!
-    
     @IBOutlet weak var cellFGViewLeadingSpaceConstraint: NSLayoutConstraint!
-    var gestureStaringPoint : CGPoint!
+    
     weak var delegate : TaskWithAnnotationsCellDelegate?
-
+    var tableCellUtil : TableCellUtil!
     
     var task : Task? {
         didSet {
@@ -60,45 +59,19 @@ class TaskWithAnnotationsCell: UITableViewCell {
         }
     }
     
-    func topViewPanned(sender : UIPanGestureRecognizer) {
-        let point = sender.translation(in: self.contentView)
-        let velocity = sender.velocity(in: self.contentView)
-        print(point)
-        print(velocity)
-        
-        if sender.state == .began {
-            gestureStaringPoint = point
-        } else if sender.state == .changed {
-            cellFGViewLeadingSpaceConstraint.constant = point.x - gestureStaringPoint.x
-        } else {
-            if velocity.x > 0 && point.x > self.contentView.frame.width * 0.8 {
-                self.delegate?.deleteTaskAnnotationsCell(sender: self)
-                cellFGViewLeadingSpaceConstraint.constant = self.contentView.frame.width
-            } else {
-                if point.x < 0 {
-                    cellFGViewLeadingSpaceConstraint.constant = 0
-                } else {
-                    // snap it back into place
-                    DispatchQueue.main.async {
-                        self.moveContentCellback()
-                    }
-                }
-            }
-        }
-    }
-    
-    func moveContentCellback() {
-        self.cellFGViewLeadingSpaceConstraint.constant = 0
-        UIView.animate(withDuration: 0.4, animations: {
-            self.contentView.layoutIfNeeded()
-        })
-    }
 
     
     override func awakeFromNib() {
         super.awakeFromNib()
         let tapGR = UIPanGestureRecognizer(target: self, action: #selector(topViewPanned))
         self.topView.addGestureRecognizer(tapGR)
+        tableCellUtil = TableCellUtil(contentView: contentView, viewLeadingConstraint: cellFGViewLeadingSpaceConstraint)
+    }
+    
+    func topViewPanned(sender : UIPanGestureRecognizer) {
+        tableCellUtil.handleDeletePan(sender: sender, deleteActionComplete: {
+            self.delegate?.deleteTaskAnnotationsCell(sender: self)
+            }, deleteActionInComplete: nil)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
