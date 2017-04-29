@@ -26,6 +26,7 @@ class TaskManager {
     func delete(task : Task) {
         queue.async {
             self.tasks = self.tasks.filter() { $0 !== task }
+            self.dataStoreService.delete(task: task)
         }
     }
 

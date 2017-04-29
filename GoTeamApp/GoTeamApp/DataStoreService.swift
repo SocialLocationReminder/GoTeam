@@ -16,7 +16,8 @@ class DataStoreService : DataStoreServiceProtocol {
     let kTUserName = "UserName"
     
     // task related
-    let kTasksClass = "TasksClass"
+    let kTasksClass = "TasksClassV2"
+    let kTaskID   = "taskID"
     let kTaskName = "taskName"
     let kTaskDate = "taskDate"
     let kTaskPriority = "taskPriority"
@@ -31,6 +32,7 @@ class DataStoreService : DataStoreServiceProtocol {
         let parseTask = PFObject(className:kTasksClass)
         parseTask[kTUserName] = userName
         parseTask[kTaskName] = task.taskName
+        parseTask[kTaskID] = task.taskID
         
         if let taskDate = task.taskDate {
             parseTask[kTaskDate] = taskDate
@@ -62,8 +64,9 @@ class DataStoreService : DataStoreServiceProtocol {
         
         let query = PFQuery(className:kTasksClass)
         query.whereKey(kTUserName, equalTo: userName)
-        query.includeKey(kTUserName)
-        
+        query.whereKey(kTaskID, equalTo: task.taskID!)
+      //  query.includeKey(kTUserName)
+        query.includeKey(kTaskID)
         
         query.findObjectsInBackground(block: { (tasks, error) in
             if let tasks = tasks {
@@ -96,6 +99,7 @@ class DataStoreService : DataStoreServiceProtocol {
         var tasks = [Task]()
         for pfTask in pfTasks {
             let task = Task()
+            task.taskID = pfTask[kTaskID] as? Date
             task.taskName = pfTask[kTaskName] as? String
             task.taskDate = pfTask[kTaskDate] as? Date
             task.taskPriority = pfTask[kTaskPriority] as? Int
