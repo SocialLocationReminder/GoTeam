@@ -31,11 +31,23 @@ class DataStoreService : DataStoreServiceProtocol {
         let parseTask = PFObject(className:kTasksClass)
         parseTask[kTUserName] = userName
         parseTask[kTaskName] = task.taskName
-        parseTask[kTaskDate] = task.taskDate
-        parseTask[kTaskPriority] = task.taskPriority
-        parseTask[kTaskList] = task.taskList
-        parseTask[kTaskSocialContact] = task.taskSocialContact
-        parseTask[kTaskLocation] = task.taskLocation
+        
+        if let taskDate = task.taskDate {
+            parseTask[kTaskDate] = taskDate
+        }
+        if let taskPriority = task.taskPriority {
+            parseTask[kTaskPriority] = taskPriority
+        }
+        if let taskList = task.taskList {
+            parseTask[kTaskList] = taskList
+        }
+        if let taskSocialContact = task.taskSocialContact {
+            parseTask[kTaskSocialContact] = taskSocialContact
+        }
+        
+        if let taskLocation = task.taskLocation {
+            parseTask[kTaskLocation] = taskLocation
+        }
         
         parseTask.saveInBackground { (success, error) in
             if success {

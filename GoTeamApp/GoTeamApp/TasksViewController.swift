@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import MBProgressHUD
 
 
 class TasksViewController: UIViewController {
@@ -24,6 +24,7 @@ class TasksViewController: UIViewController {
     
     @IBOutlet weak var addButton: UIButton!
 
+    let taskManager = TaskManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,20 @@ class TasksViewController: UIViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
         tasks = [Task]()
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true);
+        taskManager.allTasks(fetch: true, success: { (receivedTasks) in
+            
+            DispatchQueue.main.async {
+                hud.hide(animated: true)
+                self.tasks = receivedTasks
+                self.tableView.reloadData()
+            }
+            }) { (error) in
+                DispatchQueue.main.async {
+                    // @todo: show network error
+                    hud.hide(animated: true)
+                }
+        }
         
         // setup add button view
         setupAddButton()
@@ -77,6 +92,7 @@ class TasksViewController: UIViewController {
             task.taskName = remove(prefix : "^", textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
             task.taskName = remove(prefix : "!", textArray: ["1", "2", "3"], text: task.taskName!)
             tasks?.append(task)
+            self.taskManager.add(task: task)
         }
         
         self.tableView.reloadData()
@@ -127,6 +143,7 @@ extension TasksViewController : TaskCellDelegate, TaskWithAnnotationsCellDelegat
         let indexPath = self.tableView.indexPath(for: sender)
         
         if let indexPath = indexPath {
+            self.taskManager.delete(task: sender.task!)
             self.tasks?.remove(at: indexPath.row)
             self.tableView.reloadData()
         }
@@ -136,6 +153,7 @@ extension TasksViewController : TaskCellDelegate, TaskWithAnnotationsCellDelegat
         let indexPath = self.tableView.indexPath(for: sender)
         
         if let indexPath = indexPath {
+            self.taskManager.delete(task: sender.task!)
             self.tasks?.remove(at: indexPath.row)
             self.tableView.reloadData()
         }
