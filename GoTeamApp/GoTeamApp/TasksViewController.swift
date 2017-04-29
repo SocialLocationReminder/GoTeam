@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class TasksViewController: UIViewController {
 
     
@@ -19,6 +21,9 @@ class TasksViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var addButton: UIButton!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +37,15 @@ class TasksViewController: UIViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
         tasks = [Task]()
+        
+        // setup add button view
+        setupAddButton()
+    }
+    
+    func setupAddButton() {
+        
+        addButton.layer.cornerRadius = 48.0 / 2.0
+        addButton.clipsToBounds = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,7 +54,8 @@ class TasksViewController: UIViewController {
     }
 
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
-        
+        self.tableView.setEditing(true, animated: true)
+        self.tableView.setNeedsDisplay()
     }
 
     @IBAction func addButtonTapped(_ sender: UIButton) {
@@ -66,6 +81,9 @@ class TasksViewController: UIViewController {
         
         self.tableView.reloadData()
     }
+    
+
+
 
     func remove(prefix: String, textArray : [String],  text : String) -> String {
         var text = text
@@ -88,11 +106,13 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
         if tasks![indexPath.row].taskPriority != nil {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: kTaskWithAnnotationsCell) as! TaskWithAnnotationsCell
             cell.task = tasks![indexPath.row]
+            cell.delegate = self
             return cell
         }
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: kTaskCell) as! TaskCell
         cell.task = tasks![indexPath.row]
+        cell.delegate = self
         return cell
     }
     
@@ -100,4 +120,29 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
         return tasks?.count ?? 0
     }
 }
+
+
+extension TasksViewController : TaskCellDelegate, TaskWithAnnotationsCellDelegate {
+    func deleteTaskCell(sender: TaskCell) {
+        let indexPath = self.tableView.indexPath(for: sender)
+        
+        if let indexPath = indexPath {
+            self.tasks?.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+    }
+    
+    func deleteTaskAnnotationsCell(sender: TaskWithAnnotationsCell) {
+        let indexPath = self.tableView.indexPath(for: sender)
+        
+        if let indexPath = indexPath {
+            self.tasks?.remove(at: indexPath.row)
+            self.tableView.reloadData()
+        }
+    }
+}
+
+
+
+
 
