@@ -11,6 +11,7 @@ import Foundation
 
 class Task {
     
+    var taskID : Date?
     var taskName : String?
     var taskDate : Date?
     
@@ -19,4 +20,8 @@ class Task {
     var taskSocialContact : String?
     var taskLocation : String?
     
+    
+    init() {
+        taskID = Date()
+    }
 }

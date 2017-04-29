@@ -19,6 +19,9 @@
 		E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9A91EB1B85A0034E0A7 /* Task.swift */; };
 		E2F1C9AC1EB1BEEB0034E0A7 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9AB1EB1BEEB0034E0A7 /* AddTaskViewController.swift */; };
 		E2F1C9AE1EB1D7AA0034E0A7 /* AddTaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9AD1EB1D7AA0034E0A7 /* AddTaskCell.swift */; };
+		E2F1C9B01EB432DE0034E0A7 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9AF1EB432DE0034E0A7 /* TaskManager.swift */; };
+		E2F1C9B21EB4337A0034E0A7 /* DataStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9B11EB4337A0034E0A7 /* DataStoreService.swift */; };
+		E2F1C9B41EB434BF0034E0A7 /* DataStoreServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9B31EB434BF0034E0A7 /* DataStoreServiceProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,9 @@
 		E2F1C9A91EB1B85A0034E0A7 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		E2F1C9AB1EB1BEEB0034E0A7 /* AddTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		E2F1C9AD1EB1D7AA0034E0A7 /* AddTaskCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskCell.swift; sourceTree = "<group>"; };
+		E2F1C9AF1EB432DE0034E0A7 /* TaskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
+		E2F1C9B11EB4337A0034E0A7 /* DataStoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreService.swift; sourceTree = "<group>"; };
+		E2F1C9B31EB434BF0034E0A7 /* DataStoreServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreServiceProtocol.swift; sourceTree = "<group>"; };
 		EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoTeamApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -115,6 +121,7 @@
 		E2F1C9A11EB1B4B70034E0A7 /* Application Layer */ = {
 			isa = PBXGroup;
 			children = (
+				E2F1C9AF1EB432DE0034E0A7 /* TaskManager.swift */,
 			);
 			name = "Application Layer";
 			sourceTree = "<group>";
@@ -122,6 +129,8 @@
 		E2F1C9A21EB1B4C30034E0A7 /* Service Layer */ = {
 			isa = PBXGroup;
 			children = (
+				E2F1C9B31EB434BF0034E0A7 /* DataStoreServiceProtocol.swift */,
+				E2F1C9B11EB4337A0034E0A7 /* DataStoreService.swift */,
 			);
 			name = "Service Layer";
 			sourceTree = "<group>";
@@ -269,7 +278,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2F1C9B01EB432DE0034E0A7 /* TaskManager.swift in Sources */,
 				E2F1C9AE1EB1D7AA0034E0A7 /* AddTaskCell.swift in Sources */,
+				E2F1C9B41EB434BF0034E0A7 /* DataStoreServiceProtocol.swift in Sources */,
+				E2F1C9B21EB4337A0034E0A7 /* DataStoreService.swift in Sources */,
 				E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */,
 				E2F1C9911EAF013A0034E0A7 /* SecondViewController.swift in Sources */,
 				E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */,
