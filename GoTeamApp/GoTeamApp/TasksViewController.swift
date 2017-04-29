@@ -12,31 +12,45 @@ import MBProgressHUD
 
 class TasksViewController: UIViewController {
 
+    // outlets
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var addButton: UIButton!
     
+    // cells
     let kTaskCell = "TaskCell"
     let kTaskWithAnnotationsCell = "TaskWithAnnotationsCell"
     
+    // tasks and filtered tasks
     var tasks : [Task]?
-    
-    @IBOutlet weak var searchBar: UISearchBar!
-    
-    @IBOutlet weak var tableView: UITableView!
-    
-    @IBOutlet weak var addButton: UIButton!
+    var filteredTasks : [Task]?
 
+    // application layer 
     let taskManager = TaskManager()
     
+    // MARK: - view load related
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // setup table view
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
+        tableView.dataSource = self
+        tableView.delegate = self
 
         // setup auto row height
-        self.tableView.estimatedRowHeight = 44
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
         
+        // setup search bar 
+        searchBar.delegate = self
+        
+        // fetch tasks
+        fetchTasks()
+        
+        // setup add button view
+        setupAddButton()
+    }
+    
+    func fetchTasks() {
         tasks = [Task]()
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true);
         taskManager.allTasks(fetch: true, success: { (receivedTasks) in
@@ -46,15 +60,12 @@ class TasksViewController: UIViewController {
                 self.tasks = receivedTasks
                 self.tableView.reloadData()
             }
-            }) { (error) in
-                DispatchQueue.main.async {
-                    // @todo: show network error
-                    hud.hide(animated: true)
-                }
+        }) { (error) in
+            DispatchQueue.main.async {
+                // @todo: show network error
+                hud.hide(animated: true)
+            }
         }
-        
-        // setup add button view
-        setupAddButton()
     }
     
     func setupAddButton() {
@@ -68,15 +79,8 @@ class TasksViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func deleteButtonTapped(_ sender: UIButton) {
-        self.tableView.setEditing(true, animated: true)
-        self.tableView.setNeedsDisplay()
-    }
 
-    @IBAction func addButtonTapped(_ sender: UIButton) {
-        
-    }
-    
+    // MARK: - unwind segues
     @IBAction func unwindToTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
         
     }
@@ -91,15 +95,12 @@ class TasksViewController: UIViewController {
         if let task = task {
             task.taskName = remove(prefix : "^", textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
             task.taskName = remove(prefix : "!", textArray: ["1", "2", "3"], text: task.taskName!)
-            tasks?.append(task)
-            self.taskManager.add(task: task)
+            add(task: task)
         }
         
         self.tableView.reloadData()
     }
     
-
-
 
     func remove(prefix: String, textArray : [String],  text : String) -> String {
         var text = text
@@ -112,6 +113,22 @@ class TasksViewController: UIViewController {
         }
         return text
     }
+    
+    // MARK: - task management
+    func add(task : Task) {
+        tasks?.append(task)
+        taskManager.add(task: task)
+        
+        // if table is in a filtered state, then the filtered list
+        // would need to be redone
+        applyFilterPerSearchText()
+    }
+    
+    func remove(task : Task) {
+        taskManager.delete(task: task)
+        tasks = tasks?.filter() { $0 !== task }
+        filteredTasks = filteredTasks?.filter() { $0 !== task }
+    }
 }
 
 
@@ -119,45 +136,83 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if tasks![indexPath.row].taskPriority != nil {
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: kTaskWithAnnotationsCell) as! TaskWithAnnotationsCell
-            cell.task = tasks![indexPath.row]
+        let localTasks = tasksList()
+        if localTasks![indexPath.row].taskPriority != nil {
+            let cell = tableView.dequeueReusableCell(withIdentifier: kTaskWithAnnotationsCell) as! TaskWithAnnotationsCell
+            cell.task = localTasks![indexPath.row]
             cell.delegate = self
             return cell
         }
         
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: kTaskCell) as! TaskCell
-        cell.task = tasks![indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: kTaskCell) as! TaskCell
+        cell.task = tasksList()![indexPath.row]
         cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks?.count ?? 0
+        return tasksList()?.count ?? 0
     }
 }
 
+extension TasksViewController : UISearchBarDelegate {
+    
+    
+    func tasksList() -> [Task]?
+    {
+        if let _ = filteredTasks {
+            return filteredTasks;
+        }
+
+        return tasks
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        applyFilterPerSearchText()
+    }
+    
+    func applyFilterPerSearchText() {
+        guard var searchText = searchBar.text else { return; }
+        searchText = searchText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        
+        if searchText.characters.count == 0 {
+            filteredTasks = nil;
+            tableView.reloadData()
+            return;
+        }
+        
+
+        
+        filteredTasks = [Task]();
+        
+        for task in tasks! {
+            
+            if let taskName = task.taskName {
+                let taskNameRange = taskName.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil)
+                if let taskNameRange = taskNameRange,
+                    taskNameRange.isEmpty == false {
+                    filteredTasks!.append(task);
+                }
+            }
+        }
+        if filteredTasks?.count != tasks?.count {
+            tableView.reloadData()
+        }
+    }
+}
 
 extension TasksViewController : TaskCellDelegate, TaskWithAnnotationsCellDelegate {
     func deleteTaskCell(sender: TaskCell) {
-        let indexPath = self.tableView.indexPath(for: sender)
-        
-        if let indexPath = indexPath {
-            self.taskManager.delete(task: sender.task!)
-            self.tasks?.remove(at: indexPath.row)
-            self.tableView.reloadData()
-        }
+        remove(task: sender.task!)
+        tableView.reloadData()
     }
     
     func deleteTaskAnnotationsCell(sender: TaskWithAnnotationsCell) {
-        let indexPath = self.tableView.indexPath(for: sender)
-        
-        if let indexPath = indexPath {
-            self.taskManager.delete(task: sender.task!)
-            self.tasks?.remove(at: indexPath.row)
-            self.tableView.reloadData()
-        }
+        remove(task: sender.task!)
+        tableView.reloadData()
     }
+    
 }
 
 
