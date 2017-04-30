@@ -10,4 +10,5 @@ target 'GoTeamApp' do
   pod 'BDBOAuth1Manager'
   pod 'Parse'
   pod 'MBProgressHUD'
+  pod 'JTCalendar', '~> 2.0'
 end

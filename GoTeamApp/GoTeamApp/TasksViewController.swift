@@ -145,7 +145,7 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: kTaskCell) as! TaskCell
-        cell.task = tasksList()![indexPath.row]
+        cell.task = localTasks![indexPath.row]
         cell.delegate = self
         return cell
     }
@@ -181,8 +181,6 @@ extension TasksViewController : UISearchBarDelegate {
             tableView.reloadData()
             return;
         }
-        
-
         
         filteredTasks = [Task]();
         
