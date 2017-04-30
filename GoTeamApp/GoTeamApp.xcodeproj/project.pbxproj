@@ -26,6 +26,7 @@
 		E2F1C9BA1EB5297D0034E0A7 /* TableViewGenericDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9B91EB5297D0034E0A7 /* TableViewGenericDataSource.swift */; };
 		E2F1C9BC1EB52AB30034E0A7 /* ListManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9BB1EB52AB30034E0A7 /* ListManagerProtocol.swift */; };
 		E2F1C9BE1EB52AED0034E0A7 /* ListItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9BD1EB52AED0034E0A7 /* ListItemProtocol.swift */; };
+		E2F1C9C11EB599490034E0A7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9C01EB599490034E0A7 /* CalendarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		E2F1C9B91EB5297D0034E0A7 /* TableViewGenericDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewGenericDataSource.swift; sourceTree = "<group>"; };
 		E2F1C9BB1EB52AB30034E0A7 /* ListManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListManagerProtocol.swift; sourceTree = "<group>"; };
 		E2F1C9BD1EB52AED0034E0A7 /* ListItemProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemProtocol.swift; sourceTree = "<group>"; };
+		E2F1C9C01EB599490034E0A7 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoTeamApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -121,6 +123,7 @@
 		E2F1C9A01EB1B4AA0034E0A7 /* UILayer */ = {
 			isa = PBXGroup;
 			children = (
+				E2F1C9BF1EB599340034E0A7 /* Calendar */,
 				E2F1C9B81EB5296F0034E0A7 /* Common */,
 				E2F1C9A31EB1B6540034E0A7 /* Task */,
 				E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */,
@@ -181,6 +184,14 @@
 				E2F1C9B91EB5297D0034E0A7 /* TableViewGenericDataSource.swift */,
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		E2F1C9BF1EB599340034E0A7 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				E2F1C9C01EB599490034E0A7 /* CalendarViewController.swift */,
+			);
+			name = Calendar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +317,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2F1C9C11EB599490034E0A7 /* CalendarViewController.swift in Sources */,
 				E2F1C9B01EB432DE0034E0A7 /* TaskManager.swift in Sources */,
 				E2F1C9AE1EB1D7AA0034E0A7 /* AddTaskCell.swift in Sources */,
 				E2F1C9BE1EB52AED0034E0A7 /* ListItemProtocol.swift in Sources */,

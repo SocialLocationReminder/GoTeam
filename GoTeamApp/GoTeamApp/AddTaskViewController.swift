@@ -20,6 +20,7 @@ class AddTaskViewController: UIViewController {
 
     static let dateFormatter = DateFormatter()
     
+    let kShowCalendarSegue = "showCalendarSegue"
     let kAddTaskCell = "AddTaskCell"
     let kPickADate   = "Pick a date"
     let kCalendarIcon = "calendar_icon.png"
@@ -139,6 +140,15 @@ class AddTaskViewController: UIViewController {
         tableState = state
         tableView.reloadData()
     }
+    
+    @IBAction func unwindCancelToAddTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
+        
+    }
+
+    @IBAction func unwindDoneAddTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
+        
+    }
+
 }
 
 
@@ -228,6 +238,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 1 {
             // show a calendar view
+            performSegue(withIdentifier: kShowCalendarSegue, sender: self)
             return;
         }
         if indexPath.row == dateArray.count - 1  {
