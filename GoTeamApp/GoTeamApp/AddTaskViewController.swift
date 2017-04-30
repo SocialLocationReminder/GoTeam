@@ -303,11 +303,15 @@ extension AddTaskViewController : UITextViewDelegate {
     func setDateButtonState() {
         dateButton.isHighlighted = false
         dateButton.isUserInteractionEnabled = true
-        for date in dateArray {
-            let testString = String(kDateSpecialCharacter) + date
+        for ix in 0..<dateArray.count {
+            let testString = String(kDateSpecialCharacter) + dateArray[ix]
             if textView.text.contains(testString) {
                 dateButton.isHighlighted = true
                 dateButton.isUserInteractionEnabled = false
+                if task.taskDate == nil {
+                    let today = Date()
+                    task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
+                }
                 break
             }
         }
@@ -317,8 +321,17 @@ extension AddTaskViewController : UITextViewDelegate {
             !range.isEmpty {
             dateButton.isHighlighted = true
             dateButton.isUserInteractionEnabled = false
+            if task.taskDate == nil {
+                let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
+                let dateString = textView.text.substring(with: subRange)
+                AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
+                task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
+            }
         }
         
+        if dateButton.isUserInteractionEnabled == true {
+            task.taskDate = nil
+        }
     }
     
     func setPriorityButtonState(_ textArray : [Character]) {
