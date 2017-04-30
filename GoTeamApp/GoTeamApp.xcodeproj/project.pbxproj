@@ -28,6 +28,7 @@
 		E2F1C9BE1EB52AED0034E0A7 /* ListItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9BD1EB52AED0034E0A7 /* ListItemProtocol.swift */; };
 		E2F1C9C11EB599490034E0A7 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9C01EB599490034E0A7 /* CalendarViewController.swift */; };
 		E2F1C9C31EB5BCBA0034E0A7 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9C21EB5BCBA0034E0A7 /* Regex.swift */; };
+		E2F1C9C51EB5C5F00034E0A7 /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9C41EB5C5F00034E0A7 /* TaskSpecialCharacters.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		E2F1C9BD1EB52AED0034E0A7 /* ListItemProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemProtocol.swift; sourceTree = "<group>"; };
 		E2F1C9C01EB599490034E0A7 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		E2F1C9C21EB5BCBA0034E0A7 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		E2F1C9C41EB5C5F00034E0A7 /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoTeamApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -177,6 +179,7 @@
 			children = (
 				E2F1C9B61EB522720034E0A7 /* TableCellUtil.swift */,
 				E2F1C9C21EB5BCBA0034E0A7 /* Regex.swift */,
+				E2F1C9C41EB5C5F00034E0A7 /* TaskSpecialCharacters.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				E2F1C9911EAF013A0034E0A7 /* SecondViewController.swift in Sources */,
 				E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */,
 				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,
+				E2F1C9C51EB5C5F00034E0A7 /* TaskSpecialCharacters.swift in Sources */,
 				E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */,
 				E2F1C9A71EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift in Sources */,
 				E2F1C9AC1EB1BEEB0034E0A7 /* AddTaskViewController.swift in Sources */,

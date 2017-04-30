@@ -17,6 +17,8 @@ class TasksViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIButton!
     
+    
+    
     // cells
     let kTaskCell = "TaskCell"
     let kTaskWithAnnotationsCell = "TaskWithAnnotationsCell"
@@ -93,19 +95,31 @@ class TasksViewController: UIViewController {
         let task = addTaskVC.task
         
         if let task = task {
-            task.taskName = remove(prefix : "^", textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
-            task.taskName = remove(prefix : "!", textArray: ["1", "2", "3"], text: task.taskName!)
+            task.taskName = remove(prefix : .date, textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
+            task.taskName = remove(prefix : .priority, textArray: ["1", "2", "3"], text: task.taskName!)
+            task.taskName = removeDate(text: task.taskName!)
             add(task: task)
         }
         
         self.tableView.reloadData()
     }
     
-
-    func remove(prefix: String, textArray : [String],  text : String) -> String {
+    func removeDate(text : String) -> String {
         var text = text
+        let pattern = "\\" + TaskSpecialCharacter.date.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
+        if let range = text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
+            !range.isEmpty {
+            text.removeSubrange(range)
+            return text
+        }
+        return text
+    }
+
+    func remove(prefix: TaskSpecialCharacter, textArray : [String],  text : String) -> String {
+        var text = text
+        let prefixStr = prefix.stringValue()
         for textToRemove in textArray {
-            let strToRemove = prefix + textToRemove
+            let strToRemove = prefixStr + textToRemove
             let range = text.range(of: strToRemove)
             if let range = range {
                 text.removeSubrange(range)

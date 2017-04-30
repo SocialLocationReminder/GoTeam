@@ -297,10 +297,10 @@ extension AddTaskViewController : UITextViewDelegate {
         setPriorityButtonState(textArray)
         
         // 4. date button
-        setDateButtonState(textArray)
+        setDateButtonState()
     }
     
-    func setDateButtonState(_ textArray : [Character]) {
+    func setDateButtonState() {
         dateButton.isHighlighted = false
         dateButton.isUserInteractionEnabled = true
         for date in dateArray {
@@ -311,7 +311,13 @@ extension AddTaskViewController : UITextViewDelegate {
                 break
             }
         }
-        let range = textView.text.range(of: "^\\d[2]", options: .regularExpression, range: nil, locale: nil)
+        
+        let pattern = "\\" + TaskSpecialCharacter.date.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
+        if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
+            !range.isEmpty {
+            dateButton.isHighlighted = true
+            dateButton.isUserInteractionEnabled = false
+        }
         
     }
     
