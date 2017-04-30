@@ -346,6 +346,14 @@ extension AddTaskViewController : UITextViewDelegate {
             priorityButton.isUserInteractionEnabled = true
             task.taskPriority = nil
         }
+        
+        let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
+        if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
+            !range.isEmpty, task.taskPriority == nil {
+            let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
+            let priorityString = textView.text.substring(with: subRange)
+            task.taskPriority = Int(priorityString)
+        }
     }
     
     func unhideButtonViewIfRequired(_ textArray : [Character]) {
