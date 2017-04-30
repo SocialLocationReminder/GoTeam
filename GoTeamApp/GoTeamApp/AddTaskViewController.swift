@@ -146,9 +146,15 @@ class AddTaskViewController: UIViewController {
     }
 
     @IBAction func unwindDoneAddTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
-        
+        if let calendarVC = segue.source as? CalendarViewController {
+            let dateSelected = calendarVC.dateSelected ?? Date()
+            task.taskDate = dateSelected
+            AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
+            textView.text = textView.text + AddTaskViewController.dateFormatter.string(from: dateSelected)
+            dateButton.isUserInteractionEnabled = false
+            dateButton.isHighlighted = true
+        }
     }
-
 }
 
 
@@ -305,6 +311,8 @@ extension AddTaskViewController : UITextViewDelegate {
                 break
             }
         }
+        let range = textView.text.range(of: "^\\d[2]", options: .regularExpression, range: nil, locale: nil)
+        
     }
     
     func setPriorityButtonState(_ textArray : [Character]) {

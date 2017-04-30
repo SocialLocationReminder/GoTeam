@@ -540,7 +540,7 @@
                             <constraint firstAttribute="trailing" secondItem="jZd-d8-5Ug" secondAttribute="trailing" id="DGk-gu-VLI"/>
                             <constraint firstItem="IZd-FJ-slL" firstAttribute="top" secondItem="Y9E-MD-2en" secondAttribute="bottom" constant="5" id="Mjj-OX-5Lh"/>
                             <constraint firstItem="IZd-FJ-slL" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" id="ajj-uH-xb5"/>
-                            <constraint firstItem="Y9E-MD-2en" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" id="ava-qP-ECq"/>
+                            <constraint firstItem="Y9E-MD-2en" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" constant="10" id="ava-qP-ECq"/>
                             <constraint firstAttribute="trailing" secondItem="Y9E-MD-2en" secondAttribute="trailing" id="bFs-bX-JpZ"/>
                             <constraint firstItem="jZd-d8-5Ug" firstAttribute="top" secondItem="Y9E-MD-2en" secondAttribute="bottom" constant="5" id="c58-kn-bXu"/>
                             <constraint firstItem="N3b-nm-KMi" firstAttribute="top" secondItem="IZd-FJ-slL" secondAttribute="bottom" id="fGo-g7-T4Y"/>
@@ -688,6 +688,7 @@
                     <connections>
                         <outlet property="calendarMenuView" destination="zJU-cn-KiV" id="wrl-Hi-Xyg"/>
                         <outlet property="calendarView" destination="b2V-br-Ud1" id="B13-Gn-GAn"/>
+                        <outlet property="dateLabel" destination="TWF-4c-sCk" id="tle-Hh-YDT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ivq-bE-5sx" userLabel="First Responder" sceneMemberID="firstResponder"/>
