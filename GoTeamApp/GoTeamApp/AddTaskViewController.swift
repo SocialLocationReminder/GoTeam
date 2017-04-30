@@ -21,6 +21,14 @@ class AddTaskViewController: UIViewController {
     static let dateFormatter = DateFormatter()
     
     let kAddTaskCell = "AddTaskCell"
+    let kPickADate   = "Pick a date"
+    let kCalendarIcon = "calendar_icon.png"
+    let kPrioritySpecialCharacter : Character = "!"
+    let kDateSpecialCharacter : Character = "^"
+    let kPriorityHigh = "!1"
+    let kPriorityMedium = "!2"
+    let kPriorityLow = "!3"
+    
     
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var maskView: UIView!
@@ -44,7 +52,7 @@ class AddTaskViewController: UIViewController {
     
     let priorityArray = ["1 - High", "2 - Medium", "3 - Low", "None"]
     var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
-    
+
     
     
     override func viewDidLoad() {
@@ -54,7 +62,7 @@ class AddTaskViewController: UIViewController {
         textView.delegate = self
         textView.becomeFirstResponder()
         textView.text = ""
-        textView.accessibilityHint = "Enter Task Name"
+        textView.accessibilityHint = ""
         
         // setup mask view
         buttonView.isHidden = true
@@ -105,22 +113,27 @@ class AddTaskViewController: UIViewController {
     }
 
     func dateButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .date, char : "^")
+        handleButtonTapped(state: .date, char : kDateSpecialCharacter)
     }
 
     
     func priorityButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .priority, char : "!")
+        handleButtonTapped(state: .priority, char : kPrioritySpecialCharacter)
     }
     
-    func handleButtonTapped(state: TableState, char : String) {
+    func handleButtonTapped(state: TableState, char : Character) {
+        
         let text = textView.text
         let textArray = Array(text!.characters)
+
         
-        if textArray[textArray.count - 1] != " " {
-            textView.text = textView.text + " "
+        if textArray.count == 0 || textArray[textArray.count - 1] != char {
+            if textArray.count > 0 && textArray[textArray.count - 1] != " " {
+                textView.text = textView.text + " "
+            }
+            textView.text = textView.text + String(char)
         }
-        textView.text = textView.text + char
+        
         tableView.isHidden = false
         maskView.isHidden = true
         tableState = state
@@ -137,7 +150,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         case .priority:
             return 1
         case .date:
-            return 1
+            return 2
         default:
             return 0
         }
@@ -148,22 +161,50 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         case .priority:
             return priorityArray.count
         case .date:
-            return dateArray.count
+            return section == 0 ? dateArray.count : 1
         default:
             return 0
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return section == 0 ? 30.0 : 0.0
+    }
+    
+    
+    func dateCell(indexPath : IndexPath) -> AddTaskCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: kAddTaskCell) as! AddTaskCell
+        cell.primayTextLabel.text = indexPath.section == 0 ? dateArray[indexPath.row] : kPickADate
+        if indexPath.section == 0 {
+            let today = Date()
+            let labelDate = Calendar.current.date(byAdding: .day, value: indexPath.row, to: today)
+            AddTaskViewController.dateFormatter.dateFormat = "MMM d"
+            cell.secondaryTextLabel.text = AddTaskViewController.dateFormatter.string(from: labelDate!)
+            cell.addTaskImageView.image = UIImage(named: kCalendarIcon)
+        } else {
+            cell.addkTaskImageViewLeadingConstraint.constant = -10.0
+        }
+        return cell
+    }
+    
+    func priorityCell(indexPath : IndexPath) -> AddTaskCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: kAddTaskCell) as! AddTaskCell
+        cell.primayTextLabel.text = priorityArray[indexPath.row]
+        cell.secondaryTextLabel.text = ""
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         switch tableState {
         case .priority:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: kAddTaskCell) as! AddTaskCell
-            cell.textLabel?.text = priorityArray[indexPath.row]
-            return cell
+            return priorityCell(indexPath: indexPath)
         case .date:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: kAddTaskCell) as! AddTaskCell
-            cell.textLabel?.text = dateArray[indexPath.row]
-            return cell
+            return dateCell(indexPath: indexPath)
         default:
             return UITableViewCell()
         }
@@ -184,6 +225,11 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func handleDateSelected(_ indexPath : IndexPath) {
+        
+        if indexPath.section == 1 {
+            // show a calendar view
+            return;
+        }
         if indexPath.row == dateArray.count - 1  {
             let chars = Array(textView.text.characters)
             textView.text = String(chars[0..<chars.count - 2])
@@ -223,26 +269,25 @@ extension AddTaskViewController : UITextViewDelegate {
         let text = textView.text
         let textArray = Array(text!.characters)
         
-        if textArray.count > 0 && self.buttonView.isHidden == true {
-            self.buttonView.isHidden = false
-            self.view.setNeedsDisplay()
-        }
+
+        // 1. button view
+        unhideButtonViewIfRequired(textArray)
         
-        priorityButton.isHighlighted = true
-        priorityButton.isUserInteractionEnabled = false
-        if textView.text.contains("!1") == false &&
-            textView.text.contains("!2") == false &&
-            textView.text.contains("!3") == false {
-            
-            priorityButton.isHighlighted = false
-            priorityButton.isUserInteractionEnabled = true
-            task.taskPriority = nil
-        }
+        // 2. table view
+        setTableViewState(textArray)
         
+        // 3. priority button
+        setPriorityButtonState(textArray)
+        
+        // 4. date button
+        setDateButtonState(textArray)
+    }
+    
+    func setDateButtonState(_ textArray : [Character]) {
         dateButton.isHighlighted = false
         dateButton.isUserInteractionEnabled = true
         for date in dateArray {
-            let testString = "^" + date
+            let testString = String(kDateSpecialCharacter) + date
             if textView.text.contains(testString) {
                 dateButton.isHighlighted = true
                 dateButton.isUserInteractionEnabled = false
@@ -251,5 +296,60 @@ extension AddTaskViewController : UITextViewDelegate {
         }
     }
     
+    func setPriorityButtonState(_ textArray : [Character]) {
+        
+        priorityButton.isHighlighted = true
+        priorityButton.isUserInteractionEnabled = false
+        if textView.text.contains(kPriorityHigh) == false &&
+            textView.text.contains(kPriorityMedium) == false &&
+            textView.text.contains(kPriorityLow) == false {
+            
+            priorityButton.isHighlighted = false
+            priorityButton.isUserInteractionEnabled = true
+            task.taskPriority = nil
+        }
+    }
     
+    func unhideButtonViewIfRequired(_ textArray : [Character]) {
+        if textArray.count > 0 && self.buttonView.isHidden == true {
+            self.buttonView.isHidden = false
+            self.view.setNeedsDisplay()
+        }
+    }
+    
+    func setTableViewState(_ textArray : [Character]) {
+        
+        // 1. handle hide scenarios
+        var hideTableView = textArray.count == 0 || tableState == .none
+        if textArray.count > 0 {
+            switch tableState {
+            case .date:
+                hideTableView = textArray[textArray.count - 1] != kDateSpecialCharacter
+            case .priority:
+                hideTableView = textArray[textArray.count - 1] != kPrioritySpecialCharacter
+            default:
+                break
+            }
+        }
+        
+        if hideTableView {
+            self.tableView.isHidden = true
+            self.maskView.isHidden = false
+            tableState = .none
+            view.setNeedsDisplay()
+        }
+
+        // 2. handle unhide scenarios
+        if textArray.count > 0 && tableState == .none {
+            switch textArray[textArray.count - 1] {
+            case kPrioritySpecialCharacter:
+                handleButtonTapped(state: .priority, char: kPrioritySpecialCharacter)
+            case kDateSpecialCharacter:
+                handleButtonTapped(state: .date, char: kDateSpecialCharacter)
+            default:
+                break;
+            }
+        }
+        
+    }
 }
