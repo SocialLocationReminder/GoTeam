@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		615B780D1EB64FBB006F59D8 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B780C1EB64FBB006F59D8 /* LabelTableViewCell.swift */; };
+		615B780F1EB65418006F59D8 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B780E1EB65418006F59D8 /* Labels.swift */; };
+		615B78111EB68661006F59D8 /* AddLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78101EB68661006F59D8 /* AddLabelViewController.swift */; };
+		615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78121EB69EDC006F59D8 /* LabelManager.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */; };
 		E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */; };
-		E2F1C9911EAF013A0034E0A7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */; };
+		E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9901EAF013A0034E0A7 /* LabelsViewController.swift */; };
 		E2F1C9941EAF013A0034E0A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1C9921EAF013A0034E0A7 /* Main.storyboard */; };
 		E2F1C9961EAF013A0034E0A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F1C9951EAF013A0034E0A7 /* Assets.xcassets */; };
 		E2F1C9991EAF013A0034E0A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F1C9971EAF013A0034E0A7 /* LaunchScreen.storyboard */; };
@@ -36,10 +40,14 @@
 /* Begin PBXFileReference section */
 		31B4651248491BEA88B12926 /* Pods-GoTeamApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoTeamApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GoTeamApp/Pods-GoTeamApp.debug.xcconfig"; sourceTree = "<group>"; };
 		3C6BE0CBCD5FCF1ED8A0BBDA /* Pods-GoTeamApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoTeamApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-GoTeamApp/Pods-GoTeamApp.release.xcconfig"; sourceTree = "<group>"; };
+		615B780C1EB64FBB006F59D8 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
+		615B780E1EB65418006F59D8 /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
+		615B78101EB68661006F59D8 /* AddLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLabelViewController.swift; sourceTree = "<group>"; };
+		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
 		E2F1C9891EAF013A0034E0A7 /* GoTeamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoTeamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
-		E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
+		E2F1C9901EAF013A0034E0A7 /* LabelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsViewController.swift; sourceTree = "<group>"; };
 		E2F1C9931EAF013A0034E0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E2F1C9951EAF013A0034E0A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2F1C9981EAF013A0034E0A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -82,6 +90,16 @@
 				EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		615B780B1EB64C8C006F59D8 /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				E2F1C9901EAF013A0034E0A7 /* LabelsViewController.swift */,
+				615B780C1EB64FBB006F59D8 /* LabelTableViewCell.swift */,
+				615B78101EB68661006F59D8 /* AddLabelViewController.swift */,
+			);
+			name = Labels;
 			sourceTree = "<group>";
 		};
 		8B1B5B6C4D3A371C66FB3034 /* Pods */ = {
@@ -131,10 +149,10 @@
 		E2F1C9A01EB1B4AA0034E0A7 /* UILayer */ = {
 			isa = PBXGroup;
 			children = (
+				615B780B1EB64C8C006F59D8 /* Labels */,
 				E2F1C9B81EB5296F0034E0A7 /* Common */,
 				F4635EA61EB62789008BDD0B /* Location */,
 				E2F1C9A31EB1B6540034E0A7 /* Task */,
-				E2F1C9901EAF013A0034E0A7 /* SecondViewController.swift */,
 			);
 			name = UILayer;
 			sourceTree = "<group>";
@@ -144,6 +162,7 @@
 			children = (
 				E2F1C9BB1EB52AB30034E0A7 /* ListManagerProtocol.swift */,
 				E2F1C9AF1EB432DE0034E0A7 /* TaskManager.swift */,
+				615B78121EB69EDC006F59D8 /* LabelManager.swift */,
 			);
 			name = "Application Layer";
 			sourceTree = "<group>";
@@ -175,6 +194,7 @@
 				E2F1C9BD1EB52AED0034E0A7 /* ListItemProtocol.swift */,
 				F4635EA71EB627C1008BDD0B /* Location.swift */,
 				E2F1C9A91EB1B85A0034E0A7 /* Task.swift */,
+				615B780E1EB65418006F59D8 /* Labels.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -329,9 +349,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */,
 				E2F1C9B01EB432DE0034E0A7 /* TaskManager.swift in Sources */,
 				E2F1C9AE1EB1D7AA0034E0A7 /* AddTaskCell.swift in Sources */,
 				F4635EA81EB627C1008BDD0B /* Location.swift in Sources */,
+				615B78111EB68661006F59D8 /* AddLabelViewController.swift in Sources */,
 				E2F1C9BE1EB52AED0034E0A7 /* ListItemProtocol.swift in Sources */,
 				F4635EA21EB62776008BDD0B /* LocationsViewController.swift in Sources */,
 				E2F1C9B41EB434BF0034E0A7 /* DataStoreServiceProtocol.swift in Sources */,
@@ -339,8 +361,10 @@
 				E2F1C9B21EB4337A0034E0A7 /* DataStoreService.swift in Sources */,
 				E2F1C9B71EB522720034E0A7 /* TableCellUtil.swift in Sources */,
 				E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */,
+				615B780F1EB65418006F59D8 /* Labels.swift in Sources */,
 				E2F1C9BA1EB5297D0034E0A7 /* TableViewGenericDataSource.swift in Sources */,
-				E2F1C9911EAF013A0034E0A7 /* SecondViewController.swift in Sources */,
+				615B780D1EB64FBB006F59D8 /* LabelTableViewCell.swift in Sources */,
+				E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */,
 				E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */,
 				F4635EA41EB62776008BDD0B /* EditLocationViewController.swift in Sources */,
 				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,
