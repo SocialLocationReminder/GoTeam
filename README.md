@@ -52,4 +52,17 @@
 
 ***
 
+###   Week 5 Demo gifs ###
+
+![Tasks](demos/add_tasks_demo.gif)
+
+![Labels](demos/labels_demo.gif)
+
+![Locations](demos/locations_demo.gif)
+
+
+
+
+
+
 
