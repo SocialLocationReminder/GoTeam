@@ -14,6 +14,7 @@
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
 		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
+		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
 		E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */; };
 		E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */; };
 		E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9901EAF013A0034E0A7 /* LabelsViewController.swift */; };
@@ -48,6 +49,7 @@
 		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
+		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		E2F1C9891EAF013A0034E0A7 /* GoTeamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoTeamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +117,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E2EE10AD1EBAE34B00D9835A /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
 		E2F1C9801EAF013A0034E0A7 = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +163,7 @@
 		E2F1C9A01EB1B4AA0034E0A7 /* UILayer */ = {
 			isa = PBXGroup;
 			children = (
+				E2EE10AD1EBAE34B00D9835A /* Calendar */,
 				615B780B1EB64C8C006F59D8 /* Labels */,
 				E2F1C9B81EB5296F0034E0A7 /* Common */,
 				F4635EA61EB62789008BDD0B /* Location */,
@@ -379,6 +390,7 @@
 				F4635EA51EB62776008BDD0B /* LocationCell.swift in Sources */,
 				E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */,
 				F4635EA31EB62776008BDD0B /* LocationSearchTable.swift in Sources */,
+				E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */,
 				E2F1C9A71EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift in Sources */,
 				E2F1C9AC1EB1BEEB0034E0A7 /* AddTaskViewController.swift in Sources */,
 			);

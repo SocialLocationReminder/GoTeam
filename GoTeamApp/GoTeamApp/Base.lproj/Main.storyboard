@@ -507,6 +507,7 @@
                         <outlet property="tableView" destination="IZd-FJ-slL" id="D7K-e0-Pdy"/>
                         <outlet property="textView" destination="Y9E-MD-2en" id="KQt-da-Q7Y"/>
                         <outlet property="timeButton" destination="Lbt-WR-B44" id="a2X-QX-VvF"/>
+                        <segue destination="EjH-5B-W2k" kind="presentation" identifier="showCalendarSegue" id="Mqf-lH-eyK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hio-Zo-GO8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1002,6 +1003,99 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wai-1C-Nxq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2636" y="359"/>
+        </scene>
+        <!--Calendar View Controller-->
+        <scene sceneID="Ylg-Kb-DPL">
+            <objects>
+                <viewController id="NXD-NW-tUG" customClass="CalendarViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="i9W-XN-HZJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="GIZ-gc-Ha9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="L6i-9n-zHi">
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yHJ-eP-Bh6" userLabel="Selected Day View">
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apil 29 2017" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hi6-v0-uPY">
+                                        <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="40"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Hi6-v0-uPY" firstAttribute="centerX" secondItem="yHJ-eP-Bh6" secondAttribute="centerX" id="OIZ-HD-lPd"/>
+                                    <constraint firstItem="Hi6-v0-uPY" firstAttribute="centerY" secondItem="yHJ-eP-Bh6" secondAttribute="centerY" id="d2t-sR-GDb"/>
+                                    <constraint firstAttribute="height" constant="90" id="tJy-Lb-pGP"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1R3-Vx-jxd" userLabel="Calendar View" customClass="JTHorizontalCalendarView">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ThL-Qt-TAb" userLabel="Calendar Menu View" customClass="JTCalendarMenuView">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="J48-rz-6Dd"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="yHJ-eP-Bh6" firstAttribute="top" secondItem="i9W-XN-HZJ" secondAttribute="bottom" id="2hA-lg-kAF"/>
+                            <constraint firstItem="1R3-Vx-jxd" firstAttribute="leading" secondItem="L6i-9n-zHi" secondAttribute="leading" id="BoZ-Th-4Di"/>
+                            <constraint firstItem="1R3-Vx-jxd" firstAttribute="top" secondItem="ThL-Qt-TAb" secondAttribute="bottom" id="HUr-Bb-JOK"/>
+                            <constraint firstAttribute="trailing" secondItem="ThL-Qt-TAb" secondAttribute="trailing" id="SG1-mc-54A"/>
+                            <constraint firstAttribute="trailing" secondItem="yHJ-eP-Bh6" secondAttribute="trailing" id="bo0-1L-mqr"/>
+                            <constraint firstAttribute="trailing" secondItem="1R3-Vx-jxd" secondAttribute="trailing" id="huL-8j-DG1"/>
+                            <constraint firstItem="ThL-Qt-TAb" firstAttribute="top" secondItem="yHJ-eP-Bh6" secondAttribute="bottom" id="iny-A0-qJo"/>
+                            <constraint firstItem="GIZ-gc-Ha9" firstAttribute="top" secondItem="1R3-Vx-jxd" secondAttribute="bottom" id="kBN-D1-dvO"/>
+                            <constraint firstItem="yHJ-eP-Bh6" firstAttribute="leading" secondItem="L6i-9n-zHi" secondAttribute="leading" id="p0T-bh-E3N"/>
+                            <constraint firstItem="ThL-Qt-TAb" firstAttribute="leading" secondItem="L6i-9n-zHi" secondAttribute="leading" id="pEe-YN-CL7"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="1bV-cc-ORV">
+                        <barButtonItem key="leftBarButtonItem" title="X" id="qna-of-5PT">
+                            <connections>
+                                <segue destination="k8F-pz-8NO" kind="unwind" unwindAction="unwindCancelToAddTasksViewControllerSegue:" id="5bA-Q4-9ly"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="lbS-l1-L7e">
+                            <connections>
+                                <segue destination="k8F-pz-8NO" kind="unwind" unwindAction="unwindDoneAddTasksViewControllerSegue:" id="N7H-h0-EwH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="calendarMenuView" destination="ThL-Qt-TAb" id="Xc7-ue-4dS"/>
+                        <outlet property="calendarView" destination="1R3-Vx-jxd" id="PDl-wk-kJf"/>
+                        <outlet property="dateLabel" destination="Hi6-v0-uPY" id="2Om-aq-xpK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="26U-ie-1qy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="k8F-pz-8NO" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="5500" y="-313"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hak-eX-RSS">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EjH-5B-W2k" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="eQ2-QC-LTB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="NXD-NW-tUG" kind="relationship" relationship="rootViewController" id="uO2-5k-Ba8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vMg-7K-qzT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4588" y="-313"/>
         </scene>
     </scenes>
     <resources>
