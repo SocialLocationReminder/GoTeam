@@ -109,7 +109,7 @@ class AddTaskViewController: UIViewController {
         task = Task()
 
         // fetch labels
-        fetchLabels()
+        setupLabelButton()
         
         tableStateToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
