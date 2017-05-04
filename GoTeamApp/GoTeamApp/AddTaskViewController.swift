@@ -419,8 +419,9 @@ extension AddTaskViewController : UITextViewDelegate {
                 if task.taskDate == nil {
                     let today = Date()
                     task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
+                    attributeDateText(pattern : testString, options: .caseInsensitive)
                 }
-                attributeDateText(pattern : testString, options: .caseInsensitive)
+
                 break
             }
         }
@@ -492,9 +493,14 @@ extension AddTaskViewController : UITextViewDelegate {
     func attributePriorityText() {
         
         let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
-        let objString = textView.text as NSString
+        let objString =   textView.text as NSString
         let priorityRange = objString.range(of: pattern, options: .regularExpression)
-        let attributedString = NSMutableAttributedString(string: textView.text + " ")
+        var attributedString = NSMutableAttributedString(string: textView.text + " ")
+        
+        if textView.attributedText.length > 0 {
+            attributedString = NSMutableAttributedString(attributedString: textView.attributedText)
+            attributedString.append(NSAttributedString(string: " "))
+        }
         
         if let taskPriority = task.taskPriority {
             var bgColor = UIColor.white
