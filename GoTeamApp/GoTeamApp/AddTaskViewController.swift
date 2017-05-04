@@ -420,6 +420,7 @@ extension AddTaskViewController : UITextViewDelegate {
                     let today = Date()
                     task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
                 }
+                attributeDateText(pattern : testString, options: .caseInsensitive)
                 break
             }
         }
@@ -434,11 +435,29 @@ extension AddTaskViewController : UITextViewDelegate {
                 let dateString = textView.text.substring(with: subRange)
                 AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
                 task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
+                attributeDateText(pattern: pattern, options: .regularExpression)
             }
         }
         
         if dateButton.isUserInteractionEnabled == true {
             task.taskDate = nil
+        }
+    }
+    
+    func attributeDateText(pattern : String, options: NSString.CompareOptions ) {
+        
+
+        let objString = textView.text as NSString
+        let dateRange = objString.range(of: pattern, options: options)
+        let attributedString = NSMutableAttributedString(string: textView.text + " ")
+        
+        if let _ = task.taskDate {
+            
+            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range: dateRange)
+            attributedString.addAttribute(NSBackgroundColorAttributeName, value: UIColor.brown, range: dateRange)
+            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))
+            textView.attributedText = attributedString
+            task.taskDateSubrange = textView.text.range(of: pattern, options: options, range: nil, locale: nil)
         }
     }
     

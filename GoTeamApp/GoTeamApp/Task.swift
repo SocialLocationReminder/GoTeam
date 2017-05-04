@@ -23,6 +23,7 @@ class Task : ListItem {
     
     // sub ranges
     var taskPrioritySubrange : Range<String.Index>?
+    var taskDateSubrange : Range<String.Index>?
     
     init() {
         taskID = Date()
