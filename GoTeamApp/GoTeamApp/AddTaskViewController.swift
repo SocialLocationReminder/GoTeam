@@ -356,7 +356,9 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return;
         }
         
-        textView.text = textView.text + dateArray[indexPath.row]
+        if let labelName = labels![indexPath.row].labelName {
+            textView.text = textView.text + labelName
+        }
         listButton.isUserInteractionEnabled = false
         listButton.isHighlighted = true
         task.taskList = labels![indexPath.row].labelName
@@ -451,14 +453,43 @@ extension AddTaskViewController : UITextViewDelegate {
             priorityButton.isHighlighted = false
             priorityButton.isUserInteractionEnabled = true
             task.taskPriority = nil
+            // @todo: change the attribute color here for the "!"
         }
         
         let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
+        
         if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
             !range.isEmpty, task.taskPriority == nil {
             let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
             let priorityString = textView.text.substring(with: subRange)
             task.taskPriority = Int(priorityString)
+            task.taskPrioritySubrange = range
+            
+            // attribute the text
+            attributePriorityText()
+        }
+    }
+    
+    func attributePriorityText() {
+        
+        let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
+        let objString = textView.text as NSString
+        let priorityRange = objString.range(of: pattern, options: .regularExpression)
+        let attributedString = NSMutableAttributedString(string: textView.text + " ")
+        
+        if let taskPriority = task.taskPriority {
+            var bgColor = UIColor.white
+            if taskPriority == 1 {
+                bgColor = UIColor.red
+            } else if taskPriority == 2 {
+                bgColor = UIColor.blue
+            } else if taskPriority == 3 {
+                bgColor = UIColor.orange
+            }
+            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range: priorityRange)
+            attributedString.addAttribute(NSBackgroundColorAttributeName, value: bgColor, range: priorityRange)
+            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))
+            textView.attributedText = attributedString
         }
     }
     

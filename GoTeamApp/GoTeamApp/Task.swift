@@ -21,6 +21,9 @@ class Task : ListItem {
     var taskLocation : String?
     
     
+    // sub ranges
+    var taskPrioritySubrange : Range<String.Index>?
+    
     init() {
         taskID = Date()
     }
