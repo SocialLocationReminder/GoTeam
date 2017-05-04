@@ -269,23 +269,47 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IZd-FJ-slL">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddTaskCell" textLabel="beM-uF-fIW" style="IBUITableViewCellStyleDefault" id="C7R-aw-IzE" customClass="AddTaskCell" customModule="GoTeamApp">
-                                        <rect key="frame" x="0.0" y="92" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C7R-aw-IzE" id="huW-RB-R3Y">
-                                            <frame key="frameInset" width="375" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="beM-uF-fIW">
-                                                    <frame key="frameInset" minX="15" width="345" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
+                                  <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddTaskCell" id="C7R-aw-IzE" customClass="AddTaskCell" customModule="GoTeamApp">
+                                      <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                      <autoresizingMask key="autoresizingMask"/>
+                                      <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C7R-aw-IzE" id="huW-RB-R3Y">
+                                          <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                          <autoresizingMask key="autoresizingMask"/>
+                                          <subviews>
+                                              <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Mr-o2-gAz">
+                                                  <constraints>
+                                                      <constraint firstAttribute="width" constant="15" id="8Dt-OS-266"/>
+                                                      <constraint firstAttribute="height" constant="15" id="I6E-Aq-eyQ"/>
+                                                  </constraints>
+                                              </imageView>
+                                              <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="14i-q8-dHt">
+                                                  <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                  <nil key="textColor"/>
+                                                  <nil key="highlightedColor"/>
+                                              </label>
+                                              <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="May 4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OkV-Oe-FHH">
+                                                  <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                  <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                                                  <nil key="highlightedColor"/>
+                                              </label>
+                                          </subviews>
+                                          <constraints>
+                                              <constraint firstItem="OkV-Oe-FHH" firstAttribute="centerY" secondItem="huW-RB-R3Y" secondAttribute="centerY" id="0B9-Ky-f2y"/>
+                                              <constraint firstItem="14i-q8-dHt" firstAttribute="centerY" secondItem="huW-RB-R3Y" secondAttribute="centerY" id="EKx-vd-qtp"/>
+                                              <constraint firstAttribute="trailingMargin" secondItem="OkV-Oe-FHH" secondAttribute="trailing" constant="15" id="Tal-bn-fNi"/>
+                                              <constraint firstItem="14i-q8-dHt" firstAttribute="leading" secondItem="0Mr-o2-gAz" secondAttribute="trailing" constant="8" id="VHJ-jV-gFG"/>
+                                              <constraint firstItem="0Mr-o2-gAz" firstAttribute="leading" secondItem="huW-RB-R3Y" secondAttribute="leading" constant="15" id="ayj-aq-yiE"/>
+                                              <constraint firstItem="OkV-Oe-FHH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="14i-q8-dHt" secondAttribute="trailing" constant="3" id="per-DA-gne"/>
+                                              <constraint firstItem="0Mr-o2-gAz" firstAttribute="centerY" secondItem="huW-RB-R3Y" secondAttribute="centerY" id="rxP-xb-5ys"/>
+                                          </constraints>
+                                      </tableViewCellContentView>
+                                      <connections>
+                                          <outlet property="addTaskImageView" destination="0Mr-o2-gAz" id="Qij-Ra-nB5"/>
+                                          <outlet property="addkTaskImageViewLeadingConstraint" destination="ayj-aq-yiE" id="1il-za-kOq"/>
+                                          <outlet property="primayTextLabel" destination="14i-q8-dHt" id="vK2-V3-qdT"/>
+                                          <outlet property="secondaryTextLabel" destination="OkV-Oe-FHH" id="Vst-aN-NUG"/>
+                                      </connections>
+                                  </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pec" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Y9E-MD-2en">
