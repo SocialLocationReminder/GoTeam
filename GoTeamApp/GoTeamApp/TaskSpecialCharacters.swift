@@ -11,8 +11,9 @@ import Foundation
 
 enum TaskSpecialCharacter : Character {
     case priority = "!"
-    case date = "^"
-    case dueDate = "~"
+    case fromDate = "~"
+    case dueDate = "^"
+    case label = "#"
     func stringValue() -> String {
         return String(rawValue)
     }

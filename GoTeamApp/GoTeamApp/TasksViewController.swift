@@ -95,7 +95,7 @@ class TasksViewController: UIViewController {
         let task = addTaskVC.task
         
         if let task = task {
-            task.taskName = remove(prefix : .date, textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
+            task.taskName = remove(prefix : .dueDate, textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
             task.taskName = remove(prefix : .priority, textArray: ["1", "2", "3"], text: task.taskName!)
             task.taskName = removeDate(text: task.taskName!)
             add(task: task)
@@ -106,7 +106,7 @@ class TasksViewController: UIViewController {
     
     func removeDate(text : String) -> String {
         var text = text
-        let pattern = "\\" + TaskSpecialCharacter.date.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
+        let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
         if let range = text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
             !range.isEmpty {
             text.removeSubrange(range)

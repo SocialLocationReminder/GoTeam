@@ -11,9 +11,10 @@ import UIKit
 
 enum TableState {
     case none
-    case date
+    case fromDate
     case dueDate
     case priority
+    case label
 }
 
 class AddTaskViewController: UIViewController {
@@ -21,15 +22,24 @@ class AddTaskViewController: UIViewController {
     static let dateFormatter = DateFormatter()
     
     let kShowCalendarSegue = "showCalendarSegue"
+    let kShowAddLabelScreen = "showAddLabelScreen"
+    
     let kAddTaskCell = "AddTaskCell"
     let kPickADate   = "Pick a date"
+    let kNewList     = "Create a new label"
     let kCalendarIcon = "calendar_icon.png"
+    let kListIcon = "list_icon.png"
+    let kAddIcon = "plus_icon.png"
+    
     let kPrioritySpecialCharacter : Character = "!"
     let kDateSpecialCharacter : Character = "^"
+    
     let kPriorityHigh = "!1"
     let kPriorityMedium = "!2"
     let kPriorityLow = "!3"
     
+    var LoadingLabelsMsg = "Loading Labels..."
+    let kLoadingLocations = "Loading Locations..."
     
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var maskView: UIView!
@@ -51,10 +61,25 @@ class AddTaskViewController: UIViewController {
     
     var tableState : TableState = .none
     
+    var tableStateToCharacterMap : [TableState : TaskSpecialCharacter] =
+        [
+            TableState.priority : TaskSpecialCharacter.priority,
+            TableState.label : TaskSpecialCharacter.label,
+            TableState.dueDate : TaskSpecialCharacter.dueDate
+        ]
+
+    // constructed by swapping the keys and values of the above map
+    var specialCharacterToTableStateMap = [TaskSpecialCharacter : TableState]()
+
+    
     let priorityArray = ["1 - High", "2 - Medium", "3 - Low", "None"]
     var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
 
+    // application layer
+    let labelManager = LabelManager()
     
+    var labels : [Labels]?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,7 +105,37 @@ class AddTaskViewController: UIViewController {
         // setup due date
         setupDate()
         
+        // new task
         task = Task()
+
+        // fetch labels
+        fetchLabels()
+        
+        tableStateToCharacterMap.forEach { (k, v) in
+            specialCharacterToTableStateMap[v] = k
+        }
+    }
+    func setupLabelButton() {
+        listButton.isUserInteractionEnabled = true
+        listButton.isHighlighted = false
+        let listTapGR = UITapGestureRecognizer(target: self, action: #selector(labelButtonTapped))
+        listButton.addGestureRecognizer(listTapGR)
+        
+        fetchLabels()
+    }
+    
+    func fetchLabels() {
+        labelManager.allLabels(fetch: true, success: { (labels) in
+            self.labels = labels
+            if self.tableState == .label {
+                self.tableView.reloadData()
+            }
+            }) { (error) in
+                if self.tableState == .label {
+                    self.LoadingLabelsMsg = "Failed to load labels"
+                    self.tableView.reloadData()
+                }
+        }
     }
     
     func setupDate() {
@@ -114,12 +169,16 @@ class AddTaskViewController: UIViewController {
     }
 
     func dateButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .date, char : kDateSpecialCharacter)
+        handleButtonTapped(state: .dueDate, char : TaskSpecialCharacter.dueDate.rawValue)
     }
 
     
     func priorityButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .priority, char : kPrioritySpecialCharacter)
+        handleButtonTapped(state: .priority, char : TaskSpecialCharacter.priority.rawValue)
+    }
+    
+    func labelButtonTapped(sender : UITapGestureRecognizer) {
+        handleButtonTapped(state: .label, char : TaskSpecialCharacter.label.rawValue)
     }
     
     func handleButtonTapped(state: TableState, char : Character) {
@@ -165,7 +224,9 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         switch tableState {
         case .priority:
             return 1
-        case .date:
+        case .dueDate:
+            return 2
+        case .label:
             return 2
         default:
             return 0
@@ -176,8 +237,10 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         switch tableState {
         case .priority:
             return priorityArray.count
-        case .date:
+        case .dueDate:
             return section == 0 ? dateArray.count : 1
+        case .label:
+            return section == 0 ? labels?.count ?? 1 : 1
         default:
             return 0
         }
@@ -194,6 +257,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     
     func dateCell(indexPath : IndexPath) -> AddTaskCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: kAddTaskCell) as! AddTaskCell
+        cell.addTaskImageView?.image = nil
         cell.primayTextLabel.text = indexPath.section == 0 ? dateArray[indexPath.row] : kPickADate
         if indexPath.section == 0 {
             let today = Date()
@@ -208,8 +272,30 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func priorityCell(indexPath : IndexPath) -> AddTaskCell {
+        
         let cell = self.tableView.dequeueReusableCell(withIdentifier: kAddTaskCell) as! AddTaskCell
+        cell.addTaskImageView?.image = nil
         cell.primayTextLabel.text = priorityArray[indexPath.row]
+        cell.secondaryTextLabel.text = ""
+        return cell
+    }
+    
+    func labelCell(indexPath : IndexPath) -> AddTaskCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: kAddTaskCell) as! AddTaskCell
+        cell.addTaskImageView?.image = nil
+        if indexPath.section == 0 {
+            if let labels = labels {
+                cell.primayTextLabel.text = labels[indexPath.row].labelName
+                cell.addTaskImageView.image = UIImage(named: kListIcon)
+            } else {
+                cell.primayTextLabel.text = self.LoadingLabelsMsg
+                cell.addkTaskImageViewLeadingConstraint.constant = -10.0
+            }
+        } else {
+            cell.primayTextLabel.text = kNewList
+            cell.addTaskImageView.image = UIImage(named: kAddIcon)
+        }
+        
         cell.secondaryTextLabel.text = ""
         return cell
     }
@@ -219,8 +305,10 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         switch tableState {
         case .priority:
             return priorityCell(indexPath: indexPath)
-        case .date:
+        case .dueDate:
             return dateCell(indexPath: indexPath)
+        case .label:
+            return labelCell(indexPath: indexPath)
         default:
             return UITableViewCell()
         }
@@ -260,13 +348,31 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func handleLabelSelected(_ indexPath : IndexPath) {
+        
+        if indexPath.section == 1 {
+            // show a calendar view
+            performSegue(withIdentifier: kShowAddLabelScreen, sender: self)
+            return;
+        }
+        
+        textView.text = textView.text + dateArray[indexPath.row]
+        listButton.isUserInteractionEnabled = false
+        listButton.isHighlighted = true
+        task.taskList = labels![indexPath.row].labelName
+    }
+    
+    
+    
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch tableState {
         case .priority:
             handlePrioritySelected(indexPath)
-        case .date:
+        case .dueDate:
             handleDateSelected(indexPath)
+        case .label:
+            handleLabelSelected(indexPath)
         default:
             break
         }
@@ -316,7 +422,7 @@ extension AddTaskViewController : UITextViewDelegate {
             }
         }
         
-        let pattern = "\\" + TaskSpecialCharacter.date.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
+        let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
         if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
             !range.isEmpty {
             dateButton.isHighlighted = true
@@ -367,15 +473,9 @@ extension AddTaskViewController : UITextViewDelegate {
         
         // 1. handle hide scenarios
         var hideTableView = textArray.count == 0 || tableState == .none
-        if textArray.count > 0 {
-            switch tableState {
-            case .date:
-                hideTableView = textArray[textArray.count - 1] != kDateSpecialCharacter
-            case .priority:
-                hideTableView = textArray[textArray.count - 1] != kPrioritySpecialCharacter
-            default:
-                break
-            }
+        if textArray.count > 0,
+            let specialCharacter = tableStateToCharacterMap[tableState] {
+            hideTableView = textArray[textArray.count - 1] != specialCharacter.rawValue
         }
         
         if hideTableView {
@@ -387,15 +487,12 @@ extension AddTaskViewController : UITextViewDelegate {
 
         // 2. handle unhide scenarios
         if textArray.count > 0 && tableState == .none {
-            switch textArray[textArray.count - 1] {
-            case kPrioritySpecialCharacter:
-                handleButtonTapped(state: .priority, char: kPrioritySpecialCharacter)
-            case kDateSpecialCharacter:
-                handleButtonTapped(state: .date, char: kDateSpecialCharacter)
-            default:
-                break;
+            
+            if let specialChar = TaskSpecialCharacter(rawValue: textArray[textArray.count - 1]),
+                let state = specialCharacterToTableStateMap[specialChar] {
+                 tableState = state
+                handleButtonTapped(state: state, char: specialChar.rawValue)
             }
         }
-        
     }
 }
