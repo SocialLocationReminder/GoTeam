@@ -56,14 +56,14 @@ class TaskWithAnnotationsCell: UITableViewCell {
                 fourthAnnotationLabel.isHidden = true
                 
                 if let priority = task.taskPriority {
-                    setAnnotation(text: TaskWithAnnotationsCell.priorityTextArray[priority - 1], image: UIImage(named: ResourceImages.kExclamation))
+                    setAnnotation(text: TaskWithAnnotationsCell.priorityTextArray[priority - 1], image: UIImage(named: Resources.Images.Tasks.kExclamation))
                 }
                 
                 if let label = task.taskLabel {
-                    setAnnotation(text: label, image: UIImage(named: ResourceImages.kListIcon))
+                    setAnnotation(text: label, image: UIImage(named: Resources.Images.Tasks.kListIcon))
                 }
                 if let _ = task.taskRecurrence {
-                    taskNameTrailingImageView.image = UIImage(named: ResourceImages.kRecurringIcon)
+                    taskNameTrailingImageView.image = UIImage(named: Resources.Images.Tasks.kRecurringIcon)
                     taskNameTrailingImageView.isHidden = false
                 }
             }

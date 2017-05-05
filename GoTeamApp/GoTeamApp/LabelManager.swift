@@ -5,6 +5,8 @@ class LabelManager{
     var labels = [Labels]()
     let dataStoreService : LabelDataStoreServiceProtocol = LabelDataStoreService()
     
+    static let sharedInstance = LabelManager()
+    
     let queue = DispatchQueue(label: "LabelManagerQueue")
     
     func add(label: Labels){

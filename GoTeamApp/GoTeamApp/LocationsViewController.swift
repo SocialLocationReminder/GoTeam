@@ -22,7 +22,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   @IBOutlet weak var addButton: UIButton!
   
   //var locations = [Location]()
-  let selectedLocationsManager = SelectedLocationsManager()
+    let selectedLocationsManager = SelectedLocationsManager.sharedInstance
   
   var selectedLocationIndex: Int?
   
@@ -31,6 +31,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     
     mapView.delegate = self
     tableView.delegate = self

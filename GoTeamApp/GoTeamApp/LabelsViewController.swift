@@ -11,7 +11,7 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var filteredLabels : [Labels]?
     
     // application layer
-    let labelManager = LabelManager()
+    let labelManager = LabelManager.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
