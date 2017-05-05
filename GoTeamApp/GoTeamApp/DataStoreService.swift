@@ -21,6 +21,7 @@ class DataStoreService : DataStoreServiceProtocol {
     let kTaskName = "taskName"
     let kTaskDate = "taskDate"
     let kTaskPriority = "taskPriority"
+    let kTaskReccurence = "taskReccurence"
     let kTaskList = "taskList"
     let kTaskSocialContact = "taskSocialContact"
     let kTaskLocation = "taskLocation"
@@ -53,6 +54,10 @@ class DataStoreService : DataStoreServiceProtocol {
         
         if let taskLocation = task.taskLocation {
             parseTask[kTaskLocation] = taskLocation
+        }
+        
+        if let taskReccurence = task.taskRecurrence {
+            parseTask[kTaskReccurence] = taskReccurence
         }
         
         parseTask.saveInBackground { (success, error) in
@@ -152,6 +157,7 @@ class DataStoreService : DataStoreServiceProtocol {
             task.taskPriority = pfTask[kTaskPriority] as? Int
             task.taskLocation = pfTask[kTaskLocation] as? String
             task.taskLabel = pfTask[kTaskList] as? String
+            task.taskRecurrence = pfTask[kTaskReccurence] as? Int
             task.taskSocialContact = pfTask[kTaskSocialContact] as? String
             tasks.append(task)
         }

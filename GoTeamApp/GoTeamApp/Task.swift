@@ -14,7 +14,9 @@ class Task : ListItem {
     var taskID : Date?
     var taskName : String?
     var taskDate : Date?
+    var taskNameWithAnnotations : String?
     
+    var taskRecurrence : Int?
     var taskPriority : Int?
     var taskLabel : String?
     var taskSocialContact : String?
@@ -25,6 +27,7 @@ class Task : ListItem {
     var taskPrioritySubrange : Range<String.Index>?
     var taskDateSubrange : Range<String.Index>?
     var taskLabelSubrange : Range<String.Index>?
+    var taskRecurrenceSubrange : Range<String.Index>?
     
     init() {
         taskID = Date()

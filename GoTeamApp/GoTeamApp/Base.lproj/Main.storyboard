@@ -27,10 +27,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="Vvh-vc-VP0" customClass="TaskCell" customModule="GoTeamApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vvh-vc-VP0" id="9s8-Tl-Dcx">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="1000" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I7e-gL-uYn" userLabel="Delete View">
@@ -155,11 +155,18 @@
                                                             <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2nA-Et-e2m" userLabel="taskNameTrailingImageView">
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="15" id="0wH-7C-ZFq"/>
+                                                                <constraint firstAttribute="width" constant="15" id="4dA-A0-ons"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="PV7-sd-wQ7" firstAttribute="leading" secondItem="740-7z-1Se" secondAttribute="trailing" constant="8" id="1UF-fW-qnd"/>
                                                         <constraint firstItem="shK-vU-8gE" firstAttribute="leading" secondItem="NDj-eL-ZKl" secondAttribute="trailing" constant="8" id="5bj-vu-xDk"/>
+                                                        <constraint firstItem="lyJ-Lo-cBY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2nA-Et-e2m" secondAttribute="trailing" constant="3" id="BuC-Xk-swP"/>
                                                         <constraint firstItem="fSj-Op-vha" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="CKC-oK-YVN"/>
                                                         <constraint firstItem="fSj-Op-vha" firstAttribute="leading" secondItem="shK-vU-8gE" secondAttribute="trailing" constant="1" id="HfI-RI-IXM"/>
                                                         <constraint firstItem="UZj-11-PBY" firstAttribute="centerY" secondItem="qLY-vu-SUK" secondAttribute="centerY" constant="-9" id="HfR-fm-6yU"/>
@@ -172,11 +179,13 @@
                                                         <constraint firstItem="740-7z-1Se" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="cRt-O0-9IE"/>
                                                         <constraint firstItem="NDj-eL-ZKl" firstAttribute="leading" secondItem="PV7-sd-wQ7" secondAttribute="trailing" constant="1" id="eUR-YY-Nkp"/>
                                                         <constraint firstItem="Lwb-4Y-Qug" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="gvz-P3-J9f"/>
+                                                        <constraint firstItem="2nA-Et-e2m" firstAttribute="centerY" secondItem="UZj-11-PBY" secondAttribute="centerY" id="h2o-QV-QuO"/>
                                                         <constraint firstItem="740-7z-1Se" firstAttribute="leading" secondItem="huf-x5-eMi" secondAttribute="trailing" constant="1" id="jR4-lw-hpa"/>
                                                         <constraint firstItem="lyJ-Lo-cBY" firstAttribute="centerY" secondItem="qLY-vu-SUK" secondAttribute="centerY" constant="-3.5" id="joE-uV-hUR"/>
                                                         <constraint firstItem="shK-vU-8gE" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="kFA-5e-gUb"/>
                                                         <constraint firstItem="Lwb-4Y-Qug" firstAttribute="leading" secondItem="fSj-Op-vha" secondAttribute="trailing" constant="8" id="lcY-GM-aMH"/>
                                                         <constraint firstItem="huf-x5-eMi" firstAttribute="centerY" secondItem="qLY-vu-SUK" secondAttribute="centerY" constant="11.5" id="lvU-zh-7co"/>
+                                                        <constraint firstItem="2nA-Et-e2m" firstAttribute="leading" secondItem="UZj-11-PBY" secondAttribute="trailing" id="nnN-EA-aM8"/>
                                                         <constraint firstItem="336-DJ-z0r" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="rAA-sY-rTH"/>
                                                         <constraint firstAttribute="trailing" secondItem="lyJ-Lo-cBY" secondAttribute="trailing" constant="20" id="tXU-Wc-3Dq"/>
                                                     </constraints>
@@ -205,6 +214,7 @@
                                             <outlet property="secondAnnotationLabel" destination="NDj-eL-ZKl" id="XTZ-7c-eSY"/>
                                             <outlet property="taskDateLabel" destination="lyJ-Lo-cBY" id="uMC-oV-GhK"/>
                                             <outlet property="taskNameLabel" destination="UZj-11-PBY" id="RDs-Fq-wMK"/>
+                                            <outlet property="taskNameTrailingImageView" destination="2nA-Et-e2m" id="KOE-LC-kEv"/>
                                             <outlet property="thirdAnnotationImage" destination="shK-vU-8gE" id="hnG-p0-UrS"/>
                                             <outlet property="thirdAnnotationLabel" destination="fSj-Op-vha" id="NJy-LM-ydi"/>
                                             <outlet property="topView" destination="qLY-vu-SUK" id="QxP-93-WAq"/>
@@ -371,7 +381,7 @@
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ng7-At-TrU" userLabel="List View">
                                                 <subviews>
-                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ListButton" translatesAutoresizingMaskIntoConstraints="NO" id="zho-ah-aNt">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ListButton" highlightedImage="ListButtonHighlighted" translatesAutoresizingMaskIntoConstraints="NO" id="zho-ah-aNt">
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="G4I-Hx-NBe"/>
                                                             <constraint firstAttribute="height" constant="50" id="Q8e-9p-16H"/>
@@ -416,7 +426,7 @@
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yuj-aC-9Tr" userLabel="Time View">
                                                 <subviews>
-                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TimeButton" translatesAutoresizingMaskIntoConstraints="NO" id="Lbt-WR-B44">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TimeButton" highlightedImage="TimeButtonHighlighted" translatesAutoresizingMaskIntoConstraints="NO" id="Lbt-WR-B44">
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="T73-Ld-PvW"/>
                                                             <constraint firstAttribute="width" constant="50" id="cw9-5N-mbs"/>
@@ -1128,12 +1138,14 @@
         <image name="CalendarButtonHighlighted" width="54" height="51"/>
         <image name="DueDate" width="54" height="50"/>
         <image name="ListButton" width="54" height="50"/>
+        <image name="ListButtonHighlighted" width="54" height="50"/>
         <image name="LocationButton" width="54" height="50"/>
         <image name="PersonButton" width="54" height="50"/>
         <image name="PriorityButton" width="54" height="50"/>
         <image name="PriorityButtonHighlighted" width="54" height="50"/>
         <image name="RepeatButton" width="54" height="50"/>
         <image name="TimeButton" width="54" height="50"/>
+        <image name="TimeButtonHighlighted" width="54" height="50"/>
         <image name="first" width="30" height="30"/>
         <image name="pin" width="10" height="10"/>
         <image name="red_add_icon" width="113" height="112"/>

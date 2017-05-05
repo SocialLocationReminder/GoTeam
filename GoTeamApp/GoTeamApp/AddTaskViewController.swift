@@ -15,6 +15,7 @@ enum TableState {
     case dueDate
     case priority
     case label
+    case recurrence
 }
 
 class AddTaskViewController: UIViewController {
@@ -65,7 +66,8 @@ class AddTaskViewController: UIViewController {
         [
             TableState.priority : TaskSpecialCharacter.priority,
             TableState.label : TaskSpecialCharacter.label,
-            TableState.dueDate : TaskSpecialCharacter.dueDate
+            TableState.dueDate : TaskSpecialCharacter.dueDate,
+            TableState.recurrence : TaskSpecialCharacter.recurrence
         ]
 
     // constructed by swapping the keys and values of the above map
@@ -74,7 +76,8 @@ class AddTaskViewController: UIViewController {
     
     let priorityArray = ["1 - High", "2 - Medium", "3 - Low", "None"]
     var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
-
+    let recurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
+    
     // application layer
     let labelManager = LabelManager()
     
@@ -111,10 +114,21 @@ class AddTaskViewController: UIViewController {
         // fetch labels
         setupLabelButton()
         
+        // recurrence
+        setupRecurrenceButton()
+        
         tableStateToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
         }
     }
+    
+    func setupRecurrenceButton() {
+        repeatButton.isUserInteractionEnabled = true
+        repeatButton.isHighlighted = false
+        let repeatTapGR = UITapGestureRecognizer(target: self, action: #selector(repeatButtonTapped(sender:)))
+        repeatButton.addGestureRecognizer(repeatTapGR)
+    }
+    
     func setupLabelButton() {
         listButton.isUserInteractionEnabled = true
         listButton.isHighlighted = false
@@ -181,6 +195,11 @@ class AddTaskViewController: UIViewController {
         handleButtonTapped(state: .label, char : TaskSpecialCharacter.label.rawValue)
     }
     
+    func repeatButtonTapped(sender : UITapGestureRecognizer) {
+        handleButtonTapped(state: .recurrence, char: TaskSpecialCharacter.recurrence.rawValue)
+    }
+
+    
     func handleButtonTapped(state: TableState, char : Character) {
         
         let text = textView.text
@@ -235,6 +254,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return 2
         case .label:
             return 2
+        case .recurrence:
+            return 1
         default:
             return 0
         }
@@ -248,6 +269,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return section == 0 ? dateArray.count : 1
         case .label:
             return section == 0 ? labels?.count ?? 1 : 1
+        case .recurrence:
+            return recurrenceArray.count
         default:
             return 0
         }
@@ -307,6 +330,15 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func recurrenceCell(indexPath : IndexPath) -> AddTaskCell {
+        
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: kAddTaskCell) as! AddTaskCell
+        cell.addTaskImageView.image = UIImage(named: ResourceImages.kRecurringIcon)
+        cell.primayTextLabel.text = recurrenceArray[indexPath.row]
+        cell.secondaryTextLabel.text = ""
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch tableState {
@@ -316,12 +348,27 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return dateCell(indexPath: indexPath)
         case .label:
             return labelCell(indexPath: indexPath)
+        case .recurrence:
+            return recurrenceCell(indexPath: indexPath)
         default:
             return UITableViewCell()
         }
     }
     
     // MARK: - selected row in table view
+    
+    func handleRecurrenceSelected(_ indexPath : IndexPath) {
+        
+        if indexPath.row == recurrenceArray.count - 1  {
+            let chars = Array(textView.text.characters)
+            textView.text = String(chars[0..<chars.count - 2])
+            task.taskRecurrence = nil
+        } else {
+            appendToTextView(string: String(recurrenceArray[indexPath.row]))
+        }
+    }
+    
+
     func handlePrioritySelected(_ indexPath : IndexPath) {
         if indexPath.row == priorityArray.count - 1  {
             let chars = Array(textView.text.characters)
@@ -329,11 +376,6 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             task.taskPriority = nil
         } else {
             appendToTextView(string: String(indexPath.row + 1))
-            
-            // textView.text = textView.text + String(indexPath.row + 1)
-            // priorityButton.isUserInteractionEnabled = false
-            // priorityButton.isHighlighted = true
-            // task.taskPriority = indexPath.row + 1
         }
     }
 
@@ -350,11 +392,6 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             task.taskDate = nil
         } else {
             appendToTextView(string: dateArray[indexPath.row])
-            
-           // dateButton.isUserInteractionEnabled = false
-           // dateButton.isHighlighted = true
-           // let today = Date()
-           // task.taskDate = Calendar.current.date(byAdding: .day, value: indexPath.row, to: today)
         }
     }
     
@@ -369,10 +406,6 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         if let labelName = labels![indexPath.row].labelName {
             appendToTextView(string: labelName)
         }
-        
-       // listButton.isUserInteractionEnabled = false
-       // listButton.isHighlighted = true
-       //  task.taskLabel = labels![indexPath.row].labelName
     }
     
  
@@ -385,6 +418,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             handleDateSelected(indexPath)
         case .label:
             handleLabelSelected(indexPath)
+        case .recurrence:
+            handleRecurrenceSelected(indexPath)
         default:
             break
         }
@@ -418,6 +453,39 @@ extension AddTaskViewController : UITextViewDelegate {
         
         // 5. label button
         setLabelButtonState()
+        
+        // 6. recurrence button
+        setRecurrenceButtonState()
+    }
+    
+    
+    func setRecurrenceButtonState() {
+        
+        repeatButton.isHighlighted = false
+        repeatButton.isUserInteractionEnabled = true
+        for ix in 0..<recurrenceArray.count {
+            let testString = TaskSpecialCharacter.recurrence.stringValue() + recurrenceArray[ix]
+            if textView.text.contains(testString) {
+                repeatButton.isHighlighted = true
+                repeatButton.isUserInteractionEnabled = false
+                if task.taskRecurrence == nil {
+                    
+                    // @todo: need to support multiple labels
+                    task.taskRecurrence = ix
+                    task.taskRecurrenceSubrange = textView.text.range(of: testString)
+                    attributeTextView(pattern: testString, options: .caseInsensitive,
+                                      fgColor: UIColor.white, bgColor: UIColor.green)
+                }
+                
+                break
+            }
+        }
+        
+        if repeatButton.isUserInteractionEnabled == true {
+            task.taskRecurrence = nil
+            task.taskRecurrenceSubrange = nil
+        }
+
     }
     
     func setLabelButtonState() {

@@ -95,14 +95,36 @@ class TasksViewController: UIViewController {
         let task = addTaskVC.task
         
         if let task = task {
-            task.taskName = remove(prefix : .dueDate, textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
-            task.taskName = remove(prefix : .priority, textArray: ["1", "2", "3"], text: task.taskName!)
-            task.taskName = removeDate(text: task.taskName!)
+            task.taskName = addTaskVC.textView.text
+            task.taskNameWithAnnotations = task.taskName
+            
+            removeAnnotations(task: task)
             add(task: task)
         }
         
         self.tableView.reloadData()
     }
+    
+    func removeAnnotations(task : Task) {
+        var ranges = [Range<String.Index>]()
+        if let taskDateSubrange = task.taskDateSubrange {
+            ranges.append(taskDateSubrange)
+        }
+        if let taskLabelSubrange = task.taskLabelSubrange {
+            ranges.append(taskLabelSubrange)
+        }
+        if let taskPrioritySubrange = task.taskPrioritySubrange {
+            ranges.append(taskPrioritySubrange)
+        }
+        if let taskRecurrenceSubrange = task.taskRecurrenceSubrange {
+            ranges.append(taskRecurrenceSubrange)
+        }
+        ranges.sort() { $0.lowerBound > $1.lowerBound }
+        for range in ranges {
+            task.taskName?.removeSubrange(range)
+        }
+    }
+    
     
     func removeDate(text : String) -> String {
         var text = text
@@ -151,7 +173,9 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let localTasks = tasksList()
-        if localTasks![indexPath.row].taskPriority != nil {
+        if localTasks![indexPath.row].taskPriority != nil ||
+            localTasks![indexPath.row].taskRecurrence != nil ||
+            localTasks![indexPath.row].taskLabel != nil {
             let cell = tableView.dequeueReusableCell(withIdentifier: kTaskWithAnnotationsCell) as! TaskWithAnnotationsCell
             cell.task = localTasks![indexPath.row]
             cell.delegate = self
