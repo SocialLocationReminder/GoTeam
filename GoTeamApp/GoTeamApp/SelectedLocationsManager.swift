@@ -18,14 +18,14 @@ class SelectedLocationsManager {
   func add(location : Location) {
     queue.async {
       self.locations.append(location)
-      //self.dataStoreService.add(location: location)
+      self.dataStoreService.add(location: location)
     }
   }
   
   func delete(location: Location) {
     queue.async {
       self.locations = self.locations.filter() { $0 !== location }
-      //self.dataStoreService.delete(location: location)
+      self.dataStoreService.delete(location: location)
     }
   }
   
@@ -34,7 +34,7 @@ class SelectedLocationsManager {
       if fetch == false {
         success(self.locations)
       } else {
-        //self.dataStoreService.allLocations(success: success, error: error)
+        self.dataStoreService.allLocations(success: success, error: error)
       }
     }
   }
