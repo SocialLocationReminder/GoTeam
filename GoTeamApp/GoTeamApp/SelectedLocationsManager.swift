@@ -11,7 +11,7 @@ import Foundation
 class SelectedLocationsManager {
   
   var locations = [Location]()
-  let dataStoreService : DataStoreServiceProtocol = DataStoreService()
+  let dataStoreService : LocationDataStoreServiceProtocol = LocationDataStoreService()
   
   let queue = DispatchQueue(label: "SelectedLocationsManagerQueue")
   
@@ -34,7 +34,10 @@ class SelectedLocationsManager {
       if fetch == false {
         success(self.locations)
       } else {
-        self.dataStoreService.allLocations(success: success, error: error)
+        self.dataStoreService.allLocations(success: { (locations) in
+            self.locations = locations
+            success(locations)
+            }, error: error)
       }
     }
   }

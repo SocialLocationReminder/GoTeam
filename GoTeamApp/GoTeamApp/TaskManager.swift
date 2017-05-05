@@ -12,7 +12,7 @@ import Foundation
 class TaskManager {
     
     var tasks = [Task]()
-    let dataStoreService : DataStoreServiceProtocol = DataStoreService()
+    let dataStoreService : TaskDataStoreServiceProtocol = TaskDataStoreService()
     
     let queue = DispatchQueue(label: "TaskManagerQueue")
     
@@ -35,7 +35,10 @@ class TaskManager {
             if fetch == false {
                 success(self.tasks)
             } else {
-                self.dataStoreService.allTasks(success: success, error: error)
+                self.dataStoreService.allTasks(success: { (tasks) in
+                    self.tasks = tasks
+                    success(tasks)
+                    }, error: error)
             }
         }
     }
