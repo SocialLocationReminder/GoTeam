@@ -18,8 +18,11 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   @IBOutlet weak var mapView: MKMapView!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var barButton: UIBarButtonItem!
+  @IBOutlet weak var addButton: UIButton!
   
-  var locations = [Location]()
+  //var locations = [Location]()
+  let selectedLocationsManager = SelectedLocationsManager()
+  
   var selectedLocationIndex: Int?
   
   let locationManager = CLLocationManager()
@@ -54,12 +57,33 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     resultSearchController?.hidesNavigationBarDuringPresentation = false
     resultSearchController?.dimsBackgroundDuringPresentation = true
     definesPresentationContext = true
-    
+    setupAddButton()
     locationSearchTable?.mapView = mapView
     locationSearchTable?.mapSearchDelegate = self
   }
   
-  // Flip between Map View and List View
+  func setupAddButton() {
+    addButton.layer.cornerRadius = 48.0 / 2.0
+    addButton.clipsToBounds = true
+  }
+  
+  @IBAction func addButtonTapped(_ sender: UIButton) {
+    
+    let alert = UIAlertController(title: "Add Location", message: "Search for a place or address. Alternatively, tap and hold on the map to drop a pin.", preferredStyle: UIAlertControllerStyle.alert)
+    alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default, handler: nil))
+    
+    let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
+    UIView.transition(from: self.tableView,
+                      to: self.mapView,
+                      duration: 0.5,
+                      options: transitionParams,
+                      completion: { (true) in
+                        self.present(alert, animated: true, completion: nil)
+    })
+    self.barButton.title = "List"
+    self.addButton.isHidden = true
+  }
+  
   @IBAction func listBarButtonTapped(_ sender: UIBarButtonItem) {
     
     if sender.title == "List" {
@@ -68,10 +92,12 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
                         to: self.tableView,
                         duration: 0.5,
                         options: transitionParams,
-                        completion: nil);
+                        completion: nil)
+      self.barButton.title = "Map"
       for annotation in mapView.selectedAnnotations {
         mapView.deselectAnnotation(annotation, animated: false)
       }
+      addButton.isHidden = false
       tableView.reloadData()
     } else {
       let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
@@ -79,9 +105,10 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
                         to: self.mapView,
                         duration: 0.5,
                         options: transitionParams,
-                        completion: nil);
+                        completion: nil)
+      self.barButton.title = "List"
+      self.addButton.isHidden = true
     }
-    sender.title = sender.title == "List" ? "Map" : "List"
   }
   
   // MARK: - Navigation
@@ -110,10 +137,12 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
       mapView.selectAnnotation(updatedPin, animated: true)
       // update locations dictionary with new values
       if let index = selectedLocationIndex {
-        let location = locations[index]
+        let location = selectedLocationsManager.locations[index]
+        //let location = locations[index]
         location.title = updatedPin.title
         location.subtitle = updatedPin.subtitle
-        locations[index] = location
+        selectedLocationsManager.locations[index] = location
+        //locations[index] = location
       }
     }
   }
@@ -147,9 +176,33 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     mapView.setRegion(region, animated: true)
     mapView.selectAnnotation(location, animated: true)
     
-    //add to locations list
-    locations.append(location)
-    selectedLocationIndex = locations.count - 1
+    showAlert(toAddLocation: location)
+  }
+  
+  func showAlert(toAddLocation location: Location) {
+    
+    let alertController = MapAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+    
+    alertController.location = location
+    
+    let somethingAction = UIAlertAction(title: "Add Location", style: .default, handler: {(alert: UIAlertAction!) in
+      print("add to locations list")
+      //add to locations list
+      self.selectedLocationsManager.add(location: location)
+      //self.locations.append(location)
+      self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1 //self.locations.count - 1
+    })
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) in
+      print("cancel")
+    })
+    
+    alertController.addAction(somethingAction)
+    alertController.addAction(cancelAction)
+    
+    DispatchQueue.main.async {
+      self.present(alertController, animated: true, completion:{})
+    }
   }
   
   // MARK: - Map Pin Delegate Method
@@ -183,17 +236,17 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   // MARK: - Table View Delegate Method
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return locations.count
+    return selectedLocationsManager.locations.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath) as! LocationCell
-    cell.location = locations[indexPath.row] //Array(locations.values)[indexPath.row]
+    cell.location = selectedLocationsManager.locations[indexPath.row] //Array(locations.values)[indexPath.row]
     return cell
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let location = locations[indexPath.row] //Array(locations.values)[indexPath.row]
+    let location = selectedLocationsManager.locations[indexPath.row] //Array(locations.values)[indexPath.row]
     selectedLocationIndex = indexPath.row
     
     barButton.title = "List"
