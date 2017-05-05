@@ -44,7 +44,7 @@ class DataStoreService : DataStoreServiceProtocol {
         if let taskPriority = task.taskPriority {
             parseTask[kTaskPriority] = taskPriority
         }
-        if let taskList = task.taskList {
+        if let taskList = task.taskLabel {
             parseTask[kTaskList] = taskList
         }
         if let taskSocialContact = task.taskSocialContact {
@@ -151,7 +151,7 @@ class DataStoreService : DataStoreServiceProtocol {
             task.taskDate = pfTask[kTaskDate] as? Date
             task.taskPriority = pfTask[kTaskPriority] as? Int
             task.taskLocation = pfTask[kTaskLocation] as? String
-            task.taskList = pfTask[kTaskList] as? String
+            task.taskLabel = pfTask[kTaskList] as? String
             task.taskSocialContact = pfTask[kTaskSocialContact] as? String
             tasks.append(task)
         }

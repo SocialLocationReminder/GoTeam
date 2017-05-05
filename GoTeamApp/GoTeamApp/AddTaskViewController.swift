@@ -206,12 +206,19 @@ class AddTaskViewController: UIViewController {
 
     @IBAction func unwindDoneAddTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
         if let calendarVC = segue.source as? CalendarViewController {
+            
             let dateSelected = calendarVC.dateSelected ?? Date()
-            task.taskDate = dateSelected
             AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
-            textView.text = textView.text + AddTaskViewController.dateFormatter.string(from: dateSelected)
-            dateButton.isUserInteractionEnabled = false
-            dateButton.isHighlighted = true
+            let dateSelectedStr = AddTaskViewController.dateFormatter.string(from: dateSelected)
+            appendToTextView(string: dateSelectedStr)
+            
+            //  task.taskDate = dateSelected
+            //  let attributableDateString = TaskSpecialCharacter.dueDate.stringValue() + dateSelectedStr
+            //  task.taskDateSubrange = textView.text.range(of: attributableDateString)
+            //  attributeText(textView: textView, pattern: attributableDateString,
+            //                options: .caseInsensitive, fgColor: UIColor.white, bgColor: UIColor.brown)
+            //  dateButton.isUserInteractionEnabled = false
+            //  dateButton.isHighlighted = true
         }
     }
 }
@@ -321,10 +328,12 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             textView.text = String(chars[0..<chars.count - 2])
             task.taskPriority = nil
         } else {
-            textView.text = textView.text + String(indexPath.row + 1)
-            priorityButton.isUserInteractionEnabled = false
-            priorityButton.isHighlighted = true
-            task.taskPriority = indexPath.row + 1
+            appendToTextView(string: String(indexPath.row + 1))
+            
+            // textView.text = textView.text + String(indexPath.row + 1)
+            // priorityButton.isUserInteractionEnabled = false
+            // priorityButton.isHighlighted = true
+            // task.taskPriority = indexPath.row + 1
         }
     }
 
@@ -340,32 +349,33 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             textView.text = String(chars[0..<chars.count - 2])
             task.taskDate = nil
         } else {
-            textView.text = textView.text + dateArray[indexPath.row]
-            dateButton.isUserInteractionEnabled = false
-            dateButton.isHighlighted = true
-            let today = Date()
-            task.taskDate = Calendar.current.date(byAdding: .day, value: indexPath.row, to: today)
+            appendToTextView(string: dateArray[indexPath.row])
+            
+           // dateButton.isUserInteractionEnabled = false
+           // dateButton.isHighlighted = true
+           // let today = Date()
+           // task.taskDate = Calendar.current.date(byAdding: .day, value: indexPath.row, to: today)
         }
     }
     
     func handleLabelSelected(_ indexPath : IndexPath) {
         
         if indexPath.section == 1 {
-            // show a calendar view
+            // show add label screen
             performSegue(withIdentifier: kShowAddLabelScreen, sender: self)
             return;
         }
         
         if let labelName = labels![indexPath.row].labelName {
-            textView.text = textView.text + labelName
+            appendToTextView(string: labelName)
         }
-        listButton.isUserInteractionEnabled = false
-        listButton.isHighlighted = true
-        task.taskList = labels![indexPath.row].labelName
+        
+       // listButton.isUserInteractionEnabled = false
+       // listButton.isHighlighted = true
+       //  task.taskLabel = labels![indexPath.row].labelName
     }
     
-    
-    
+ 
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch tableState {
@@ -394,18 +404,51 @@ extension AddTaskViewController : UITextViewDelegate {
         let text = textView.text
         let textArray = Array(text!.characters)
         
-
         // 1. button view
-        unhideButtonViewIfRequired(textArray)
+        setButtonViewState(textArray)
         
         // 2. table view
         setTableViewState(textArray)
         
         // 3. priority button
-        setPriorityButtonState(textArray)
+        setPriorityButtonState()
         
         // 4. date button
         setDateButtonState()
+        
+        // 5. label button
+        setLabelButtonState()
+    }
+    
+    func setLabelButtonState() {
+        
+        guard let _ = labels else { return; }
+        
+        listButton.isHighlighted = false
+        listButton.isUserInteractionEnabled = true
+        for ix in 0..<labels!.count {
+            if let labelName = labels![ix].labelName {
+                let testString = TaskSpecialCharacter.label.stringValue() + labelName
+                if textView.text.contains(testString) {
+                    listButton.isHighlighted = true
+                    listButton.isUserInteractionEnabled = false
+                    if task.taskLabel == nil {
+
+                        // @todo: need to support multiple labels
+                        task.taskLabel = labelName
+                        task.taskLabelSubrange = textView.text.range(of: testString)
+                        attributeTextView(pattern: testString, options: .caseInsensitive,
+                                          fgColor: UIColor.white, bgColor: UIColor.cyan)
+                    }
+                    
+                    break
+                }
+            }
+        }
+        if listButton.isUserInteractionEnabled == true {
+            task.taskLabel = nil
+            task.taskLabelSubrange = nil
+        }
     }
     
     func setDateButtonState() {
@@ -419,7 +462,9 @@ extension AddTaskViewController : UITextViewDelegate {
                 if task.taskDate == nil {
                     let today = Date()
                     task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
-                    attributeDateText(pattern : testString, options: .caseInsensitive)
+                    task.taskDateSubrange = textView.text.range(of: testString)
+                    attributeTextView(pattern: testString, options: .caseInsensitive,
+                                      fgColor: UIColor.white, bgColor: UIColor.brown)
                 }
 
                 break
@@ -436,33 +481,20 @@ extension AddTaskViewController : UITextViewDelegate {
                 let dateString = textView.text.substring(with: subRange)
                 AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
                 task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
-                attributeDateText(pattern: pattern, options: .regularExpression)
+                task.taskDateSubrange = range
+                attributeTextView(pattern: pattern, options: .regularExpression,
+                                  fgColor: UIColor.white, bgColor: UIColor.brown)
             }
         }
         
         if dateButton.isUserInteractionEnabled == true {
             task.taskDate = nil
+            task.taskDateSubrange = nil
         }
     }
     
-    func attributeDateText(pattern : String, options: NSString.CompareOptions ) {
-        
 
-        let objString = textView.text as NSString
-        let dateRange = objString.range(of: pattern, options: options)
-        let attributedString = NSMutableAttributedString(string: textView.text + " ")
-        
-        if let _ = task.taskDate {
-            
-            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range: dateRange)
-            attributedString.addAttribute(NSBackgroundColorAttributeName, value: UIColor.brown, range: dateRange)
-            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))
-            textView.attributedText = attributedString
-            task.taskDateSubrange = textView.text.range(of: pattern, options: options, range: nil, locale: nil)
-        }
-    }
-    
-    func setPriorityButtonState(_ textArray : [Character]) {
+    func setPriorityButtonState() {
         
         priorityButton.isHighlighted = true
         priorityButton.isUserInteractionEnabled = false
@@ -473,6 +505,7 @@ extension AddTaskViewController : UITextViewDelegate {
             priorityButton.isHighlighted = false
             priorityButton.isUserInteractionEnabled = true
             task.taskPriority = nil
+            task.taskPrioritySubrange = nil
             // @todo: change the attribute color here for the "!"
         }
         
@@ -493,14 +526,6 @@ extension AddTaskViewController : UITextViewDelegate {
     func attributePriorityText() {
         
         let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
-        let objString =   textView.text as NSString
-        let priorityRange = objString.range(of: pattern, options: .regularExpression)
-        var attributedString = NSMutableAttributedString(string: textView.text + " ")
-        
-        if textView.attributedText.length > 0 {
-            attributedString = NSMutableAttributedString(attributedString: textView.attributedText)
-            attributedString.append(NSAttributedString(string: " "))
-        }
         
         if let taskPriority = task.taskPriority {
             var bgColor = UIColor.white
@@ -511,14 +536,12 @@ extension AddTaskViewController : UITextViewDelegate {
             } else if taskPriority == 3 {
                 bgColor = UIColor.orange
             }
-            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.white, range: priorityRange)
-            attributedString.addAttribute(NSBackgroundColorAttributeName, value: bgColor, range: priorityRange)
-            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))
-            textView.attributedText = attributedString
+            attributeTextView(pattern: pattern, options: .regularExpression,
+                              fgColor: UIColor.white, bgColor: bgColor)
         }
     }
     
-    func unhideButtonViewIfRequired(_ textArray : [Character]) {
+    func setButtonViewState(_ textArray : [Character]) {
         if textArray.count > 0 && self.buttonView.isHidden == true {
             self.buttonView.isHidden = false
             self.view.setNeedsDisplay()
@@ -550,5 +573,35 @@ extension AddTaskViewController : UITextViewDelegate {
                 handleButtonTapped(state: state, char: specialChar.rawValue)
             }
         }
+    }
+    
+    func appendToTextView(string : String) {
+        if textView.attributedText.length > 0 {
+            let attributedStr = NSMutableAttributedString(attributedString: textView.attributedText)
+            attributedStr.append(NSAttributedString(string: string))
+            textView.attributedText = attributedStr
+        } else {
+            textView.text = textView.text + string
+        }
+    }
+    
+    
+    func attributeTextView(pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
+        
+        let objString = textView.text as NSString
+        let range = objString.range(of: pattern, options: options)
+        var attributedString : NSMutableAttributedString!
+        
+        if textView.attributedText.length > 0 {
+            attributedString = NSMutableAttributedString(attributedString: textView.attributedText)
+            attributedString.append(NSAttributedString(string: " "))
+        } else {
+            attributedString = NSMutableAttributedString(string: textView.text + " ")
+        }
+        
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: fgColor, range: range)
+        attributedString.addAttribute(NSBackgroundColorAttributeName, value: bgColor, range: range)
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))
+        textView.attributedText = attributedString
     }
 }

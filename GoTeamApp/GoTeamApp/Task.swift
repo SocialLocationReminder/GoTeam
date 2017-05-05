@@ -16,7 +16,7 @@ class Task : ListItem {
     var taskDate : Date?
     
     var taskPriority : Int?
-    var taskList : String?
+    var taskLabel : String?
     var taskSocialContact : String?
     var taskLocation : String?
     
@@ -24,6 +24,7 @@ class Task : ListItem {
     // sub ranges
     var taskPrioritySubrange : Range<String.Index>?
     var taskDateSubrange : Range<String.Index>?
+    var taskLabelSubrange : Range<String.Index>?
     
     init() {
         taskID = Date()
