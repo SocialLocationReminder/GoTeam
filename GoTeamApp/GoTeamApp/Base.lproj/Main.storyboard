@@ -396,7 +396,7 @@
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wMr-UW-8ao" userLabel="Repeat View">
                                                 <subviews>
-                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RepeatButton" translatesAutoresizingMaskIntoConstraints="NO" id="4yA-Bg-1J6">
+                                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RepeatButton" highlightedImage="RepeatButtonHighlighted" translatesAutoresizingMaskIntoConstraints="NO" id="4yA-Bg-1J6">
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="RYS-va-9Yv"/>
                                                             <constraint firstAttribute="height" constant="50" id="rjS-tQ-dBo"/>
@@ -1144,6 +1144,7 @@
         <image name="PriorityButton" width="54" height="50"/>
         <image name="PriorityButtonHighlighted" width="54" height="50"/>
         <image name="RepeatButton" width="54" height="50"/>
+        <image name="RepeatButtonHighlighted" width="54" height="50"/>
         <image name="TimeButton" width="54" height="50"/>
         <image name="TimeButtonHighlighted" width="54" height="50"/>
         <image name="first" width="30" height="30"/>
