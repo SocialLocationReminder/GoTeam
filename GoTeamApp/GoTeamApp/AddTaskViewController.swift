@@ -522,24 +522,7 @@ extension AddTaskViewController : UITextViewDelegate {
             attributePriorityText()
         }
     }
-    
-    func attributePriorityText() {
-        
-        let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
-        
-        if let taskPriority = task.taskPriority {
-            var bgColor = UIColor.white
-            if taskPriority == 1 {
-                bgColor = UIColor.red
-            } else if taskPriority == 2 {
-                bgColor = UIColor.blue
-            } else if taskPriority == 3 {
-                bgColor = UIColor.orange
-            }
-            attributeTextView(pattern: pattern, options: .regularExpression,
-                              fgColor: UIColor.white, bgColor: bgColor)
-        }
-    }
+ 
     
     func setButtonViewState(_ textArray : [Character]) {
         if textArray.count > 0 && self.buttonView.isHidden == true {
@@ -572,6 +555,25 @@ extension AddTaskViewController : UITextViewDelegate {
                  tableState = state
                 handleButtonTapped(state: state, char: specialChar.rawValue)
             }
+        }
+    }
+    
+    
+    func attributePriorityText() {
+        
+        let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
+        
+        if let taskPriority = task.taskPriority {
+            var bgColor = UIColor.white
+            if taskPriority == 1 {
+                bgColor = UIColor.red
+            } else if taskPriority == 2 {
+                bgColor = UIColor.blue
+            } else if taskPriority == 3 {
+                bgColor = UIColor.orange
+            }
+            attributeTextView(pattern: pattern, options: .regularExpression,
+                              fgColor: UIColor.white, bgColor: bgColor)
         }
     }
     
