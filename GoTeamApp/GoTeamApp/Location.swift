@@ -10,8 +10,13 @@ import Foundation
 import MapKit
 
 class Location: NSObject, MKAnnotation {
-    
+  
+  override init() {
+    locationID = Date()
+  }
+  
   init(placemark: MKPlacemark) {
+    locationID = Date()
     title = placemark.name
     if let locality = placemark.locality,
       let administrativeArea = placemark.administrativeArea {
@@ -21,14 +26,15 @@ class Location: NSObject, MKAnnotation {
     longitude = placemark.coordinate.longitude
   }
   
+  var locationID: Date?
   var title: String?
   var subtitle: String?
-  var latitude: Double
-  var longitude: Double
+  var latitude: Double?
+  var longitude: Double?
   
   var coordinate: CLLocationCoordinate2D {
     get {
-      return CLLocationCoordinate2DMake(latitude, longitude)
+      return CLLocationCoordinate2DMake(latitude!, longitude!)
     }
     set {
       latitude = newValue.latitude
