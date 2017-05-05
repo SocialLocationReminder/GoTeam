@@ -3,7 +3,7 @@ import Foundation
 class LabelManager{
 
     var labels = [Labels]()
-    let dataStoreService : DataStoreServiceProtocol = DataStoreService()
+    let dataStoreService : LabelDataStoreServiceProtocol = LabelDataStoreService()
     
     let queue = DispatchQueue(label: "LabelManagerQueue")
     

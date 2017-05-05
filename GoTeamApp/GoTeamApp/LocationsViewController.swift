@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import MBProgressHUD
 
 protocol MapSearch {
   func createNewLocation(location: Location)
@@ -60,7 +61,22 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     setupAddButton()
     locationSearchTable?.mapView = mapView
     locationSearchTable?.mapSearchDelegate = self
+    
+    // fetch locations
+    fetchLocations()
   }
+    
+    func fetchLocations() {
+        let hud = MBProgressHUD.showAdded(to: self.tableView, animated: true)
+        selectedLocationsManager.allLocations(fetch: true, success: { (locations) in
+            hud.hide(animated: true)
+            self.tableView.reloadData()
+            }) { (error) in
+                hud.hide(animated: true)
+                print(error)
+                // @todo: show error alert
+        }
+    }
   
   func setupAddButton() {
     addButton.layer.cornerRadius = 48.0 / 2.0
@@ -189,6 +205,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
       print("add to locations list")
       //add to locations list
       self.selectedLocationsManager.add(location: location)
+      self.tableView.reloadData()
       //self.locations.append(location)
       self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1 //self.locations.count - 1
     })
