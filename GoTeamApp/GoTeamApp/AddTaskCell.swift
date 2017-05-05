@@ -10,8 +10,16 @@ import UIKit
 
 class AddTaskCell: UITableViewCell {
 
+    
+    @IBOutlet weak var addTaskImageView: UIImageView!
+    @IBOutlet weak var primayTextLabel: UILabel!
+    @IBOutlet weak var secondaryTextLabel: UILabel!
+    @IBOutlet weak var addkTaskImageViewLeadingConstraint: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        primayTextLabel.text = ""
+        secondaryTextLabel.text = ""
         // Initialization code
     }
 

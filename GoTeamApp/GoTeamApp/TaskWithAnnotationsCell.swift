@@ -15,11 +15,11 @@ import UIKit
 
 class TaskWithAnnotationsCell: UITableViewCell {
     
-    let kExclamation = "exclamation.png"
     static let priorityTextArray = ["High", "Medium", "Low"]
 
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var taskDateLabel: UILabel!
+    @IBOutlet weak var taskNameTrailingImageView: UIImageView!
     
     @IBOutlet weak var firstAnnotationImage: UIImageView!
     @IBOutlet weak var secondAnnotationImage: UIImageView!
@@ -49,14 +49,50 @@ class TaskWithAnnotationsCell: UITableViewCell {
                     taskDateLabel.text = TaskCell.dateFormatter.string(from: date)
                 }
                 
+                // set defaults
+                firstAnnotationLabel.isHidden = true
+                secondAnnotationLabel.isHidden = true
+                thirdAnnotationLabel.isHidden = true
+                fourthAnnotationLabel.isHidden = true
+                
                 if let priority = task.taskPriority {
-                    firstAnnotationImage.image = UIImage(named: kExclamation)
-                    firstAnnotationImage.isHidden = false
-                    firstAnnotationLabel.text = TaskWithAnnotationsCell.priorityTextArray[priority - 1]
-                    firstAnnotationLabel.isHidden = false
+                    setAnnotation(text: TaskWithAnnotationsCell.priorityTextArray[priority - 1], image: UIImage(named: ResourceImages.kExclamation))
+                }
+                
+                if let label = task.taskLabel {
+                    setAnnotation(text: label, image: UIImage(named: ResourceImages.kListIcon))
+                }
+                if let _ = task.taskRecurrence {
+                    taskNameTrailingImageView.image = UIImage(named: ResourceImages.kRecurringIcon)
+                    taskNameTrailingImageView.isHidden = false
                 }
             }
         }
+    }
+    
+    func setAnnotation(text: String?, image : UIImage?) {
+        if firstAnnotationLabel.isHidden {
+            firstAnnotationLabel.text = text
+            firstAnnotationLabel.isHidden = false
+            firstAnnotationImage.image = image
+            firstAnnotationImage.isHidden = false
+        } else if secondAnnotationLabel.isHidden {
+            secondAnnotationLabel.text = text
+            secondAnnotationLabel.isHidden = false
+            secondAnnotationImage.image = image
+            secondAnnotationImage.isHidden = false
+        } else if thirdAnnotationLabel.isHidden {
+            thirdAnnotationLabel.text = text
+            thirdAnnotationLabel.isHidden = false
+            thirdAnnotationImage.image = image
+            thirdAnnotationImage.isHidden = false
+        } else if fourthAnnotationLabel.isHidden {
+            fourthAnnotationLabel.text = text
+            fourthAnnotationLabel.isHidden = false
+            fourthAnnotationImage.image = image
+            fourthAnnotationImage.isHidden = false
+        }
+
     }
     
 

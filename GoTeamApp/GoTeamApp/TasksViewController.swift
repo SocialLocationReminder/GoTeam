@@ -17,6 +17,8 @@ class TasksViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIButton!
     
+    
+    
     // cells
     let kTaskCell = "TaskCell"
     let kTaskWithAnnotationsCell = "TaskWithAnnotationsCell"
@@ -93,19 +95,53 @@ class TasksViewController: UIViewController {
         let task = addTaskVC.task
         
         if let task = task {
-            task.taskName = remove(prefix : "^", textArray: addTaskVC.dateArray, text: addTaskVC.textView.text)
-            task.taskName = remove(prefix : "!", textArray: ["1", "2", "3"], text: task.taskName!)
+            task.taskName = addTaskVC.textView.text
+            task.taskNameWithAnnotations = task.taskName
+            
+            removeAnnotations(task: task)
             add(task: task)
         }
         
         self.tableView.reloadData()
     }
     
-
-    func remove(prefix: String, textArray : [String],  text : String) -> String {
+    func removeAnnotations(task : Task) {
+        var ranges = [Range<String.Index>]()
+        if let taskDateSubrange = task.taskDateSubrange {
+            ranges.append(taskDateSubrange)
+        }
+        if let taskLabelSubrange = task.taskLabelSubrange {
+            ranges.append(taskLabelSubrange)
+        }
+        if let taskPrioritySubrange = task.taskPrioritySubrange {
+            ranges.append(taskPrioritySubrange)
+        }
+        if let taskRecurrenceSubrange = task.taskRecurrenceSubrange {
+            ranges.append(taskRecurrenceSubrange)
+        }
+        ranges.sort() { $0.lowerBound > $1.lowerBound }
+        for range in ranges {
+            task.taskName?.removeSubrange(range)
+        }
+    }
+    
+    
+    func removeDate(text : String) -> String {
         var text = text
+        let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
+        if let range = text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
+            !range.isEmpty {
+            text.removeSubrange(range)
+            return text
+        }
+        return text
+    }
+
+    func remove(prefix: TaskSpecialCharacter, textArray : [String],  text : String) -> String {
+        var text = text
+        let prefixStr = prefix.stringValue()
         for textToRemove in textArray {
-            let strToRemove = prefix + textToRemove
+            let strToRemove = prefixStr + textToRemove
             let range = text.range(of: strToRemove)
             if let range = range {
                 text.removeSubrange(range)
@@ -137,7 +173,9 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let localTasks = tasksList()
-        if localTasks![indexPath.row].taskPriority != nil {
+        if localTasks![indexPath.row].taskPriority != nil ||
+            localTasks![indexPath.row].taskRecurrence != nil ||
+            localTasks![indexPath.row].taskLabel != nil {
             let cell = tableView.dequeueReusableCell(withIdentifier: kTaskWithAnnotationsCell) as! TaskWithAnnotationsCell
             cell.task = localTasks![indexPath.row]
             cell.delegate = self
@@ -145,7 +183,7 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: kTaskCell) as! TaskCell
-        cell.task = tasksList()![indexPath.row]
+        cell.task = localTasks![indexPath.row]
         cell.delegate = self
         return cell
     }
@@ -181,8 +219,6 @@ extension TasksViewController : UISearchBarDelegate {
             tableView.reloadData()
             return;
         }
-        
-
         
         filteredTasks = [Task]();
         

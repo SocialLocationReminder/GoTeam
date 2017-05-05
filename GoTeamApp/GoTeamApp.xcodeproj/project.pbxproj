@@ -12,6 +12,9 @@
 		615B78111EB68661006F59D8 /* AddLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78101EB68661006F59D8 /* AddLabelViewController.swift */; };
 		615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78121EB69EDC006F59D8 /* LabelManager.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
+		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
+		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
+		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
 		E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */; };
 		E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */; };
 		E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9901EAF013A0034E0A7 /* LabelsViewController.swift */; };
@@ -30,6 +33,7 @@
 		E2F1C9BA1EB5297D0034E0A7 /* TableViewGenericDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9B91EB5297D0034E0A7 /* TableViewGenericDataSource.swift */; };
 		E2F1C9BC1EB52AB30034E0A7 /* ListManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9BB1EB52AB30034E0A7 /* ListManagerProtocol.swift */; };
 		E2F1C9BE1EB52AED0034E0A7 /* ListItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F1C9BD1EB52AED0034E0A7 /* ListItemProtocol.swift */; };
+		E2FEDA1A1EBC5BD20020E3C0 /* ResourceImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA191EBC5BD20020E3C0 /* ResourceImages.swift */; };
 		F4635EA21EB62776008BDD0B /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4635E9E1EB62776008BDD0B /* LocationsViewController.swift */; };
 		F4635EA31EB62776008BDD0B /* LocationSearchTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4635E9F1EB62776008BDD0B /* LocationSearchTable.swift */; };
 		F4635EA41EB62776008BDD0B /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4635EA01EB62776008BDD0B /* EditLocationViewController.swift */; };
@@ -44,6 +48,9 @@
 		615B780E1EB65418006F59D8 /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		615B78101EB68661006F59D8 /* AddLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLabelViewController.swift; sourceTree = "<group>"; };
 		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
+		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
+		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		E2F1C9891EAF013A0034E0A7 /* GoTeamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoTeamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +71,7 @@
 		E2F1C9B91EB5297D0034E0A7 /* TableViewGenericDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewGenericDataSource.swift; sourceTree = "<group>"; };
 		E2F1C9BB1EB52AB30034E0A7 /* ListManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListManagerProtocol.swift; sourceTree = "<group>"; };
 		E2F1C9BD1EB52AED0034E0A7 /* ListItemProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemProtocol.swift; sourceTree = "<group>"; };
+		E2FEDA191EBC5BD20020E3C0 /* ResourceImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceImages.swift; sourceTree = "<group>"; };
 		EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoTeamApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4635E9E1EB62776008BDD0B /* LocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
 		F4635E9F1EB62776008BDD0B /* LocationSearchTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTable.swift; sourceTree = "<group>"; };
@@ -111,6 +119,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E2EE10AD1EBAE34B00D9835A /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
 		E2F1C9801EAF013A0034E0A7 = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +165,7 @@
 		E2F1C9A01EB1B4AA0034E0A7 /* UILayer */ = {
 			isa = PBXGroup;
 			children = (
+				E2EE10AD1EBAE34B00D9835A /* Calendar */,
 				615B780B1EB64C8C006F59D8 /* Labels */,
 				E2F1C9B81EB5296F0034E0A7 /* Common */,
 				F4635EA61EB62789008BDD0B /* Location */,
@@ -202,7 +219,10 @@
 		E2F1C9B51EB522680034E0A7 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E2EE10A91EBAE15000D9835A /* Regex.swift */,
+				E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */,
 				E2F1C9B61EB522720034E0A7 /* TableCellUtil.swift */,
+				E2FEDA191EBC5BD20020E3C0 /* ResourceImages.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -362,6 +382,7 @@
 				E2F1C9B71EB522720034E0A7 /* TableCellUtil.swift in Sources */,
 				E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */,
 				615B780F1EB65418006F59D8 /* Labels.swift in Sources */,
+				E2FEDA1A1EBC5BD20020E3C0 /* ResourceImages.swift in Sources */,
 				E2F1C9BA1EB5297D0034E0A7 /* TableViewGenericDataSource.swift in Sources */,
 				615B780D1EB64FBB006F59D8 /* LabelTableViewCell.swift in Sources */,
 				E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */,
@@ -369,8 +390,11 @@
 				F4635EA41EB62776008BDD0B /* EditLocationViewController.swift in Sources */,
 				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,
 				E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */,
+				E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */,
 				F4635EA51EB62776008BDD0B /* LocationCell.swift in Sources */,
+				E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */,
 				F4635EA31EB62776008BDD0B /* LocationSearchTable.swift in Sources */,
+				E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */,
 				E2F1C9A71EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift in Sources */,
 				E2F1C9AC1EB1BEEB0034E0A7 /* AddTaskViewController.swift in Sources */,
 			);
