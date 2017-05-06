@@ -62,6 +62,11 @@ class TaskWithAnnotationsCell: UITableViewCell {
                 if let label = task.taskLabel {
                     setAnnotation(text: label, image: UIImage(named: Resources.Images.Tasks.kListIcon))
                 }
+                
+                if let location = task.taskLocation {
+                    setAnnotation(text: location.title, image: UIImage(named: Resources.Images.Tasks.kLocationIcon))
+                }
+                
                 if let _ = task.taskRecurrence {
                     taskNameTrailingImageView.image = UIImage(named: Resources.Images.Tasks.kRecurringIcon)
                     taskNameTrailingImageView.isHidden = false

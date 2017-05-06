@@ -14,26 +14,20 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
     
     
     // user related
-    let kTUserName = "UserName"
+    static let kTUserName = "UserName"
     var userName = "akshay"
     
     // location related
-    let kLocationsClass = "LocationsClassV2"
-    let kLocationID = "locationID"
-    let kLocationTitle = "locationTitle"
-    let kLocationSubtitle = "locationSubtitle"
-    let kLocationLatitude = "locationLatitude"
-    let kLocationLongitude = "locationLongitude"
+    static let kLocationsClass = "LocationsClassV2"
+    static let kLocationID = "locationID"
+    static let kLocationTitle = "locationTitle"
+    static let kLocationSubtitle = "locationSubtitle"
+    static let kLocationLatitude = "locationLatitude"
+    static let kLocationLongitude = "locationLongitude"
     
     func add(location : Location) {
         
-        let parseTask = PFObject(className:kLocationsClass)
-        parseTask[kTUserName] = userName
-        parseTask[kLocationID] = location.locationID
-        parseTask[kLocationTitle] = location.title
-        parseTask[kLocationSubtitle] = location.subtitle
-        parseTask[kLocationLatitude] = location.latitude
-        parseTask[kLocationLongitude] = location.longitude
+        let parseTask = LocationDataStoreService.parseObject(location: location)
         parseTask.saveInBackground { (success, error) in
             if success {
                 print("saved successfully")
@@ -43,11 +37,22 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
         }
     }
     
+    static func parseObject(location: Location) -> PFObject {
+        let parseTask = PFObject(className:kLocationsClass)
+        parseTask[kTUserName] = "akshay"
+        parseTask[kLocationID] = location.locationID
+        parseTask[kLocationTitle] = location.title
+        parseTask[kLocationSubtitle] = location.subtitle
+        parseTask[kLocationLatitude] = location.latitude
+        parseTask[kLocationLongitude] = location.longitude
+        return parseTask
+    }
+    
     func delete(location : Location) {
-        let query = PFQuery(className:kLocationsClass)
-        query.whereKey(kTUserName, equalTo: userName)
-        query.whereKey(kLocationID, equalTo: location.locationID!)
-        query.includeKey(kLocationID)
+        let query = PFQuery(className:LocationDataStoreService.kLocationsClass)
+        query.whereKey(LocationDataStoreService.kTUserName, equalTo: userName)
+        query.whereKey(LocationDataStoreService.kLocationID, equalTo: location.locationID!)
+        query.includeKey(LocationDataStoreService.kLocationID)
         query.findObjectsInBackground(block: { (locations, error) in
             if let locations = locations {
                 locations.first?.deleteEventually()
@@ -57,8 +62,8 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
     
 
     func allLocations(success:@escaping ([Location]) -> (), error: @escaping ((Error) -> ())) {
-        let query = PFQuery(className:kLocationsClass)
-        query.whereKey(kTUserName, equalTo: userName)
+        let query = PFQuery(className:LocationDataStoreService.kLocationsClass)
+        query.whereKey(LocationDataStoreService.kTUserName, equalTo: userName)
         query.includeKey(userName)
         query.findObjectsInBackground(block: { (locations, returnedError) in
             if let locations = locations {
@@ -73,16 +78,20 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
         })
     }
     
-
+    static func location(pfLocation: PFObject) -> Location {
+        let location = Location()
+        location.locationID = pfLocation[kLocationID] as? Date
+        location.title = pfLocation[kLocationTitle] as? String
+        location.subtitle = pfLocation[kLocationSubtitle] as? String
+        location.latitude = pfLocation[kLocationLatitude] as? Double
+        location.longitude = pfLocation[kLocationLongitude] as? Double
+        return location
+    }
+    
     func convertToLocations(pfLocations : [PFObject]) -> [Location] {
         var locations = [Location]()
         for pfLocation in pfLocations {
-            let location = Location()
-            location.locationID = pfLocation[kLocationID] as? Date
-            location.title = pfLocation[kLocationTitle] as? String
-            location.subtitle = pfLocation[kLocationSubtitle] as? String
-            location.latitude = pfLocation[kLocationLatitude] as? Double
-            location.longitude = pfLocation[kLocationLongitude] as? Double
+            let location = LocationDataStoreService.location(pfLocation: pfLocation)
             locations.append(location)
         }
         return locations

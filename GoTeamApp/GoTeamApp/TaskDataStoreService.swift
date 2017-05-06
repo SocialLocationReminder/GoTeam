@@ -17,7 +17,6 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     var userName = "akshay"
     
     // task related
-    let kTasksClass = "TasksClassV2"
     let kTaskID   = "taskID"
     let kTaskName = "taskName"
     let kTaskDate = "taskDate"
@@ -30,7 +29,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     
     func add(task : Task) {
         
-        let parseTask = PFObject(className:kTasksClass)
+        let parseTask = PFObject(className:Task.kTaskClass)
         parseTask[kTUserName] = userName
         parseTask[kTaskName] = task.taskName
         parseTask[kTaskID] = task.taskID
@@ -48,12 +47,12 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
             parseTask[kTaskSocialContact] = taskSocialContact
         }
         
-        if let taskLocation = task.taskLocation {
-            parseTask[kTaskLocation] = taskLocation
-        }
-        
         if let taskReccurence = task.taskRecurrence {
             parseTask[kTaskReccurence] = taskReccurence
+        }
+        
+        if let taskLocation = task.taskLocation {
+            parseTask[kTaskLocation] =  LocationDataStoreService.parseObject(location: taskLocation)
         }
         
         parseTask.saveInBackground { (success, error) in
@@ -68,7 +67,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     
     func delete(task : Task) {
         
-        let query = PFQuery(className:kTasksClass)
+        let query = PFQuery(className:Task.kTaskClass)
         query.whereKey(kTUserName, equalTo: userName)
         query.whereKey(kTaskID, equalTo: task.taskID!)
         //  query.includeKey(kTUserName)
@@ -84,7 +83,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     
     func allTasks(success:@escaping ([Task]) -> (), error: @escaping ((Error) -> ())) {
         
-        let query = PFQuery(className:kTasksClass)
+        let query = PFQuery(className:Task.kTaskClass)
         query.whereKey(kTUserName, equalTo: userName)
         query.includeKey(userName)
         
@@ -105,14 +104,23 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         var tasks = [Task]()
         for pfTask in pfTasks {
             let task = Task()
-            task.taskID = pfTask[kTaskID] as? Date
-            task.taskName = pfTask[kTaskName] as? String
-            task.taskDate = pfTask[kTaskDate] as? Date
-            task.taskPriority = pfTask[kTaskPriority] as? Int
-            task.taskLocation = pfTask[kTaskLocation] as? String
-            task.taskLabel = pfTask[kTaskList] as? String
-            task.taskRecurrence = pfTask[kTaskReccurence] as? Int
-            task.taskSocialContact = pfTask[kTaskSocialContact] as? String
+            do {
+                task.taskID = pfTask[kTaskID] as? Date
+                task.taskName = pfTask[kTaskName] as? String
+                task.taskDate = pfTask[kTaskDate] as? Date
+                task.taskPriority = pfTask[kTaskPriority] as? Int
+                
+                if let pfLocation = pfTask[kTaskLocation]  as? PFObject {
+                    try pfLocation.fetchIfNeeded()
+                    task.taskLocation = LocationDataStoreService.location(pfLocation: pfLocation)
+                }
+                
+                task.taskLabel = pfTask[kTaskList] as? String
+                task.taskRecurrence = pfTask[kTaskReccurence] as? Int
+                task.taskSocialContact = pfTask[kTaskSocialContact] as? String
+            } catch _  {
+                print("exception while attempting to convert pfobjects to tasks")
+            }
             tasks.append(task)
         }
         return tasks

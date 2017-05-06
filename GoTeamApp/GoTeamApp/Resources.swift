@@ -15,6 +15,7 @@ class Resources {
             static let kExclamation = "exclamation.png"
             static let kListIcon = "list_icon.png"
             static let kRecurringIcon = "recurring_icon.png"
+            static let kLocationIcon = "pin.png"
             static let kCalendarIcon = "calendar_icon.png"
             static let kAddIcon = "plus_icon.png"
         }

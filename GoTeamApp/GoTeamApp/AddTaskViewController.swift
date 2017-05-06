@@ -110,6 +110,8 @@ class AddTaskViewController: UIViewController {
         // 8. recurrence
         setupRecurrenceButton()
         
+        // 9. locations
+        setupLocationButton()
         
         tableStateToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
@@ -122,6 +124,8 @@ class AddTaskViewController: UIViewController {
         locationButton.isHighlighted = false
         let locationTapGR = UITapGestureRecognizer(target: self, action: #selector(locationButtonTapped(sender:)))
         locationButton.addGestureRecognizer(locationTapGR)
+        self.locationsMsg = Resources.Strings.AddTasks.kLoadingLocations
+        fetchLocations()
     }
     
     func setupRecurrenceButton() {
@@ -136,13 +140,15 @@ class AddTaskViewController: UIViewController {
         listButton.isHighlighted = false
         let listTapGR = UITapGestureRecognizer(target: self, action: #selector(labelButtonTapped))
         listButton.addGestureRecognizer(listTapGR)
-        
+        self.labelsMsg = Resources.Strings.AddTasks.kLoadingLabels
         fetchLabels()
     }
     
     func fetchLocations() {
         locationManager.allLocations(fetch: true, success: { (locations) in
-    
+            if self.tableState == .location {
+                self.tableView.reloadData()
+            }
         }) { (error) in
             self.locationsMsg = Resources.Strings.AddTasks.kFailedLoadingLabels
         }
@@ -265,6 +271,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return 2
         case .recurrence:
             return 1
+        case .location:
+            return 1
         default:
             return 0
         }
@@ -280,6 +288,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return section == 0 ? labels?.count ?? 1 : 1
         case .recurrence:
             return recurrenceArray.count
+        case .location:
+            return locations?.count ?? 1
         default:
             return 0
         }
@@ -348,6 +358,15 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func locationCell(indexPath : IndexPath) -> AddTaskCell {
+        
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
+        cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kLocationIcon)
+        cell.primayTextLabel.text = SelectedLocationsManager.sharedInstance.locations[indexPath.row].title
+        cell.secondaryTextLabel.text = ""
+        return cell
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch tableState {
@@ -359,6 +378,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return labelCell(indexPath: indexPath)
         case .recurrence:
             return recurrenceCell(indexPath: indexPath)
+        case .location:
+            return locationCell(indexPath: indexPath)
         default:
             return UITableViewCell()
         }
@@ -416,8 +437,12 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             appendToTextView(string: labelName)
         }
     }
-    
- 
+
+    func handleLocationSelected(_ indexPath : IndexPath) {
+        if let locationName = SelectedLocationsManager.sharedInstance.locations[indexPath.row].title {
+            appendToTextView(string: locationName)
+        }
+    }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch tableState {
@@ -429,6 +454,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             handleLabelSelected(indexPath)
         case .recurrence:
             handleRecurrenceSelected(indexPath)
+        case .location:
+            handleLocationSelected(indexPath)
         default:
             break
         }
@@ -465,8 +492,37 @@ extension AddTaskViewController : UITextViewDelegate {
         
         // 6. recurrence button
         setRecurrenceButtonState()
+        
+        // 7. location button
+        setLocationButtonState()
     }
     
+    func setLocationButtonState() {
+        locationButton.isHighlighted = false
+        locationButton.isUserInteractionEnabled = true
+        for ix in 0..<SelectedLocationsManager.sharedInstance.locations.count {
+            let location = SelectedLocationsManager.sharedInstance.locations[ix]
+            let testString = TaskSpecialCharacter.location.stringValue() + location.title!
+            if textView.text.contains(testString) {
+                locationButton.isHighlighted = true
+                locationButton.isUserInteractionEnabled = false
+                if task.taskLocation == nil {
+                    
+                    task.taskLocation = location
+                    task.taskLabelSubrange = textView.text.range(of: testString)
+                    attributeTextView(pattern: testString, options: .caseInsensitive,
+                                      fgColor: UIColor.white, bgColor: UIColor.gray)
+                }
+                
+                break
+            }
+        }
+        
+        if repeatButton.isUserInteractionEnabled == true {
+            task.taskRecurrence = nil
+            task.taskRecurrenceSubrange = nil
+        }
+    }
     
     func setRecurrenceButtonState() {
         

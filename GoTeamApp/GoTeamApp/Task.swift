@@ -11,6 +11,8 @@ import Foundation
 
 class Task : ListItem {
     
+    static let kTaskClass = "TasksClassV4"
+    
     var taskID : Date?
     var taskName : String?
     var taskDate : Date?
@@ -20,7 +22,7 @@ class Task : ListItem {
     var taskPriority : Int?
     var taskLabel : String?
     var taskSocialContact : String?
-    var taskLocation : String?
+    var taskLocation : Location?
     
     
     // sub ranges
@@ -28,6 +30,7 @@ class Task : ListItem {
     var taskDateSubrange : Range<String.Index>?
     var taskLabelSubrange : Range<String.Index>?
     var taskRecurrenceSubrange : Range<String.Index>?
+    var taskLocationSubrange : Range<String.Index>?
     
     init() {
         taskID = Date()

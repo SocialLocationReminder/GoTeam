@@ -119,6 +119,9 @@ class TasksViewController: UIViewController {
         if let taskRecurrenceSubrange = task.taskRecurrenceSubrange {
             ranges.append(taskRecurrenceSubrange)
         }
+        if let taskLocationSubrange = task.taskLocationSubrange {
+            ranges.append(taskLocationSubrange)
+        }
         ranges.sort() { $0.lowerBound > $1.lowerBound }
         for range in ranges {
             task.taskName?.removeSubrange(range)
@@ -175,7 +178,9 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
         let localTasks = tasksList()
         if localTasks![indexPath.row].taskPriority != nil ||
             localTasks![indexPath.row].taskRecurrence != nil ||
-            localTasks![indexPath.row].taskLabel != nil {
+            localTasks![indexPath.row].taskLabel != nil ||
+            localTasks![indexPath.row].taskLocation != nil {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: kTaskWithAnnotationsCell) as! TaskWithAnnotationsCell
             cell.task = localTasks![indexPath.row]
             cell.delegate = self
