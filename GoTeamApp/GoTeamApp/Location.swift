@@ -11,21 +11,23 @@ import MapKit
 
 class Location: NSObject, MKAnnotation {
   
-    
-    static let kLocationsClass = "LocationsClassV2"
-    static let kLocationID = "locationID"
-    static let kLocationTitle = "locationTitle"
-    static let kLocationSubtitle = "locationSubtitle"
-    static let kLocationLatitude = "locationLatitude"
-    static let kLocationLongitude = "locationLongitude"
-
-    
+  
+  static let kLocationsClass = "LocationsClassV2"
+  static let kLocationID = "locationID"
+  static let kLocationTitle = "locationTitle"
+  static let kLocationSubtitle = "locationSubtitle"
+  static let kLocationLatitude = "locationLatitude"
+  static let kLocationLongitude = "locationLongitude"
+  
+  
   override init() {
+    super.init()
     locationID = Date()
   }
   
   init(placemark: MKPlacemark) {
-    locationID = Date()
+    super.init()
+    locationID =  Date()
     title = placemark.name
     if let locality = placemark.locality,
       let administrativeArea = placemark.administrativeArea {
@@ -43,7 +45,11 @@ class Location: NSObject, MKAnnotation {
   
   var coordinate: CLLocationCoordinate2D {
     get {
-      return CLLocationCoordinate2DMake(latitude!, longitude!)
+      if let latitude = latitude, let longitude = longitude {
+        return CLLocationCoordinate2DMake(latitude, longitude)
+      } else {
+        return CLLocationCoordinate2DMake(0, 0)
+      }
     }
     set {
       latitude = newValue.latitude
