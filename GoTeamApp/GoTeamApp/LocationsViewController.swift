@@ -10,6 +10,11 @@ import UIKit
 import MapKit
 import MBProgressHUD
 
+enum AlertType {
+  case addLocation
+  case editLocation
+}
+
 protocol MapSearch {
   func createNewLocation(location: Location)
 }
@@ -21,17 +26,15 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   @IBOutlet weak var barButton: UIBarButtonItem!
   @IBOutlet weak var addButton: UIButton!
   
-  //var locations = [Location]()
-    let selectedLocationsManager = SelectedLocationsManager.sharedInstance
-  
+  let selectedLocationsManager = SelectedLocationsManager.sharedInstance
   var selectedLocationIndex: Int?
   
   let locationManager = CLLocationManager()
   var resultSearchController: UISearchController?
+  var showAlertInfo = true
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     
     mapView.delegate = self
     tableView.delegate = self
@@ -66,92 +69,96 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     // fetch locations
     fetchLocations()
   }
-    
-    func fetchLocations() {
-        let hud = MBProgressHUD.showAdded(to: self.tableView, animated: true)
-        selectedLocationsManager.allLocations(fetch: true, success: { (locations) in
-            hud.hide(animated: true)
-            self.tableView.reloadData()
-            }) { (error) in
-                hud.hide(animated: true)
-                print(error)
-                // @todo: show error alert
-        }
+  
+  func fetchLocations() {
+    let hud = MBProgressHUD.showAdded(to: self.tableView, animated: true)
+    selectedLocationsManager.allLocations(fetch: true, success: { (locations) in
+      hud.hide(animated: true)
+      // refresh the locations list and show location on the Map
+      self.tableView.reloadData()
+      self.mapView.addAnnotations(self.selectedLocationsManager.locations)
+      self.mapView.showAnnotations(self.selectedLocationsManager.locations, animated: true)
+    }) { (error) in
+      hud.hide(animated: true)
+      print(error)
+      // @todo: show error alert
     }
+  }
   
   func setupAddButton() {
     addButton.layer.cornerRadius = 48.0 / 2.0
     addButton.clipsToBounds = true
   }
   
+  func flipViews(fromView from: UIView, toView to: UIView, completion: ((Bool) -> Void)?) {
+    let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
+    UIView.transition(from: from, to: to, duration: 0.5, options: transitionParams, completion: completion)
+    if barButton.title == "List" {
+      barButton.title = "Map"
+      addButton.isHidden = false
+    } else {
+      barButton.title = "List"
+      addButton.isHidden = true
+    }
+  }
+  
   @IBAction func addButtonTapped(_ sender: UIButton) {
     
-    let alert = UIAlertController(title: "Add Location", message: "Search for a place or address. Alternatively, tap and hold on the map to drop a pin.", preferredStyle: UIAlertControllerStyle.alert)
+    let alert = UIAlertController(title: nil, message: "Add New Location\nSearch for a place or address to find a location.\nOr tap and hold on the map to drop a location pin.", preferredStyle: UIAlertControllerStyle.actionSheet)
     alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.default, handler: nil))
     
-    let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
-    UIView.transition(from: self.tableView,
-                      to: self.mapView,
-                      duration: 0.5,
-                      options: transitionParams,
-                      completion: { (true) in
-                        self.present(alert, animated: true, completion: nil)
-    })
-    self.barButton.title = "List"
-    self.addButton.isHidden = true
+    // show Alert Info only once when showAlertInfo == true
+    var completion: ((Bool) -> Void)? = nil
+    if showAlertInfo {
+      completion = { (true) in self.present(alert, animated: true, completion: nil) }
+      showAlertInfo = false
+    }
+    flipViews(fromView: self.tableView, toView: self.mapView, completion: completion)
   }
   
   @IBAction func listBarButtonTapped(_ sender: UIBarButtonItem) {
-    
     if sender.title == "List" {
-      let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromRight, .showHideTransitionViews]
-      UIView.transition(from: self.mapView,
-                        to: self.tableView,
-                        duration: 0.5,
-                        options: transitionParams,
-                        completion: nil)
-      self.barButton.title = "Map"
+      flipViews(fromView: self.mapView, toView: self.tableView, completion: nil)
       for annotation in mapView.selectedAnnotations {
         mapView.deselectAnnotation(annotation, animated: false)
       }
-      addButton.isHidden = false
       tableView.reloadData()
     } else {
-      let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
-      UIView.transition(from: self.tableView,
-                        to: self.mapView,
-                        duration: 0.5,
-                        options: transitionParams,
-                        completion: nil)
-      self.barButton.title = "List"
-      self.addButton.isHidden = true
+      flipViews(fromView: self.tableView, toView: self.mapView, completion:
+        { (success) in
+          self.mapView.showAnnotations(self.selectedLocationsManager.locations, animated: true)})
     }
   }
   
-  // MARK: - Navigation
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
-    if segue.identifier == "EditLocation" {
-      
-      let viewController = segue.destination as? EditLocationViewController
-      let annotationView = sender as? MKAnnotationView
-      let location = annotationView?.annotation as? Location
-      viewController?.location = location
-      if let popoverController = viewController?.popoverPresentationController {
-        popoverController.delegate = self
-        popoverController.sourceRect = annotationView!.frame
-      }
-    }
-  }
+//  // MARK: - Navigation
+//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//    
+//    if segue.identifier == "EditLocation" {
+//      
+//      let viewController = segue.destination as? EditLocationViewController
+//      let annotationView = sender as? MKAnnotationView
+//      let location = annotationView?.annotation as? Location
+//      viewController?.location = location
+//      if let popoverController = viewController?.popoverPresentationController {
+//        popoverController.delegate = self
+//        popoverController.sourceRect = annotationView!.frame
+//      }
+//    }
+//  }
   
-  func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-    return .none
-  }
+//  func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+//    return .none
+//  }
   
   // unwind action for the unwindsegue
   @IBAction func updatedPinDescription(segue: UIStoryboardSegue) {
     if let updatedPin = (segue.source as? EditLocationViewController)?.location {
       mapView.selectAnnotation(updatedPin, animated: true)
+      
+      print("UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE ")
+      print("SELECTED PIN TITLE= \(updatedPin.title ?? "")")
+      print("SELECTED PIN ID= \(updatedPin.locationID!)")
+      
       // update locations dictionary with new values
       if let index = selectedLocationIndex {
         let location = selectedLocationsManager.locations[index]
@@ -193,29 +200,41 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     mapView.setRegion(region, animated: true)
     mapView.selectAnnotation(location, animated: true)
     
-    showAlert(toAddLocation: location)
+    showAlert(type: .addLocation, location: location)
   }
   
-  func showAlert(toAddLocation location: Location) {
+  func showAlert(type: AlertType, location: Location) {
     
     let alertController = MapAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
     
     alertController.location = location
+    let alertAction: UIAlertAction
     
-    let somethingAction = UIAlertAction(title: "Add Location", style: .default, handler: {(alert: UIAlertAction!) in
-      print("add to locations list")
-      //add to locations list
-      self.selectedLocationsManager.add(location: location)
-      self.tableView.reloadData()
-      //self.locations.append(location)
-      self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1 //self.locations.count - 1
-    })
+    switch type {
+    case .addLocation :
+      alertAction = UIAlertAction(title: "Add Location", style: .default, handler: {(alert: UIAlertAction!) in
+        self.selectedLocationsManager.add(location: location)
+        self.tableView.reloadData()
+        self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1
+        self.mapView.deselectAnnotation(location, animated: true)
+        self.flipViews(fromView: self.mapView, toView: self.tableView, completion: nil)
+      })
+    case .editLocation :
+      alertAction = UIAlertAction(title: "Update Location", style: .default, handler: {(alert: UIAlertAction!) in
+        self.selectedLocationsManager.add(location: location)
+        self.tableView.reloadData()
+        self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1
+        self.mapView.deselectAnnotation(location, animated: true)
+      })
+    }
     
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) in
       print("cancel")
+      self.mapView.removeAnnotation(location)
+      self.flipViews(fromView: self.mapView, toView: self.tableView, completion: nil)
     })
     
-    alertController.addAction(somethingAction)
+    alertController.addAction(alertAction)
     alertController.addAction(cancelAction)
     
     DispatchQueue.main.async {
@@ -246,8 +265,15 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
     if control == view.rightCalloutAccessoryView {
       mapView.deselectAnnotation(view.annotation, animated: true)
-      performSegue(withIdentifier: "EditLocation", sender: view)
       
+      //performSegue(withIdentifier: "EditLocation", sender: view)
+      
+      if let location = view.annotation as? Location {
+        print("SELECTED PIN TITLE= \(location.title ?? "")")
+        print("SELECTED PIN ID= \(location.locationID!)")
+        
+        showAlert(type: .editLocation, location: location)
+      }
     }
   }
   
@@ -267,20 +293,18 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     let location = selectedLocationsManager.locations[indexPath.row] //Array(locations.values)[indexPath.row]
     selectedLocationIndex = indexPath.row
     
-    barButton.title = "List"
     let span = MKCoordinateSpanMake(0.05, 0.05)
     let region = MKCoordinateRegionMake(location.coordinate, span)
     mapView.setRegion(region, animated: true)
     
-    let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
-    UIView.transition(from: self.tableView,
-                      to: self.mapView,
-                      duration: 0.5,
-                      options: transitionParams,
-                      completion: { (success) in if success {
-                        self.mapView.addAnnotation(location)
-                        self.mapView.selectAnnotation(location, animated: true)
-                        }
-    })
+    print("SELECTED LOCATION NAME = \(location.title!)")
+    print("COORDINATE = \(String(describing: location.coordinate))")
+    
+    flipViews(fromView: self.tableView, toView: self.mapView) { (success) in
+      if success {
+        self.mapView.addAnnotation(location)
+        self.mapView.selectAnnotation(location, animated: true)
+      }
+    }
   }
 }
