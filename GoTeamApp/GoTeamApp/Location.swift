@@ -11,6 +11,15 @@ import MapKit
 
 class Location: NSObject, MKAnnotation {
   
+    
+    static let kLocationsClass = "LocationsClassV2"
+    static let kLocationID = "locationID"
+    static let kLocationTitle = "locationTitle"
+    static let kLocationSubtitle = "locationSubtitle"
+    static let kLocationLatitude = "locationLatitude"
+    static let kLocationLongitude = "locationLongitude"
+
+    
   override init() {
     locationID = Date()
   }

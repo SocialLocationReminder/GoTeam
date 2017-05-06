@@ -52,7 +52,9 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         }
         
         if let taskLocation = task.taskLocation {
-            parseTask[kTaskLocation] =  LocationDataStoreService.parseObject(location: taskLocation)
+            if let pfObject = LocationDataStoreService.parseObject(location: taskLocation) {
+                parseTask[kTaskLocation] =  pfObject
+            }
         }
         
         parseTask.saveInBackground { (success, error) in

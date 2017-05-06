@@ -71,7 +71,6 @@ class AddTaskViewController: UIViewController {
     let labelManager = LabelManager.sharedInstance
     var labels : [Labels]?
     let locationManager = SelectedLocationsManager.sharedInstance
-    var locations : [Location]?
 
     
     // MARK: - init/load related
@@ -289,7 +288,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         case .recurrence:
             return recurrenceArray.count
         case .location:
-            return locations?.count ?? 1
+            return SelectedLocationsManager.sharedInstance.locations.count ?? 1
         default:
             return 0
         }
