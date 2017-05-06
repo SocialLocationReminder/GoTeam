@@ -15,6 +15,8 @@ class SelectedLocationsManager {
   
   let queue = DispatchQueue(label: "SelectedLocationsManagerQueue")
   
+  static let sharedInstance = SelectedLocationsManager()
+    
   func add(location : Location) {
     queue.async {
       self.locations.append(location)
