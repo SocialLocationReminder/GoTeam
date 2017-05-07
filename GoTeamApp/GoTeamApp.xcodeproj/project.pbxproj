@@ -13,6 +13,10 @@
 		615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78121EB69EDC006F59D8 /* LabelManager.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */; };
+		E2C9E12F1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E12E1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift */; };
+		E2C9E1311EBF10D700BBD78C /* ContactDataStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1301EBF10D700BBD78C /* ContactDataStoreService.swift */; };
+		E2C9E1331EBF13D000BBD78C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1321EBF13D000BBD78C /* User.swift */; };
+		E2C9E1361EBF166700BBD78C /* DataStoreServiceErrorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1351EBF166700BBD78C /* DataStoreServiceErrorCodes.swift */; };
 		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
 		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
 		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
@@ -39,7 +43,6 @@
 		E2FEDA271EBD09460020E3C0 /* LocationDataStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA261EBD09460020E3C0 /* LocationDataStoreProtocol.swift */; };
 		E2FEDA291EBD094E0020E3C0 /* LocationDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA281EBD094E0020E3C0 /* LocationDataStore.swift */; };
 		E2FEDA2C1EBD30840020E3C0 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA2B1EBD30840020E3C0 /* Resources.swift */; };
-		E2FEDA2F1EBD558D0020E3C0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA2E1EBD558D0020E3C0 /* User.swift */; };
 		E2FEDA321EBEC27C0020E3C0 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA311EBEC27C0020E3C0 /* ContactsViewController.swift */; };
 		F44B85701EBC92B200FF489A /* SelectedLocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B856F1EBC92B200FF489A /* SelectedLocationsManager.swift */; };
 		F44B85721EBC9EDA00FF489A /* MapAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B85711EBC9EDA00FF489A /* MapAlertController.swift */; };
@@ -60,6 +63,10 @@
 		615B78101EB68661006F59D8 /* AddLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLabelViewController.swift; sourceTree = "<group>"; };
 		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
 		E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		E2C9E12E1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDataStoreServiceProtocol.swift; sourceTree = "<group>"; };
+		E2C9E1301EBF10D700BBD78C /* ContactDataStoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDataStoreService.swift; sourceTree = "<group>"; };
+		E2C9E1321EBF13D000BBD78C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E2C9E1351EBF166700BBD78C /* DataStoreServiceErrorCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreServiceErrorCodes.swift; sourceTree = "<group>"; };
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -88,7 +95,6 @@
 		E2FEDA261EBD09460020E3C0 /* LocationDataStoreProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDataStoreProtocol.swift; sourceTree = "<group>"; };
 		E2FEDA281EBD094E0020E3C0 /* LocationDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationDataStore.swift; sourceTree = "<group>"; };
 		E2FEDA2B1EBD30840020E3C0 /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
-		E2FEDA2E1EBD558D0020E3C0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E2FEDA311EBEC27C0020E3C0 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoTeamApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44B856F1EBC92B200FF489A /* SelectedLocationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedLocationsManager.swift; sourceTree = "<group>"; };
@@ -139,6 +145,23 @@
 				3C6BE0CBCD5FCF1ED8A0BBDA /* Pods-GoTeamApp.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		E2C9E12D1EBF0F8D00BBD78C /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				E2C9E12E1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift */,
+				E2C9E1301EBF10D700BBD78C /* ContactDataStoreService.swift */,
+			);
+			name = Contact;
+			sourceTree = "<group>";
+		};
+		E2C9E1341EBF165000BBD78C /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				E2C9E1351EBF166700BBD78C /* DataStoreServiceErrorCodes.swift */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 		E2EE10AD1EBAE34B00D9835A /* Calendar */ = {
@@ -213,6 +236,8 @@
 		E2F1C9A21EB1B4C30034E0A7 /* Service Layer */ = {
 			isa = PBXGroup;
 			children = (
+				E2C9E1341EBF165000BBD78C /* Common */,
+				E2C9E12D1EBF0F8D00BBD78C /* Contact */,
 				E2FEDA2D1EBD55870020E3C0 /* User */,
 				E2FEDA211EBD087D0020E3C0 /* Locations */,
 				E2FEDA201EBD08680020E3C0 /* Labels */,
@@ -301,7 +326,7 @@
 		E2FEDA2D1EBD55870020E3C0 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				E2FEDA2E1EBD558D0020E3C0 /* User.swift */,
+				E2C9E1321EBF13D000BBD78C /* User.swift */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -454,6 +479,7 @@
 				E2FEDA1F1EBD07BC0020E3C0 /* TaskDataStoreService.swift in Sources */,
 				615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */,
 				F44B85761EBC9F6500FF489A /* MapAlertView.swift in Sources */,
+				E2C9E1311EBF10D700BBD78C /* ContactDataStoreService.swift in Sources */,
 				E2FEDA1C1EBD079E0020E3C0 /* TaskDataStoreServiceProtocol.swift in Sources */,
 				E2F1C9B01EB432DE0034E0A7 /* TaskManager.swift in Sources */,
 				E2F1C9AE1EB1D7AA0034E0A7 /* AddTaskCell.swift in Sources */,
@@ -471,21 +497,23 @@
 				615B780D1EB64FBB006F59D8 /* LabelTableViewCell.swift in Sources */,
 				E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */,
 				E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */,
+				E2C9E12F1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift in Sources */,
 				E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */,
 				E2FEDA321EBEC27C0020E3C0 /* ContactsViewController.swift in Sources */,
 				F4635EA41EB62776008BDD0B /* EditLocationViewController.swift in Sources */,
 				E2FEDA251EBD08A10020E3C0 /* LabelDataStore.swift in Sources */,
 				E2FEDA231EBD08950020E3C0 /* LabelDataStoreProtocol.swift in Sources */,
 				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,
+				E2C9E1331EBF13D000BBD78C /* User.swift in Sources */,
 				E2FEDA291EBD094E0020E3C0 /* LocationDataStore.swift in Sources */,
 				E2FEDA2C1EBD30840020E3C0 /* Resources.swift in Sources */,
 				E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */,
+				E2C9E1361EBF166700BBD78C /* DataStoreServiceErrorCodes.swift in Sources */,
 				E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */,
 				F4635EA51EB62776008BDD0B /* LocationCell.swift in Sources */,
 				E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */,
 				F4635EA31EB62776008BDD0B /* LocationSearchTable.swift in Sources */,
 				E2FEDA271EBD09460020E3C0 /* LocationDataStoreProtocol.swift in Sources */,
-				E2FEDA2F1EBD558D0020E3C0 /* User.swift in Sources */,
 				E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */,
 				E2F1C9A71EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift in Sources */,
 				E2F1C9AC1EB1BEEB0034E0A7 /* AddTaskViewController.swift in Sources */,

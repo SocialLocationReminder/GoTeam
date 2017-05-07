@@ -11,9 +11,17 @@ import APAddressBook
 
 
 class Contact {
+    
     static let kContactClass = "ContactClassV1"
     
-    var contactID : Date?
+    static let kContactID = "kContactID"
+    static let kFullName  = "kFullName"
+    static let kFirstName = "kFirstName"
+    static let kLastName  = "kLastName"
+    static let kPhone     = "kPhone"
+    static let kEmail     = "kEmail"
+    
+    var contactID : String?
     var fullName : String?
     var firstName : String?
     var lastName : String?

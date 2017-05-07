@@ -40,5 +40,10 @@ class Resources {
             static let kAddTaskNavItem = "Add Task"
             static let kNavigationBarTitle = "Contacts"
         }
+        
+        
+        class DataStoreService {
+            static let kUnknownError = "Unknown Error"
+        }
     }
 }

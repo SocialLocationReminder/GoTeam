@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  DataStoreServiceErrorCodes.swift
 //  GoTeamApp
 //
 //  Created by Akshay Bhandary on 5/7/17.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-class User {
-    static let kUserName = "kUserName"
+enum DataStoreServiceErrorCodes : Int {
+    case unknown = -1
 }
