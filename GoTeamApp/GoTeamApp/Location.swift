@@ -12,7 +12,7 @@ import MapKit
 class Location: NSObject, MKAnnotation {
   
   
-  static let kLocationsClass = "LocationsClassV2"
+  static let kLocationsClass = "LocationsClassV3"
   static let kLocationID = "locationID"
   static let kLocationTitle = "locationTitle"
   static let kLocationSubtitle = "locationSubtitle"
@@ -22,12 +22,12 @@ class Location: NSObject, MKAnnotation {
   
   override init() {
     super.init()
-    locationID = Date()
+    locationID = String(describing: coordinate)
   }
   
   init(placemark: MKPlacemark) {
     super.init()
-    locationID =  Date()
+    locationID = String(describing: coordinate)
     title = placemark.name
     if let locality = placemark.locality,
       let administrativeArea = placemark.administrativeArea {
@@ -37,7 +37,7 @@ class Location: NSObject, MKAnnotation {
     longitude = placemark.coordinate.longitude
   }
   
-  var locationID: Date?
+  var locationID: String?
   var title: String?
   var subtitle: String?
   var latitude: Double?
