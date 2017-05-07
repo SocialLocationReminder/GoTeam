@@ -30,10 +30,10 @@ class AddTaskViewController: UIViewController {
     let kPriorityMedium = "!2"
     let kPriorityLow = "!3"
     
-    
     var labelsMsg     : String!
     var locationsMsg  : String!
     
+    // --- outlets ---
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var dateButton: UIImageView!
@@ -48,8 +48,11 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var task : Task!
-    var tableState : TableState = .none
     
+    
+    // --- table view related ---
+    var tableState : TableState = .none
+    var tableFilter : String?
     var tableStateToCharacterMap : [TableState : TaskSpecialCharacter] =
         [
             TableState.priority : TaskSpecialCharacter.priority,
@@ -59,6 +62,7 @@ class AddTaskViewController: UIViewController {
             TableState.location : TaskSpecialCharacter.location
         ]
 
+    
     // constructed by swapping the keys and values of the above map
     var specialCharacterToTableStateMap = [TaskSpecialCharacter : TableState]()
 
@@ -67,7 +71,10 @@ class AddTaskViewController: UIViewController {
     var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
     let recurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
     
-    // application layer
+    
+
+    
+    // --- application layer ---
     let labelManager = LabelManager.sharedInstance
     var labels : [Labels]?
     let locationManager = SelectedLocationsManager.sharedInstance
@@ -199,27 +206,27 @@ class AddTaskViewController: UIViewController {
 
     // MARK: - Gesture Recognizer handlers
     func dateButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .dueDate, char : TaskSpecialCharacter.dueDate.rawValue)
+        showTable(state: .dueDate, char : TaskSpecialCharacter.dueDate.rawValue)
     }
 
     
     func priorityButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .priority, char : TaskSpecialCharacter.priority.rawValue)
+        showTable(state: .priority, char : TaskSpecialCharacter.priority.rawValue)
     }
     
     func labelButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .label, char : TaskSpecialCharacter.label.rawValue)
+        showTable(state: .label, char : TaskSpecialCharacter.label.rawValue)
     }
     
     func repeatButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .recurrence, char: TaskSpecialCharacter.recurrence.rawValue)
+        showTable(state: .recurrence, char: TaskSpecialCharacter.recurrence.rawValue)
     }
 
     func locationButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .location, char: TaskSpecialCharacter.location.rawValue)
+        showTable(state: .location, char: TaskSpecialCharacter.location.rawValue)
     }
     
-    func handleButtonTapped(state: TableState, char : Character) {
+    func showTable(state: TableState, char : Character) {
         
         let text = textView.text
         let textArray = Array(text!.characters)
@@ -288,7 +295,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         case .recurrence:
             return recurrenceArray.count
         case .location:
-            return SelectedLocationsManager.sharedInstance.locations.count ?? 1
+            return locations().count
         default:
             return 0
         }
@@ -361,7 +368,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
         cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kLocationIcon)
-        cell.primayTextLabel.text = SelectedLocationsManager.sharedInstance.locations[indexPath.row].title
+        cell.primayTextLabel.text = locations()[indexPath.row].title
         cell.secondaryTextLabel.text = ""
         return cell
     }
@@ -383,6 +390,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
     }
+    
     
     // MARK: - selected row in table view
     
@@ -438,7 +446,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func handleLocationSelected(_ indexPath : IndexPath) {
-        if let locationName = SelectedLocationsManager.sharedInstance.locations[indexPath.row].title {
+        if let locationName = locations()[indexPath.row].title {
             appendToTextView(string: locationName)
         }
     }
@@ -464,6 +472,31 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         maskView.isHidden = false
     }
     
+    
+    func locations() -> [Location] {
+        if let tableFilter = tableFilter {
+            
+            if tableFilter.characters.count == 0 {
+                return locationManager.locations;
+            }
+            
+            var filteredLocations = [Location]();
+            
+            for location in locationManager.locations {
+                
+                if let locationName = location.title {
+                    
+                    let locationRange = locationName.range(of: tableFilter, options: .caseInsensitive, range: nil, locale: nil)
+                    
+                    if locationRange?.isEmpty == false {
+                        filteredLocations.append(location);
+                    }
+                }
+            }
+            return filteredLocations
+        }
+        return locationManager.locations
+    }
 }
 
 // MARK: - UITextViewDelegate
@@ -499,8 +532,8 @@ extension AddTaskViewController : UITextViewDelegate {
     func setLocationButtonState() {
         locationButton.isHighlighted = false
         locationButton.isUserInteractionEnabled = true
-        for ix in 0..<SelectedLocationsManager.sharedInstance.locations.count {
-            let location = SelectedLocationsManager.sharedInstance.locations[ix]
+        for ix in 0..<locations().count {
+            let location = locations()[ix]
             let testString = TaskSpecialCharacter.location.stringValue() + location.title!
             if textView.text.contains(testString) {
                 locationButton.isHighlighted = true
@@ -512,7 +545,6 @@ extension AddTaskViewController : UITextViewDelegate {
                     attributeTextView(pattern: testString, options: .caseInsensitive,
                                       fgColor: UIColor.white, bgColor: UIColor.gray)
                 }
-                
                 break
             }
         }
@@ -664,7 +696,7 @@ extension AddTaskViewController : UITextViewDelegate {
     }
     
     func setTableViewState(_ textArray : [Character]) {
-        
+
         // 1. handle hide scenarios
         var hideTableView = textArray.count == 0 || tableState == .none
         if textArray.count > 0,
@@ -676,7 +708,7 @@ extension AddTaskViewController : UITextViewDelegate {
             self.tableView.isHidden = true
             self.maskView.isHidden = false
             tableState = .none
-            view.setNeedsDisplay()
+            self.tableView.reloadData()
         }
 
         // 2. handle unhide scenarios
@@ -684,8 +716,8 @@ extension AddTaskViewController : UITextViewDelegate {
             
             if let specialChar = TaskSpecialCharacter(rawValue: textArray[textArray.count - 1]),
                 let state = specialCharacterToTableStateMap[specialChar] {
-                 tableState = state
-                handleButtonTapped(state: state, char: specialChar.rawValue)
+                    tableState = state
+                    showTable(state: state, char: specialChar.rawValue)
             }
         }
     }
