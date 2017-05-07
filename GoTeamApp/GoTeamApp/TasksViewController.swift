@@ -122,6 +122,11 @@ class TasksViewController: UIViewController {
         if let taskLocationSubrange = task.taskLocationSubrange {
             ranges.append(taskLocationSubrange)
         }
+        if let taskContactsSubranges = task.taskContactsSubranges {
+            for contactSubrange in taskContactsSubranges {
+                ranges.append(contactSubrange)
+            }
+        }
         ranges.sort() { $0.lowerBound > $1.lowerBound }
         for range in ranges {
             task.taskName?.removeSubrange(range)

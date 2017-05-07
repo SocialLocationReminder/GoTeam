@@ -18,6 +18,7 @@ class Resources {
             static let kLocationIcon = "pin.png"
             static let kCalendarIcon = "calendar_icon.png"
             static let kAddIcon = "plus_icon.png"
+            static let kPawnIcon = "pawn_icon.png"
         }
     }
     
@@ -32,6 +33,17 @@ class Resources {
             static let kFailedLoadingLabels = "Loading Labels Failed"
             static let kLoadingLocations = "Loading Locations..."
             static let kFailedLoadingLocations = "Loading Locations Failed"
+            static let kSelectContacts = "Select"
+        }
+        
+        class Contacts {
+            static let kAddTaskNavItem = "Add Task"
+            static let kNavigationBarTitle = "Contacts"
+        }
+        
+        
+        class DataStoreService {
+            static let kUnknownError = "Unknown Error"
         }
     }
 }

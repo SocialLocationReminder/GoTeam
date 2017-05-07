@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KBContactsSelection
 
 
 enum TableState {
@@ -17,6 +18,7 @@ enum TableState {
     case label
     case recurrence
     case location
+    case contact
 }
 
 class AddTaskViewController: UIViewController {
@@ -30,10 +32,10 @@ class AddTaskViewController: UIViewController {
     let kPriorityMedium = "!2"
     let kPriorityLow = "!3"
     
-    
     var labelsMsg     : String!
     var locationsMsg  : String!
     
+    // --- outlets ---
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var maskView: UIView!
     @IBOutlet weak var dateButton: UIImageView!
@@ -48,17 +50,22 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var task : Task!
-    var tableState : TableState = .none
     
+    
+    // --- table view related ---
+    var tableState : TableState = .none
+    var tableFilter : String?
     var tableStateToCharacterMap : [TableState : TaskSpecialCharacter] =
         [
             TableState.priority : TaskSpecialCharacter.priority,
             TableState.label : TaskSpecialCharacter.label,
             TableState.dueDate : TaskSpecialCharacter.dueDate,
             TableState.recurrence : TaskSpecialCharacter.recurrence,
-            TableState.location : TaskSpecialCharacter.location
+            TableState.location : TaskSpecialCharacter.location,
+           // TableState.contact : TaskSpecialCharacter.contact - exception, doesn't use the table view for now
         ]
 
+    
     // constructed by swapping the keys and values of the above map
     var specialCharacterToTableStateMap = [TaskSpecialCharacter : TableState]()
 
@@ -67,11 +74,15 @@ class AddTaskViewController: UIViewController {
     var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
     let recurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
     
-    // application layer
+    
+    // contacts
+    var kbContactsController : KBContactsSelectionViewController! 
+    
+    // --- application layer ---
     let labelManager = LabelManager.sharedInstance
     var labels : [Labels]?
     let locationManager = SelectedLocationsManager.sharedInstance
-
+    let contactManager = ContactManager.sharedInstance
     
     // MARK: - init/load related
     override func viewDidLoad() {
@@ -112,11 +123,23 @@ class AddTaskViewController: UIViewController {
         // 9. locations
         setupLocationButton()
         
+        // 10. contacts
+        setupContactButton()
+        setupKBContactsController()
+        
         tableStateToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
         }
     }
     
+    
+    func setupContactButton() {
+        contactButton.isUserInteractionEnabled = true
+        contactButton.isHighlighted = false
+        let contactTapGR = UITapGestureRecognizer(target: self, action: #selector(contactButtonTapped(sender:)))
+        contactButton.addGestureRecognizer(contactTapGR)
+        
+    }
     
     func setupLocationButton() {
         locationButton.isUserInteractionEnabled = true
@@ -199,27 +222,31 @@ class AddTaskViewController: UIViewController {
 
     // MARK: - Gesture Recognizer handlers
     func dateButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .dueDate, char : TaskSpecialCharacter.dueDate.rawValue)
+        showTable(state: .dueDate, char : TaskSpecialCharacter.dueDate.rawValue)
     }
 
     
     func priorityButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .priority, char : TaskSpecialCharacter.priority.rawValue)
+        showTable(state: .priority, char : TaskSpecialCharacter.priority.rawValue)
     }
     
     func labelButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .label, char : TaskSpecialCharacter.label.rawValue)
+        showTable(state: .label, char : TaskSpecialCharacter.label.rawValue)
     }
     
     func repeatButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .recurrence, char: TaskSpecialCharacter.recurrence.rawValue)
+        showTable(state: .recurrence, char: TaskSpecialCharacter.recurrence.rawValue)
     }
 
     func locationButtonTapped(sender : UITapGestureRecognizer) {
-        handleButtonTapped(state: .location, char: TaskSpecialCharacter.location.rawValue)
+        showTable(state: .location, char: TaskSpecialCharacter.location.rawValue)
     }
     
-    func handleButtonTapped(state: TableState, char : Character) {
+    func contactButtonTapped(sender : UITapGestureRecognizer) {
+        showKBContactsController()
+    }
+    
+    func showTable(state: TableState, char : Character) {
         
         let text = textView.text
         let textArray = Array(text!.characters)
@@ -257,6 +284,7 @@ class AddTaskViewController: UIViewController {
 }
 
 
+
 //MARK: - UITableViewDelegate, UITableViewDataSource
 extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     
@@ -288,7 +316,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         case .recurrence:
             return recurrenceArray.count
         case .location:
-            return SelectedLocationsManager.sharedInstance.locations.count ?? 1
+            return locations().count
         default:
             return 0
         }
@@ -361,7 +389,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
         cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kLocationIcon)
-        cell.primayTextLabel.text = SelectedLocationsManager.sharedInstance.locations[indexPath.row].title
+        cell.primayTextLabel.text = locations()[indexPath.row].title
         cell.secondaryTextLabel.text = ""
         return cell
     }
@@ -383,6 +411,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
     }
+    
     
     // MARK: - selected row in table view
     
@@ -438,7 +467,7 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     }
 
     func handleLocationSelected(_ indexPath : IndexPath) {
-        if let locationName = SelectedLocationsManager.sharedInstance.locations[indexPath.row].title {
+        if let locationName = locations()[indexPath.row].title {
             appendToTextView(string: locationName)
         }
     }
@@ -464,6 +493,31 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         maskView.isHidden = false
     }
     
+    
+    func locations() -> [Location] {
+        if let tableFilter = tableFilter {
+            
+            if tableFilter.characters.count == 0 {
+                return locationManager.locations;
+            }
+            
+            var filteredLocations = [Location]();
+            
+            for location in locationManager.locations {
+                
+                if let locationName = location.title {
+                    
+                    let locationRange = locationName.range(of: tableFilter, options: .caseInsensitive, range: nil, locale: nil)
+                    
+                    if locationRange?.isEmpty == false {
+                        filteredLocations.append(location);
+                    }
+                }
+            }
+            return filteredLocations
+        }
+        return locationManager.locations
+    }
 }
 
 // MARK: - UITextViewDelegate
@@ -494,13 +548,29 @@ extension AddTaskViewController : UITextViewDelegate {
         
         // 7. location button
         setLocationButtonState()
+        
+        // 8. contacts button
+        setContactsButtonState()
+        
+    }
+    
+    func setContactsButtonState() {
+        contactButton.isHighlighted = false
+        contactButton.isUserInteractionEnabled = true
+        let textArray = Array(textView.text.characters)
+        if textArray.count > 0 && textArray.last == TaskSpecialCharacter.contact.rawValue {
+            showKBContactsController()
+            contactButton.isHighlighted = true
+            contactButton.isUserInteractionEnabled = false
+            return;
+        }
     }
     
     func setLocationButtonState() {
         locationButton.isHighlighted = false
         locationButton.isUserInteractionEnabled = true
-        for ix in 0..<SelectedLocationsManager.sharedInstance.locations.count {
-            let location = SelectedLocationsManager.sharedInstance.locations[ix]
+        for ix in 0..<locations().count {
+            let location = locations()[ix]
             let testString = TaskSpecialCharacter.location.stringValue() + location.title!
             if textView.text.contains(testString) {
                 locationButton.isHighlighted = true
@@ -512,7 +582,6 @@ extension AddTaskViewController : UITextViewDelegate {
                     attributeTextView(pattern: testString, options: .caseInsensitive,
                                       fgColor: UIColor.white, bgColor: UIColor.gray)
                 }
-                
                 break
             }
         }
@@ -664,7 +733,7 @@ extension AddTaskViewController : UITextViewDelegate {
     }
     
     func setTableViewState(_ textArray : [Character]) {
-        
+
         // 1. handle hide scenarios
         var hideTableView = textArray.count == 0 || tableState == .none
         if textArray.count > 0,
@@ -676,7 +745,7 @@ extension AddTaskViewController : UITextViewDelegate {
             self.tableView.isHidden = true
             self.maskView.isHidden = false
             tableState = .none
-            view.setNeedsDisplay()
+            self.tableView.reloadData()
         }
 
         // 2. handle unhide scenarios
@@ -684,8 +753,8 @@ extension AddTaskViewController : UITextViewDelegate {
             
             if let specialChar = TaskSpecialCharacter(rawValue: textArray[textArray.count - 1]),
                 let state = specialCharacterToTableStateMap[specialChar] {
-                 tableState = state
-                handleButtonTapped(state: state, char: specialChar.rawValue)
+                    tableState = state
+                    showTable(state: state, char: specialChar.rawValue)
             }
         }
     }
@@ -719,6 +788,26 @@ extension AddTaskViewController : UITextViewDelegate {
         }
     }
     
+    func removeFromTextViewIfLast(character : Character) {
+        if textView.attributedText.length > 0 {
+            let attributedStr = NSMutableAttributedString(attributedString: textView.attributedText)
+            let textArray = Array(attributedStr.string.characters)
+            if textArray[textArray.count - 1] == character {
+                attributedStr.deleteCharacters(in: NSMakeRange(attributedStr.length - 1, 1))
+                textView.attributedText = attributedStr
+            }
+        } else {
+            let textArray = Array(textView.text.characters)
+            if textArray.count > 0 && textArray[textArray.count - 1] == character {
+                if var text = textView.text {
+                    text.remove(at: text.index(before: text.endIndex))
+                    textView.text = text
+                }
+            }
+        }
+    }
+    
+    
     
     func attributeTextView(pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
         
@@ -739,3 +828,73 @@ extension AddTaskViewController : UITextViewDelegate {
         textView.attributedText = attributedString
     }
 }
+
+
+extension AddTaskViewController : KBContactsSelectionViewControllerDelegate {
+    func setupKBContactsController() {
+        
+        kbContactsController = KBContactsSelectionViewController(configuration: { (config) in
+            config?.shouldShowNavigationBar = true
+            // config?.tintColor = UIColor.blue
+            config?.title = Resources.Strings.Contacts.kNavigationBarTitle
+            config?.selectButtonTitle = Resources.Strings.AddTasks.kSelectContacts
+            config?.mode = KBContactsSelectionMode.messages
+            config?.skipUnnamedContacts = true
+            config?.customSelectButtonHandler = { (contacts : Any!) in
+                self.kbContactsController.dismiss(animated: true, completion: nil)
+                if let contacts = contacts as? [APContact] {
+                    self.contactsSelected(contacts: contacts)
+                }
+            }
+            config?.contactEnabledValidation = { (contact : Any) in
+                return true
+            }
+        })
+        kbContactsController.title = Resources.Strings.Contacts.kNavigationBarTitle
+        kbContactsController.delegate = self
+    }
+    
+    
+    func contactsSelected(contacts : [APContact]) {
+        
+        if contacts.count > 0 {
+            removeFromTextViewIfLast(character: TaskSpecialCharacter.contact.rawValue)
+        }
+        
+        for contact in contacts {
+            // @todo: replace this with first name
+            let fullName = contact.fullName()
+            if let fullName = fullName {
+                
+                let str = TaskSpecialCharacter.contact.stringValue() + fullName
+                appendToTextView(string: str)
+                attributeTextView(pattern: str, options: .caseInsensitive, fgColor: UIColor.white, bgColor: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1))
+                if task.taskContacts == nil {
+                    task.taskContacts = [Contact]()
+                }
+                if task.taskContactsSubranges == nil {
+                    task.taskContactsSubranges = [Range<String.Index>]()
+                }
+                let contactObj = Contact.contact(apContact: contact)
+                contactManager.add(contact: contactObj, success: {
+                    print("sucess in adding contact")
+                    }, error: { (error) in
+                        // @todo: show error
+                        print("error in saving contact")
+                })
+                task.taskContacts?.append(contactObj)
+                if let range = textView.text.range(of: str) {
+                    task.taskContactsSubranges?.append(range)
+                }
+            }
+        }
+        textView.becomeFirstResponder()
+    }
+    
+    func showKBContactsController() {
+        
+        setupKBContactsController()
+        self.present(kbContactsController, animated: true, completion: nil)
+    }
+}
+
