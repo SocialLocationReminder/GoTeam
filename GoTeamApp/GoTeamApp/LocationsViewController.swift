@@ -129,44 +129,19 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
           self.mapView.showAnnotations(self.selectedLocationsManager.locations, animated: true)})
     }
   }
-  
-//  // MARK: - Navigation
-//  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//    
-//    if segue.identifier == "EditLocation" {
-//      
-//      let viewController = segue.destination as? EditLocationViewController
-//      let annotationView = sender as? MKAnnotationView
-//      let location = annotationView?.annotation as? Location
-//      viewController?.location = location
-//      if let popoverController = viewController?.popoverPresentationController {
-//        popoverController.delegate = self
-//        popoverController.sourceRect = annotationView!.frame
-//      }
-//    }
-//  }
-  
-//  func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-//    return .none
-//  }
-  
+    
   // unwind action for the unwindsegue
   @IBAction func updatedPinDescription(segue: UIStoryboardSegue) {
     if let updatedPin = (segue.source as? EditLocationViewController)?.location {
       mapView.selectAnnotation(updatedPin, animated: true)
-      
-      print("UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE ")
-      print("SELECTED PIN TITLE= \(updatedPin.title ?? "")")
-      print("SELECTED PIN ID= \(updatedPin.locationID!)")
-      
-      // update locations dictionary with new values
+            
+      // update location with new values
       if let index = selectedLocationIndex {
         let location = selectedLocationsManager.locations[index]
-        //let location = locations[index]
         location.title = updatedPin.title
         location.subtitle = updatedPin.subtitle
         selectedLocationsManager.locations[index] = location
-        //locations[index] = location
+        selectedLocationsManager.update(location: location)
       }
     }
   }
@@ -221,10 +196,22 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
       })
     case .editLocation :
       alertAction = UIAlertAction(title: "Update Location", style: .default, handler: {(alert: UIAlertAction!) in
-        self.selectedLocationsManager.add(location: location)
+        
+        print("TITLE = \(String(describing: alertController.location?.title))")
+        print("SUBTITLE = \(String(describing: alertController.location?.subtitle))")
+        
+        // update location with new values
+        if let index = self.selectedLocationIndex {
+          let location = self.selectedLocationsManager.locations[index]
+          location.title = alertController.location?.title
+          location.subtitle = alertController.location?.subtitle
+          self.selectedLocationsManager.locations[index] = location
+          self.selectedLocationsManager.update(location: location)
+        }
+        
         self.tableView.reloadData()
-        self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1
         self.mapView.deselectAnnotation(location, animated: true)
+        self.flipViews(fromView: self.mapView, toView: self.tableView, completion: nil)
       })
     }
     

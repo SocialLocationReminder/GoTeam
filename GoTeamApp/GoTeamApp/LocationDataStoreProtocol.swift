@@ -10,8 +10,9 @@ import Foundation
 
 
 protocol LocationDataStoreServiceProtocol {
-    
-    func add(location : Location);
-    func delete(location : Location);
-    func allLocations(success:@escaping ([Location]) -> (), error: @escaping ((Error) -> ()));
+  
+  func add(location: Location)
+  func delete(location: Location)
+  func update(location: Location)
+  func allLocations(success:@escaping ([Location]) -> (), error: @escaping ((Error) -> ()));
 }

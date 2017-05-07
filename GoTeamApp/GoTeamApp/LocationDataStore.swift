@@ -51,7 +51,27 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
             }
         })
     }
-    
+
+  func update(location : Location) {
+    let query = PFQuery(className:Location.kLocationsClass)
+    query.whereKey(User.kUserName, equalTo: userName)
+    query.whereKey(Location.kLocationID, equalTo: location.locationID!)
+    query.includeKey(Location.kLocationID)
+    query.findObjectsInBackground(block: { (locations, error) in
+      if let locations = locations {
+        let parseTask = locations.first
+        parseTask?[Location.kLocationTitle] = location.title
+        parseTask?[Location.kLocationSubtitle] = location.subtitle
+        parseTask?.saveInBackground(block: { (success, error) in
+          if success {
+            print("update saved")
+          } else {
+            print(error)
+          }
+        })
+      }
+    })
+  }
 
     func allLocations(success:@escaping ([Location]) -> (), error: @escaping ((Error) -> ())) {
         let query = PFQuery(className:Location.kLocationsClass)
@@ -72,7 +92,7 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
     
     static func location(pfLocation: PFObject) -> Location {
         let location = Location()
-        location.locationID = pfLocation[Location.kLocationID] as? Date
+        location.locationID = pfLocation[Location.kLocationID] as? String
         location.title = pfLocation[Location.kLocationTitle] as? String
         location.subtitle = pfLocation[Location.kLocationSubtitle] as? String
         location.latitude = pfLocation[Location.kLocationLatitude] as? Double

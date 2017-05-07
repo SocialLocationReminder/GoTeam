@@ -31,6 +31,12 @@ class SelectedLocationsManager {
     }
   }
   
+  func update(location: Location) {
+    queue.async {
+      self.dataStoreService.update(location: location)
+    }
+  }
+  
   func allLocations(fetch: Bool, success:@escaping (([Location]) -> ()), error: @escaping (Error) -> ()) {
     queue.async {
       if fetch == false {
