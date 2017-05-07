@@ -25,9 +25,15 @@ class Location: NSObject, MKAnnotation {
     locationID = String(describing: coordinate)
   }
   
+  init(latitude: Double, longitude: Double) {
+    super.init()
+    self.latitude = latitude
+    self.longitude = longitude
+    self.locationID = String(describing: coordinate)
+  }
+  
   init(placemark: MKPlacemark) {
     super.init()
-    locationID = String(describing: coordinate)
     title = placemark.name
     if let locality = placemark.locality,
       let administrativeArea = placemark.administrativeArea {
@@ -35,6 +41,7 @@ class Location: NSObject, MKAnnotation {
     }
     latitude = placemark.coordinate.latitude
     longitude = placemark.coordinate.longitude
+    locationID = String(describing: coordinate)
   }
   
   var locationID: String?

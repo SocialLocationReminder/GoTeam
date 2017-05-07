@@ -90,6 +90,16 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     addButton.clipsToBounds = true
   }
   
+  @IBAction func addLocationOnMap(_ sender: UILongPressGestureRecognizer) {
+    if sender.state == .began {
+      let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
+      let location = Location(latitude: coordinate.latitude, longitude: coordinate.longitude)
+      location.title = "New location"
+      mapView.addAnnotation(location)
+      showAlert(type: .addLocation, location: location)
+    }
+  }
+  
   func flipViews(fromView from: UIView, toView to: UIView, completion: ((Bool) -> Void)?) {
     let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
     UIView.transition(from: from, to: to, duration: 0.5, options: transitionParams, completion: completion)
@@ -129,23 +139,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
           self.mapView.showAnnotations(self.selectedLocationsManager.locations, animated: true)})
     }
   }
-    
-  // unwind action for the unwindsegue
-  @IBAction func updatedPinDescription(segue: UIStoryboardSegue) {
-    if let updatedPin = (segue.source as? EditLocationViewController)?.location {
-      mapView.selectAnnotation(updatedPin, animated: true)
-            
-      // update location with new values
-      if let index = selectedLocationIndex {
-        let location = selectedLocationsManager.locations[index]
-        location.title = updatedPin.title
-        location.subtitle = updatedPin.subtitle
-        selectedLocationsManager.locations[index] = location
-        selectedLocationsManager.update(location: location)
-      }
-    }
-  }
-  
+
   // MARK: - Location Manager Delegate Methods
   
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -182,16 +176,29 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     let alertController = MapAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
     
+    //Check if location with the same coordinates already exists
+    var newType = type
+    if newType == .addLocation {
+      let newLocationID = String(describing: location.coordinate)
+      let sameLocations = selectedLocationsManager.locations.filter() { $0.locationID == newLocationID }
+      if sameLocations.count == 0 {
+        newType = .addLocation
+      } else {
+        newType = .editLocation
+      }
+    }
+    
     alertController.location = location
     let alertAction: UIAlertAction
     
-    switch type {
+    switch newType {
     case .addLocation :
       alertAction = UIAlertAction(title: "Add Location", style: .default, handler: {(alert: UIAlertAction!) in
         self.selectedLocationsManager.add(location: location)
         self.tableView.reloadData()
         self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1
         self.mapView.deselectAnnotation(location, animated: true)
+        self.tableView.reloadData()
         self.flipViews(fromView: self.mapView, toView: self.tableView, completion: nil)
       })
     case .editLocation :
