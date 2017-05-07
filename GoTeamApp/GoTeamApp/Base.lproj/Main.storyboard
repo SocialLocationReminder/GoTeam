@@ -688,6 +688,7 @@
                         <segue destination="74d-Gk-jfj" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="PHa-Qr-C0R" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="pwh-s9-zno" kind="relationship" relationship="viewControllers" id="VXF-r7-F5M"/>
+                        <segue destination="w5Q-4q-RHz" kind="relationship" relationship="viewControllers" id="MtW-9t-r9Z"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -937,10 +938,10 @@
             </objects>
             <point key="canvasLocation" x="2665" y="1219"/>
         </scene>
-        <!--View Controller-->
+        <!--Contacts View Controller-->
         <scene sceneID="pKN-Ft-7Zh">
             <objects>
-                <viewController id="JC4-4d-cRB" sceneMemberID="viewController">
+                <viewController id="JC4-4d-cRB" customClass="ContactsViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xut-5d-cQb"/>
                         <viewControllerLayoutGuide type="bottom" id="pAf-T0-55S"/>
@@ -950,10 +951,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="jzy-TQ-DCi"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t7v-cE-fYB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1023" y="2731"/>
+            <point key="canvasLocation" x="1962.4000000000001" y="2730.5847076461773"/>
         </scene>
         <!--Edit Location View Controller-->
         <scene sceneID="CAA-J5-koi">
@@ -1168,6 +1170,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vMg-7K-qzT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4588" y="-313"/>
+        </scene>
+        <!--Contacts-->
+        <scene sceneID="CYD-6N-RoX">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="w5Q-4q-RHz" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Contacts" id="jBG-C2-Rgo"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fme-q2-oSZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="JC4-4d-cRB" kind="relationship" relationship="rootViewController" id="tW9-pf-X1f"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C44-p2-aun" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021.6" y="2730.5847076461773"/>
         </scene>
     </scenes>
     <resources>

@@ -14,10 +14,15 @@ PODS:
   - AFNetworking/Serialization (3.0.4)
   - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
+  - APAddressBook (0.3.1):
+    - APAddressBook/Core (= 0.3.1)
+  - APAddressBook/Core (0.3.1)
   - BDBOAuth1Manager (2.0.0):
     - AFNetworking/NSURLSession (~> 3.0.0)
   - Bolts/Tasks (1.8.4)
   - JTCalendar (2.1.9)
+  - KBContactsSelection (1.2.6):
+    - APAddressBook (~> 0.2)
   - MBProgressHUD (1.0.0)
   - Parse (1.14.4):
     - Bolts/Tasks (~> 1.8)
@@ -26,17 +31,20 @@ DEPENDENCIES:
   - AFNetworking
   - BDBOAuth1Manager
   - JTCalendar (~> 2.0)
+  - KBContactsSelection
   - MBProgressHUD
   - Parse
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  APAddressBook: f7e50fce276ae975c202b83b0ee98f4efde5a104
   BDBOAuth1Manager: 92d17d06f8a648602962304cd2f35ae7394fa001
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   JTCalendar: beb2f4c1b639bf6880f680b4858227acf83a049c
+  KBContactsSelection: f31d916d041cc7c03338d2754f8e297d705709b9
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Parse: b0aa91d2c435e53d4a9af26e741e014c9b35c42e
 
-PODFILE CHECKSUM: 37f05f4ba12c476c91b8a1546cd322c938ed4124
+PODFILE CHECKSUM: 1fb5174e033e35f4a2bbbfd15cd0f62aa3870797
 
 COCOAPODS: 1.0.1
