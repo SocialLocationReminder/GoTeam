@@ -139,23 +139,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
           self.mapView.showAnnotations(self.selectedLocationsManager.locations, animated: true)})
     }
   }
-    
-  // unwind action for the unwindsegue
-  @IBAction func updatedPinDescription(segue: UIStoryboardSegue) {
-    if let updatedPin = (segue.source as? EditLocationViewController)?.location {
-      mapView.selectAnnotation(updatedPin, animated: true)
-            
-      // update location with new values
-      if let index = selectedLocationIndex {
-        let location = selectedLocationsManager.locations[index]
-        location.title = updatedPin.title
-        location.subtitle = updatedPin.subtitle
-        selectedLocationsManager.locations[index] = location
-        selectedLocationsManager.update(location: location)
-      }
-    }
-  }
-  
+
   // MARK: - Location Manager Delegate Methods
   
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
