@@ -692,6 +692,7 @@ extension AddTaskViewController : UITextViewDelegate {
                 let dateString = textView.text.substring(with: subRange)
                 AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy 'at' hh:mm a"
                 task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
+                task.timeSet = true
                 task.taskDateSubrange = range
                 attributeTextView(pattern: dateAndTimePattern, options: .regularExpression,
                                   fgColor: UIColor.white, bgColor: UIColor.brown)

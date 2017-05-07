@@ -56,6 +56,10 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
             }
         }
         
+        if let timeSet = task.timeSet {
+            parseTask[Task.kTaskTimeSet] = timeSet
+        }
+    
         parseTask.saveInBackground { (success, error) in
             if success {
                 print("saved successfully")
@@ -110,6 +114,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
                 task.taskName = pfTask[Task.kTaskName] as? String
                 task.taskDate = pfTask[Task.kTaskDate] as? Date
                 task.taskPriority = pfTask[Task.kTaskPriority] as? Int
+                task.timeSet = pfTask[Task.kTaskTimeSet] as? Bool
                 
                 if let pfLocation = pfTask[Task.kTaskLocation]  as? PFObject {
                     try pfLocation.fetchIfNeeded()

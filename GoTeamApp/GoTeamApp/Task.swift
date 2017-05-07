@@ -11,7 +11,7 @@ import Foundation
 
 class Task : NSObject {
     
-    static let kTaskClass = "TasksClassV5"
+    static let kTaskClass = "TasksClassV6"
     
     
     static let kTaskID   = "kTaskID"
@@ -22,12 +22,14 @@ class Task : NSObject {
     static let kTaskList = "kTaskList"
     static let kTaskContacts = "kTaskContacts"
     static let kTaskLocation = "kTaskLocation"
+    static let kTaskTimeSet = "kTaskTimeSet"
 
     
     var taskID : Date?
     var taskName : String?
     var taskDate : Date?
     var taskNameWithAnnotations : String?
+    var timeSet : Bool?
     
     var taskRecurrence : Int?
     var taskPriority : Int?

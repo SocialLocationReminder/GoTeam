@@ -53,14 +53,21 @@
                                                             <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="May 5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aep-Sf-Oop">
+                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                            <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="5X3-E9-3Wq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MYa-d7-6HV" secondAttribute="trailing" constant="3" id="Gl1-6V-aje"/>
                                                         <constraint firstItem="MYa-d7-6HV" firstAttribute="leading" secondItem="ygG-hu-SrN" secondAttribute="leading" constant="20" id="MYG-Zu-zA0"/>
                                                         <constraint firstItem="MYa-d7-6HV" firstAttribute="centerY" secondItem="ygG-hu-SrN" secondAttribute="centerY" id="RtZ-7J-OYZ"/>
+                                                        <constraint firstItem="aep-Sf-Oop" firstAttribute="top" secondItem="5X3-E9-3Wq" secondAttribute="bottom" id="UaT-8z-ua5"/>
                                                         <constraint firstAttribute="trailing" secondItem="5X3-E9-3Wq" secondAttribute="trailing" constant="20" id="eoC-6q-ijh"/>
                                                         <constraint firstItem="5X3-E9-3Wq" firstAttribute="centerY" secondItem="ygG-hu-SrN" secondAttribute="centerY" id="hoM-8D-8Tn"/>
+                                                        <constraint firstItem="aep-Sf-Oop" firstAttribute="trailing" secondItem="5X3-E9-3Wq" secondAttribute="trailing" id="iUQ-6W-dCK"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -81,6 +88,7 @@
                                             <outlet property="cellFGViewLeadingSpaceConstraint" destination="7CL-o2-QSC" id="N9d-ZR-DHE"/>
                                             <outlet property="taskDate" destination="5X3-E9-3Wq" id="wrR-UA-gfK"/>
                                             <outlet property="taskName" destination="MYa-d7-6HV" id="wM3-BB-cBd"/>
+                                            <outlet property="taskTimeLabel" destination="aep-Sf-Oop" id="aeD-3a-H2m"/>
                                             <outlet property="topView" destination="ygG-hu-SrN" id="8X0-ve-pWe"/>
                                         </connections>
                                     </tableViewCell>
@@ -161,10 +169,16 @@
                                                                 <constraint firstAttribute="width" constant="15" id="4dA-A0-ons"/>
                                                             </constraints>
                                                         </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="May 5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kV9-o6-wco" userLabel="Time Label">
+                                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                            <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="PV7-sd-wQ7" firstAttribute="leading" secondItem="740-7z-1Se" secondAttribute="trailing" constant="8" id="1UF-fW-qnd"/>
+                                                        <constraint firstItem="kV9-o6-wco" firstAttribute="top" secondItem="lyJ-Lo-cBY" secondAttribute="bottom" constant="1.5" id="3Lf-Qe-Dpf"/>
                                                         <constraint firstItem="shK-vU-8gE" firstAttribute="leading" secondItem="NDj-eL-ZKl" secondAttribute="trailing" constant="8" id="5bj-vu-xDk"/>
                                                         <constraint firstItem="lyJ-Lo-cBY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2nA-Et-e2m" secondAttribute="trailing" constant="3" id="BuC-Xk-swP"/>
                                                         <constraint firstItem="fSj-Op-vha" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="CKC-oK-YVN"/>
@@ -181,6 +195,7 @@
                                                         <constraint firstItem="Lwb-4Y-Qug" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="gvz-P3-J9f"/>
                                                         <constraint firstItem="2nA-Et-e2m" firstAttribute="centerY" secondItem="UZj-11-PBY" secondAttribute="centerY" id="h2o-QV-QuO"/>
                                                         <constraint firstItem="740-7z-1Se" firstAttribute="leading" secondItem="huf-x5-eMi" secondAttribute="trailing" constant="1" id="jR4-lw-hpa"/>
+                                                        <constraint firstItem="kV9-o6-wco" firstAttribute="trailing" secondItem="lyJ-Lo-cBY" secondAttribute="trailing" id="jaE-ob-gVn"/>
                                                         <constraint firstItem="lyJ-Lo-cBY" firstAttribute="centerY" secondItem="qLY-vu-SUK" secondAttribute="centerY" constant="-3.5" id="joE-uV-hUR"/>
                                                         <constraint firstItem="shK-vU-8gE" firstAttribute="centerY" secondItem="huf-x5-eMi" secondAttribute="centerY" id="kFA-5e-gUb"/>
                                                         <constraint firstItem="Lwb-4Y-Qug" firstAttribute="leading" secondItem="fSj-Op-vha" secondAttribute="trailing" constant="8" id="lcY-GM-aMH"/>
@@ -215,6 +230,7 @@
                                             <outlet property="taskDateLabel" destination="lyJ-Lo-cBY" id="uMC-oV-GhK"/>
                                             <outlet property="taskNameLabel" destination="UZj-11-PBY" id="RDs-Fq-wMK"/>
                                             <outlet property="taskNameTrailingImageView" destination="2nA-Et-e2m" id="KOE-LC-kEv"/>
+                                            <outlet property="taskTimeLabel" destination="kV9-o6-wco" id="bSb-qv-rBE"/>
                                             <outlet property="thirdAnnotationImage" destination="shK-vU-8gE" id="hnG-p0-UrS"/>
                                             <outlet property="thirdAnnotationLabel" destination="fSj-Op-vha" id="NJy-LM-ydi"/>
                                             <outlet property="topView" destination="qLY-vu-SUK" id="QxP-93-WAq"/>
