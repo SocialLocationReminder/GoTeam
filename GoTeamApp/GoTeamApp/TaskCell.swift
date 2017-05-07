@@ -17,6 +17,7 @@ class TaskCell: UITableViewCell {
 
     @IBOutlet weak var taskName: UILabel!
     @IBOutlet weak var taskDate: UILabel!
+    @IBOutlet weak var taskTimeLabel: UILabel!
     
     @IBOutlet weak var deleteView: UIView!
     @IBOutlet weak var topView: UIView!
@@ -38,6 +39,11 @@ class TaskCell: UITableViewCell {
                 if let date = task.taskDate {
                     TaskCell.dateFormatter.dateFormat = "MMM d"
                     taskDate.text = TaskCell.dateFormatter.string(from: date)
+                    if let timeSet = task.timeSet,
+                        timeSet == true {
+                        TaskCell.dateFormatter.dateFormat = "hh:mm a"
+                        taskTimeLabel.text = TaskCell.dateFormatter.string(from: date)
+                    }
                 }
             }
         }

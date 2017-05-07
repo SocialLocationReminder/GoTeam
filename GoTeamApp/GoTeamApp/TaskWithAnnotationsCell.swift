@@ -19,6 +19,7 @@ class TaskWithAnnotationsCell: UITableViewCell {
 
     @IBOutlet weak var taskNameLabel: UILabel!
     @IBOutlet weak var taskDateLabel: UILabel!
+    @IBOutlet weak var taskTimeLabel: UILabel!
     @IBOutlet weak var taskNameTrailingImageView: UIImageView!
     
     @IBOutlet weak var firstAnnotationImage: UIImageView!
@@ -47,6 +48,12 @@ class TaskWithAnnotationsCell: UITableViewCell {
                 if let date = task.taskDate {
                     TaskCell.dateFormatter.dateFormat = "MMM d"
                     taskDateLabel.text = TaskCell.dateFormatter.string(from: date)
+                    
+                    if let timeSet = task.timeSet,
+                        task.timeSet == true {
+                        TaskCell.dateFormatter.dateFormat = "hh:mm a"
+                        taskTimeLabel.text = TaskCell.dateFormatter.string(from: date)
+                    }
                 }
                 
                 // set defaults

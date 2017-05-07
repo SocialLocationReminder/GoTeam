@@ -26,7 +26,7 @@ class Resources {
         class AddTasks {
             
             static let kAddTaskCell = "AddTaskCell"
-            static let kPickADate   = "Pick a date"
+            static let kPickADate   = "Pick a date and time"
             static let kNewList     = "Create a new label"
 
             static let kLoadingLabels = "Loading Labels..."
@@ -34,6 +34,7 @@ class Resources {
             static let kLoadingLocations = "Loading Locations..."
             static let kFailedLoadingLocations = "Loading Locations Failed"
             static let kSelectContacts = "Select"
+            static let kDateAndTimeSeparatorString = " at "
         }
         
         class Contacts {
