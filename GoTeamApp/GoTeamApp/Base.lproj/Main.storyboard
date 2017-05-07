@@ -746,7 +746,7 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
-        <!--Locations View Controller-->
+        <!--Locations-->
         <scene sceneID="L4c-BS-UIR">
             <objects>
                 <viewController id="z6D-xg-EVY" customClass="LocationsViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -758,30 +758,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="cbe-xY-zxd">
-                                <rect key="frame" x="83" y="313" width="209.5" height="41.5"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by SecondViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tc6-qm-dsM">
-                                <rect key="frame" x="80" y="362.5" width="215" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="f54-LD-Z6n">
-                                <rect key="frame" x="0.0" y="56" width="375" height="554"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="f54-LD-Z6n">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="huS-vz-ylM" appends="YES" id="lgl-kp-dMy"/>
                                 </connections>
                             </mapView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2O0-Gy-EPh">
-                                <rect key="frame" x="0.0" y="56" width="375" height="554"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="cdh-7e-MkS">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2O0-Gy-EPh">
+                                <rect key="frame" x="0.0" y="108" width="375" height="510"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" id="mZI-co-1AW" customClass="LocationCell" customModule="GoTeamApp" customModuleProvider="target">
@@ -873,16 +862,24 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="cbe-xY-zxd" secondAttribute="centerY" id="BZS-Qc-tMc"/>
-                            <constraint firstAttribute="centerX" secondItem="cbe-xY-zxd" secondAttribute="centerX" id="IUJ-oT-s6C"/>
-                            <constraint firstItem="Tc6-qm-dsM" firstAttribute="centerX" secondItem="cbe-xY-zxd" secondAttribute="centerX" id="PSu-pf-mNs"/>
+                            <constraint firstItem="f54-LD-Z6n" firstAttribute="leading" secondItem="yIB-BY-JRn" secondAttribute="leading" id="3gm-pg-ilc"/>
+                            <constraint firstItem="f54-LD-Z6n" firstAttribute="top" secondItem="Tx7-JW-sxy" secondAttribute="bottom" id="548-V7-s8o"/>
+                            <constraint firstItem="cdh-7e-MkS" firstAttribute="top" secondItem="Tx7-JW-sxy" secondAttribute="bottom" id="856-Dy-W0P"/>
+                            <constraint firstItem="gCf-cv-Zqa" firstAttribute="top" secondItem="f54-LD-Z6n" secondAttribute="bottom" id="Aqu-TA-E63"/>
+                            <constraint firstItem="2O0-Gy-EPh" firstAttribute="leading" secondItem="yIB-BY-JRn" secondAttribute="leading" id="EWi-KH-RpC"/>
+                            <constraint firstAttribute="trailing" secondItem="cdh-7e-MkS" secondAttribute="trailing" id="FLG-Qh-qfV"/>
+                            <constraint firstItem="2O0-Gy-EPh" firstAttribute="top" secondItem="cdh-7e-MkS" secondAttribute="bottom" id="MJH-u8-smZ"/>
+                            <constraint firstAttribute="trailing" secondItem="2O0-Gy-EPh" secondAttribute="trailing" id="V1S-V9-F2m"/>
+                            <constraint firstItem="gCf-cv-Zqa" firstAttribute="top" secondItem="2O0-Gy-EPh" secondAttribute="bottom" id="VCU-mV-dkt"/>
                             <constraint firstAttribute="bottom" secondItem="7qR-R5-3lc" secondAttribute="bottom" constant="100" id="aBg-7f-2Tw"/>
-                            <constraint firstItem="Tc6-qm-dsM" firstAttribute="top" secondItem="cbe-xY-zxd" secondAttribute="bottom" constant="8" symbolic="YES" id="keR-HN-cne"/>
+                            <constraint firstAttribute="trailing" secondItem="f54-LD-Z6n" secondAttribute="trailing" id="gzo-9Y-G34"/>
+                            <constraint firstItem="cdh-7e-MkS" firstAttribute="leading" secondItem="yIB-BY-JRn" secondAttribute="leading" id="lsc-KW-IKg"/>
                             <constraint firstAttribute="trailing" secondItem="7qR-R5-3lc" secondAttribute="trailing" constant="50" id="xlD-vR-xkH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="X7q-Am-Mnk">
+                    <navigationItem key="navigationItem" title="Locations" id="X7q-Am-Mnk">
                         <barButtonItem key="rightBarButtonItem" title="Map" id="qys-eF-gao">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="listBarButtonTapped:" destination="z6D-xg-EVY" id="Tfh-Wo-WkQ"/>
                             </connections>
@@ -891,6 +888,7 @@
                     <connections>
                         <outlet property="addButton" destination="7qR-R5-3lc" id="bhx-Gv-1zW"/>
                         <outlet property="barButton" destination="qys-eF-gao" id="Ffv-bR-e3S"/>
+                        <outlet property="locationSearchBar" destination="cdh-7e-MkS" id="wzQ-Jz-6TZ"/>
                         <outlet property="mapView" destination="f54-LD-Z6n" id="yPB-dm-yPP"/>
                         <outlet property="tableView" destination="2O0-Gy-EPh" id="FDH-Bl-HkJ"/>
                     </connections>
@@ -948,9 +946,10 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pwh-s9-zno" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Locations" image="second" id="4uQ-ST-TZT"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zdf-qN-RWx">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Zdf-qN-RWx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.093833528459999996" green="0.4406273067" blue="0.40481257440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1215,6 +1214,6 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Qoh-cV-2w8"/>
+        <segue reference="MSY-eV-Tla"/>
     </inferredMetricsTieBreakers>
 </document>
