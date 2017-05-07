@@ -30,7 +30,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   
   let selectedLocationsManager = SelectedLocationsManager.sharedInstance
   var selectedLocationIndex: Int?
-  var filteredLocations: [Location]?
+  var filteredLocations: [Location]!
   
   let locationManager = CLLocationManager()
   var resultSearchController: UISearchController?
@@ -81,8 +81,8 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
       // refresh the locations list and show location on the Map
       self.filteredLocations = self.selectedLocationsManager.locations
       self.tableView.reloadData()
-      self.mapView.addAnnotations(self.selectedLocationsManager.locations)
-      self.mapView.showAnnotations(self.selectedLocationsManager.locations, animated: true)
+      self.mapView.addAnnotations(self.filteredLocations)
+      self.mapView.showAnnotations(self.filteredLocations, animated: true)
     }) { (error) in
       hud.hide(animated: true)
       print(error)
@@ -143,7 +143,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     } else {
       flipViews(fromView: self.tableView, toView: self.mapView, completion:
         { (success) in
-          self.mapView.showAnnotations(self.selectedLocationsManager.locations, animated: true)})
+          self.mapView.showAnnotations(self.filteredLocations, animated: true)})
     }
   }
 
@@ -202,7 +202,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     case .addLocation :
       alertAction = UIAlertAction(title: "Add Location", style: .default, handler: {(alert: UIAlertAction!) in
         self.selectedLocationsManager.add(location: location)
-        self.tableView.reloadData()
+        self.filteredLocations.append(location)
         self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1
         self.mapView.deselectAnnotation(location, animated: true)
         self.tableView.reloadData()
@@ -210,9 +210,6 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
       })
     case .editLocation :
       alertAction = UIAlertAction(title: "Update Location", style: .default, handler: {(alert: UIAlertAction!) in
-        
-        print("TITLE = \(String(describing: alertController.location?.title))")
-        print("SUBTITLE = \(String(describing: alertController.location?.subtitle))")
         
         // update location with new values
         if let index = self.selectedLocationIndex {
@@ -266,13 +263,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
     if control == view.rightCalloutAccessoryView {
       mapView.deselectAnnotation(view.annotation, animated: true)
-      
-      //performSegue(withIdentifier: "EditLocation", sender: view)
-      
       if let location = view.annotation as? Location {
-        print("SELECTED PIN TITLE= \(location.title ?? "")")
-        print("SELECTED PIN ID= \(location.locationID!)")
-        
         showAlert(type: .editLocation, location: location)
       }
     }
@@ -286,21 +277,17 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath) as! LocationCell
-    cell.location = filteredLocations?[indexPath.row]
+    cell.location = filteredLocations[indexPath.row]
     return cell
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let location = filteredLocations![indexPath.row]
+    let location = filteredLocations[indexPath.row]
     selectedLocationIndex = indexPath.row
     
     let span = MKCoordinateSpanMake(0.05, 0.05)
     let region = MKCoordinateRegionMake(location.coordinate, span)
     mapView.setRegion(region, animated: true)
-    
-    print("SELECTED LOCATION NAME = \(location.title!)")
-    print("COORDINATE = \(String(describing: location.coordinate))")
-    
     flipViews(fromView: self.tableView, toView: self.mapView) { (success) in
       if success {
         self.mapView.addAnnotation(location)
@@ -308,20 +295,25 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
       }
     }
   }
+  
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    return true
+  }
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    if editingStyle == .delete {
+      let location = filteredLocations[indexPath.row]
+      filteredLocations = filteredLocations.filter() { $0.locationID != location.locationID }
+      mapView.removeAnnotation(location)
+      selectedLocationsManager.delete(location: location)
+      tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
+  }
 }
 
 extension LocationsViewController : UISearchBarDelegate {
   
-  func locationsList() -> [Location]?
-  {
-    if let _ = filteredLocations {
-      return filteredLocations
-    }
-    return selectedLocationsManager.locations
-  }
-  
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-    
     applyFilterPerSearchText()
   }
   
@@ -343,11 +335,11 @@ extension LocationsViewController : UISearchBarDelegate {
         let locationTitleRange = locationTitle.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil)
         if let locationTitleRange = locationTitleRange,
           locationTitleRange.isEmpty == false {
-          filteredLocations?.append(location)
+          filteredLocations.append(location)
         }
       }
     }
-    if filteredLocations?.count != selectedLocationsManager.locations.count {
+    if filteredLocations.count != selectedLocationsManager.locations.count {
       tableView.reloadData()
     }
   }
