@@ -18,6 +18,8 @@
 		E2C9E1331EBF13D000BBD78C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1321EBF13D000BBD78C /* User.swift */; };
 		E2C9E1361EBF166700BBD78C /* DataStoreServiceErrorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1351EBF166700BBD78C /* DataStoreServiceErrorCodes.swift */; };
 		E2C9E1381EBF19FD00BBD78C /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */; };
+		E2C9E13B1EBF943C00BBD78C /* DateTimeAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E13A1EBF943C00BBD78C /* DateTimeAnnotationController.swift */; };
+		E2C9E13D1EBF945300BBD78C /* AnnotationControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E13C1EBF945300BBD78C /* AnnotationControllerProtocol.swift */; };
 		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
 		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
 		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
@@ -68,6 +70,8 @@
 		E2C9E1321EBF13D000BBD78C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E2C9E1351EBF166700BBD78C /* DataStoreServiceErrorCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreServiceErrorCodes.swift; sourceTree = "<group>"; };
 		E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
+		E2C9E13A1EBF943C00BBD78C /* DateTimeAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeAnnotationController.swift; sourceTree = "<group>"; };
+		E2C9E13C1EBF945300BBD78C /* AnnotationControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationControllerProtocol.swift; sourceTree = "<group>"; };
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +168,15 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
+		E2C9E1391EBF942E00BBD78C /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				E2C9E13C1EBF945300BBD78C /* AnnotationControllerProtocol.swift */,
+				E2C9E13A1EBF943C00BBD78C /* DateTimeAnnotationController.swift */,
+			);
+			name = Annotations;
+			sourceTree = "<group>";
+		};
 		E2EE10AD1EBAE34B00D9835A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +263,7 @@
 		E2F1C9A31EB1B6540034E0A7 /* Task */ = {
 			isa = PBXGroup;
 			children = (
+				E2C9E1391EBF942E00BBD78C /* Annotations */,
 				E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */,
 				E2F1C9A41EB1B6790034E0A7 /* TaskCell.swift */,
 				E2F1C9A61EB1B7820034E0A7 /* TaskWithAnnotationsCell.swift */,
@@ -509,9 +523,11 @@
 				E2FEDA2C1EBD30840020E3C0 /* Resources.swift in Sources */,
 				E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */,
 				E2C9E1361EBF166700BBD78C /* DataStoreServiceErrorCodes.swift in Sources */,
+				E2C9E13D1EBF945300BBD78C /* AnnotationControllerProtocol.swift in Sources */,
 				E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */,
 				F4635EA51EB62776008BDD0B /* LocationCell.swift in Sources */,
 				E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */,
+				E2C9E13B1EBF943C00BBD78C /* DateTimeAnnotationController.swift in Sources */,
 				F4635EA31EB62776008BDD0B /* LocationSearchTable.swift in Sources */,
 				E2FEDA271EBD09460020E3C0 /* LocationDataStoreProtocol.swift in Sources */,
 				E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */,

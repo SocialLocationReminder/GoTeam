@@ -20,6 +20,7 @@ PODS:
   - BDBOAuth1Manager (2.0.0):
     - AFNetworking/NSURLSession (~> 3.0.0)
   - Bolts/Tasks (1.8.4)
+  - ESTimePicker (0.4.3)
   - JTCalendar (2.1.9)
   - KBContactsSelection (1.2.6):
     - APAddressBook (~> 0.2)
@@ -30,6 +31,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - BDBOAuth1Manager
+  - ESTimePicker
   - JTCalendar (~> 2.0)
   - KBContactsSelection
   - MBProgressHUD
@@ -40,11 +42,12 @@ SPEC CHECKSUMS:
   APAddressBook: f7e50fce276ae975c202b83b0ee98f4efde5a104
   BDBOAuth1Manager: 92d17d06f8a648602962304cd2f35ae7394fa001
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  ESTimePicker: be6589eac168fbe8460e0228dcec1bc96686207f
   JTCalendar: beb2f4c1b639bf6880f680b4858227acf83a049c
   KBContactsSelection: f31d916d041cc7c03338d2754f8e297d705709b9
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   Parse: b0aa91d2c435e53d4a9af26e741e014c9b35c42e
 
-PODFILE CHECKSUM: 1fb5174e033e35f4a2bbbfd15cd0f62aa3870797
+PODFILE CHECKSUM: cac0d715b88ddf7a7a1f6bac84fcda1b3a130ba4
 
 COCOAPODS: 1.0.1

@@ -279,6 +279,12 @@ class AddTaskViewController: UIViewController {
             AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
             let dateSelectedStr = AddTaskViewController.dateFormatter.string(from: dateSelected)
             appendToTextView(string: dateSelectedStr)
+            if calendarVC.timePicked == true {
+                AddTaskViewController.dateFormatter.dateFormat = "hh:mm a"
+                let timeSelectedStr = AddTaskViewController.dateFormatter.string(from: dateSelected)
+                appendToTextView(string: Resources.Strings.AddTasks.kDateAndTimeSeparatorString)
+                appendToTextView(string: timeSelectedStr)
+            }
         }
     }
 }
@@ -672,8 +678,25 @@ extension AddTaskViewController : UITextViewDelegate {
             }
         }
         
+        // date only pattern
         let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
-        if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
+        let dateAndTimePattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4} at \\d{1,2}:\\d{2} (AM|PM)"
+        
+        // date and time pattern
+        if let range = textView.text.range(of: dateAndTimePattern, options: .regularExpression, range: nil, locale: nil),
+            !range.isEmpty {
+            dateButton.isHighlighted = true
+            dateButton.isUserInteractionEnabled = false
+            if task.taskDate == nil {
+                let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
+                let dateString = textView.text.substring(with: subRange)
+                AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy 'at' hh:mm a"
+                task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
+                task.taskDateSubrange = range
+                attributeTextView(pattern: dateAndTimePattern, options: .regularExpression,
+                                  fgColor: UIColor.white, bgColor: UIColor.brown)
+            }
+        } else if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
             !range.isEmpty {
             dateButton.isHighlighted = true
             dateButton.isUserInteractionEnabled = false
@@ -687,6 +710,8 @@ extension AddTaskViewController : UITextViewDelegate {
                                   fgColor: UIColor.white, bgColor: UIColor.brown)
             }
         }
+        
+        
         
         if dateButton.isUserInteractionEnabled == true {
             task.taskDate = nil

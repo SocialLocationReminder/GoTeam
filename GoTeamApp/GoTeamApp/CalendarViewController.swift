@@ -8,16 +8,26 @@
 
 import UIKit
 import JTCalendar
+import ESTimePicker
 
 class CalendarViewController: UIViewController {
 
     @IBOutlet weak var calendarMenuView: JTCalendarMenuView!
     @IBOutlet weak var calendarView: JTHorizontalCalendarView!
+    @IBOutlet weak var pickATimeView: UIView!
+    @IBOutlet weak var timePickerView: UIView!
+    @IBOutlet weak var maskView: UIView!
+    
+    var timePicker : ESTimePicker!
     
     let calendarManager = JTCalendarManager()
     var dateSelected : Date?
+    var hourPicked : Int32?
+    var minutesPicked : Int32?
+    var timePicked = false
     
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     static let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
@@ -27,8 +37,45 @@ class CalendarViewController: UIViewController {
         calendarManager.contentView = calendarView
         calendarManager.menuView = calendarMenuView
         calendarManager.setDate(Date())
+        
+        self.timeLabel.text = ""
+        setupTimePickerView()
+        setupMaskView()
     }
 
+    func setupTimePickerView() {
+        timePickerView.isHidden = true
+        timePickerView.layer.cornerRadius = timePickerView.frame.width / 2.0
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(pickATimeTapped))
+        pickATimeView.addGestureRecognizer(tapGR)
+    }
+    
+    func setupMaskView() {
+        let maskViewGR = UITapGestureRecognizer(target: self, action: #selector(maskViewTapped))
+        maskView.addGestureRecognizer(maskViewGR)
+        maskView.isHidden = true
+        maskView.alpha = 0.6
+        maskView.backgroundColor = UIColor.black
+    }
+    
+    func pickATimeTapped(sender : UITapGestureRecognizer) {
+        timePicker = ESTimePicker(delegate: self)
+        timePickerView.addSubview(timePicker)
+        timePicker.frame = timePickerView.bounds
+        timePickerView.isHidden = false
+        maskView.isHidden = false
+    }
+
+    func maskViewTapped(sender : UITapGestureRecognizer) {
+        hideTimePicker()
+    }
+    
+    func hideTimePicker() {
+        timePicker.removeFromSuperview()
+        timePickerView.isHidden = true
+        maskView.isHidden = true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -98,6 +145,41 @@ extension CalendarViewController : JTCalendarDelegate {
         if let dateSelected = dateSelected {
             CalendarViewController.dateFormatter.dateFormat = "MMMM d yyyy"
             dateLabel.text = CalendarViewController.dateFormatter.string(from: dateSelected)
+        }
+    }
+}
+
+extension CalendarViewController : ESTimePickerDelegate {
+    func timePickerHoursChanged(_ timePicker: ESTimePicker!, toHours hours: Int32) {
+        hourPicked = hours
+        updateTimeLabel()
+    }
+    func timePickerMinutesChanged(_ timePicker: ESTimePicker!, toMinutes minutes: Int32) {
+        minutesPicked = minutes
+        updateTimeLabel()
+        timePicked = true
+        hideTimePicker()
+    }
+    
+    func updateTimeLabel() {
+        if dateSelected == nil {
+            dateSelected = Date()
+        }
+        let date = dateSelected!
+        let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
+        var components = gregorian.dateComponents(in: TimeZone.current, from: date)
+        
+        if let hourPicked = hourPicked {
+            components.hour = Int(hourPicked)
+        }
+        if let minutesPicked = minutesPicked {
+            components.minute = Int(minutesPicked)
+        }
+        
+        if let date = gregorian.date(from: components) {
+            dateSelected = date
+            CalendarViewController.dateFormatter.dateFormat = "hh:mm a"
+            timeLabel.text = CalendarViewController.dateFormatter.string(from: date)
         }
     }
 }

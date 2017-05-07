@@ -34,6 +34,7 @@ class Resources {
             static let kLoadingLocations = "Loading Locations..."
             static let kFailedLoadingLocations = "Loading Locations Failed"
             static let kSelectContacts = "Select"
+            static let kDateAndTimeSeparatorString = " at "
         }
         
         class Contacts {

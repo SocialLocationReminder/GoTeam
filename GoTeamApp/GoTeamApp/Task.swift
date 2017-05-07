@@ -9,7 +9,7 @@
 import Foundation
 
 
-class Task : ListItem {
+class Task : NSObject {
     
     static let kTaskClass = "TasksClassV5"
     
@@ -43,7 +43,8 @@ class Task : ListItem {
     var taskLocationSubrange : Range<String.Index>?
     var taskContactsSubranges : [Range<String.Index>]?
     
-    init() {
+    override init() {
+        super.init()
         taskID = Date()
     }
 }
