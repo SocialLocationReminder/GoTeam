@@ -91,15 +91,12 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   @IBAction func addLocationOnMap(_ sender: UILongPressGestureRecognizer) {
-    
     if sender.state == .began {
-      
       let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
       let location = Location(latitude: coordinate.latitude, longitude: coordinate.longitude)
       location.title = "New location"
       mapView.addAnnotation(location)
-      print("NEW LOCATION COORDINATE = \(String(describing: location.coordinate))")
-      
+      showAlert(type: .addLocation, location: location)
     }
   }
   
@@ -205,6 +202,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.reloadData()
         self.selectedLocationIndex = self.selectedLocationsManager.locations.count - 1
         self.mapView.deselectAnnotation(location, animated: true)
+        self.tableView.reloadData()
         self.flipViews(fromView: self.mapView, toView: self.tableView, completion: nil)
       })
     case .editLocation :
