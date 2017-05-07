@@ -19,15 +19,18 @@ protocol MapSearch {
   func createNewLocation(location: Location)
 }
 
-class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,MKMapViewDelegate, UIPopoverPresentationControllerDelegate ,MapSearch {
+class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,MKMapViewDelegate,UIPopoverPresentationControllerDelegate ,MapSearch {
   
   @IBOutlet weak var mapView: MKMapView!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var barButton: UIBarButtonItem!
   @IBOutlet weak var addButton: UIButton!
+  @IBOutlet weak var locationSearchBar: UISearchBar!
+  
   
   let selectedLocationsManager = SelectedLocationsManager.sharedInstance
   var selectedLocationIndex: Int?
+  var filteredLocations: [Location]?
   
   let locationManager = CLLocationManager()
   var resultSearchController: UISearchController?
@@ -39,6 +42,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     mapView.delegate = self
     tableView.delegate = self
     tableView.dataSource = self
+    locationSearchBar.delegate = self
     
     // Location Manager Setup
     locationManager.delegate = self
@@ -55,7 +59,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     if let searchBar = resultSearchController?.searchBar {
       searchBar.sizeToFit()
       searchBar.placeholder = "Search for a place or address"
-      let searchBarView = UIView(frame: CGRect(x:0, y:8, width:searchBar.frame.size.width, height:44))
+      let searchBarView = UIView(frame: CGRect(x:0, y:0, width:searchBar.frame.size.width, height:44))
       searchBarView.addSubview(searchBar)
       mapView.addSubview(searchBarView)
     }
@@ -75,6 +79,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     selectedLocationsManager.allLocations(fetch: true, success: { (locations) in
       hud.hide(animated: true)
       // refresh the locations list and show location on the Map
+      self.filteredLocations = self.selectedLocationsManager.locations
       self.tableView.reloadData()
       self.mapView.addAnnotations(self.selectedLocationsManager.locations)
       self.mapView.showAnnotations(self.selectedLocationsManager.locations, animated: true)
@@ -106,9 +111,11 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     if barButton.title == "List" {
       barButton.title = "Map"
       addButton.isHidden = false
+      locationSearchBar.isHidden = false
     } else {
       barButton.title = "List"
       addButton.isHidden = true
+      locationSearchBar.isHidden = true
     }
   }
   
@@ -274,17 +281,17 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   // MARK: - Table View Delegate Method
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return selectedLocationsManager.locations.count
+    return filteredLocations?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath) as! LocationCell
-    cell.location = selectedLocationsManager.locations[indexPath.row] //Array(locations.values)[indexPath.row]
+    cell.location = filteredLocations?[indexPath.row]
     return cell
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let location = selectedLocationsManager.locations[indexPath.row] //Array(locations.values)[indexPath.row]
+    let location = filteredLocations![indexPath.row]
     selectedLocationIndex = indexPath.row
     
     let span = MKCoordinateSpanMake(0.05, 0.05)
@@ -299,6 +306,49 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
         self.mapView.addAnnotation(location)
         self.mapView.selectAnnotation(location, animated: true)
       }
+    }
+  }
+}
+
+extension LocationsViewController : UISearchBarDelegate {
+  
+  func locationsList() -> [Location]?
+  {
+    if let _ = filteredLocations {
+      return filteredLocations
+    }
+    return selectedLocationsManager.locations
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    
+    applyFilterPerSearchText()
+  }
+  
+  func applyFilterPerSearchText() {
+    guard var searchText = locationSearchBar.text else { return }
+    searchText = searchText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    
+    if searchText.characters.count == 0 {
+      filteredLocations = selectedLocationsManager.locations
+      tableView.reloadData()
+      return
+    }
+    
+    filteredLocations = [Location]()
+    
+    for location in selectedLocationsManager.locations {
+      
+      if let locationTitle = location.title {
+        let locationTitleRange = locationTitle.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil)
+        if let locationTitleRange = locationTitleRange,
+          locationTitleRange.isEmpty == false {
+          filteredLocations?.append(location)
+        }
+      }
+    }
+    if filteredLocations?.count != selectedLocationsManager.locations.count {
+      tableView.reloadData()
     }
   }
 }
