@@ -192,10 +192,22 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     let alertController = MapAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
     
+    //Check if location with the same coordinates already exists
+    var newType = type
+    if newType == .addLocation {
+      let newLocationID = String(describing: location.coordinate)
+      let sameLocations = selectedLocationsManager.locations.filter() { $0.locationID == newLocationID }
+      if sameLocations.count == 0 {
+        newType = .addLocation
+      } else {
+        newType = .editLocation
+      }
+    }
+    
     alertController.location = location
     let alertAction: UIAlertAction
     
-    switch type {
+    switch newType {
     case .addLocation :
       alertAction = UIAlertAction(title: "Add Location", style: .default, handler: {(alert: UIAlertAction!) in
         self.selectedLocationsManager.add(location: location)
