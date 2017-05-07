@@ -16,7 +16,6 @@
 @property (strong) NSArray * selectedContacts;
 
 @property (nonatomic, strong) KBContactsTableViewDataSource *kBContactsTableViewDataSource;
-@property (nonatomic, strong) KBContactsSelectionConfiguration *configuration;
 @property IBOutlet UIView * additionalInfoContainer;
 @property IBOutlet NSLayoutConstraint * additionalInfoViewHeightConstraint;
 @end
@@ -41,11 +40,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
     [self prepareContactsDataSource];
     [self prepareNavigationBar];
     [self customizeColors];
     
     [self _showAdditionalInfoViewAnimated:NO];
+    self.buttonItemCancel.enabled = YES;    
 }
 
 - (void)setAdditionalInfoView:(UIView *)additionalInfoView
@@ -110,7 +111,7 @@
 - (void)setTitle:(NSString *)title
 {
     if (!title) {
-        title = NSLocalizedString(@"Search contacts", nil);
+        title = NSLocalizedString(@"Contacts", nil);
         _configuration.title = nil;
     } else {
         _configuration.title = title;

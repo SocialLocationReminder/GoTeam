@@ -27,6 +27,7 @@
 @end
 
 @interface KBContactsSelectionViewController : UIViewController
+@property (nonatomic, strong) KBContactsSelectionConfiguration *configuration;
 @property (nonatomic, weak) id <KBContactsSelectionViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;

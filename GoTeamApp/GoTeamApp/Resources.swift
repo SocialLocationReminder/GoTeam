@@ -33,5 +33,10 @@ class Resources {
             static let kLoadingLocations = "Loading Locations..."
             static let kFailedLoadingLocations = "Loading Locations Failed"
         }
+        
+        class Contacts {
+            static let kAddTaskNavItem = "Add Task"
+            static let kNavigationBarTitle = "Contacts"
+        }
     }
 }
