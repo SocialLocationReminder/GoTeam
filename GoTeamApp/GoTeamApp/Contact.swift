@@ -35,6 +35,13 @@ class Contact {
         contact.lastName = apContact.name?.lastName
         contact.phone = apContact.phones?.first?.number
         contact.email = apContact.emails?.first?.address
+        
+        // @todo: use this as the contact ID for now, will have to come up with
+        // something better
+        contact.contactID = apContact.fullName()
+        if let phone = contact.phone {
+            contact.contactID = contact.contactID! + "#" + phone
+        }
         return contact
     }
 }

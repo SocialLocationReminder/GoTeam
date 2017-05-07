@@ -82,7 +82,7 @@ class AddTaskViewController: UIViewController {
     let labelManager = LabelManager.sharedInstance
     var labels : [Labels]?
     let locationManager = SelectedLocationsManager.sharedInstance
-
+    let contactManager = ContactManager.sharedInstance
     
     // MARK: - init/load related
     override func viewDidLoad() {
@@ -564,10 +564,6 @@ extension AddTaskViewController : UITextViewDelegate {
             contactButton.isUserInteractionEnabled = false
             return;
         }
-        
-        if let contacts = task.taskContacts {
-            
-        }
     }
     
     func setLocationButtonState() {
@@ -879,7 +875,14 @@ extension AddTaskViewController : KBContactsSelectionViewControllerDelegate {
                 if task.taskContactsSubranges == nil {
                     task.taskContactsSubranges = [Range<String.Index>]()
                 }
-                task.taskContacts?.append(Contact.contact(apContact: contact))
+                let contactObj = Contact.contact(apContact: contact)
+                contactManager.add(contact: contactObj, success: {
+                    print("sucess in adding contact")
+                    }, error: { (error) in
+                        // @todo: show error
+                        print("error in saving contact")
+                })
+                task.taskContacts?.append(contactObj)
                 if let range = textView.text.range(of: str) {
                     task.taskContactsSubranges?.append(range)
                 }

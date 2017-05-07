@@ -11,7 +11,18 @@ import Foundation
 
 class Task : ListItem {
     
-    static let kTaskClass = "TasksClassV4"
+    static let kTaskClass = "TasksClassV5"
+    
+    
+    static let kTaskID   = "kTaskID"
+    static let kTaskName = "kTaskName"
+    static let kTaskDate = "kTaskDate"
+    static let kTaskPriority = "kTaskPriority"
+    static let kTaskReccurence = "kTaskReccurence"
+    static let kTaskList = "kTaskList"
+    static let kTaskContacts = "kTaskContacts"
+    static let kTaskLocation = "kTaskLocation"
+
     
     var taskID : Date?
     var taskName : String?
@@ -21,7 +32,6 @@ class Task : ListItem {
     var taskRecurrence : Int?
     var taskPriority : Int?
     var taskLabel : String?
-    var taskSocialContact : String?
     var taskLocation : Location?
     var taskContacts : [Contact]?
     

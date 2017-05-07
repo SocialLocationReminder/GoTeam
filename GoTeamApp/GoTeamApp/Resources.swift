@@ -18,7 +18,7 @@ class Resources {
             static let kLocationIcon = "pin.png"
             static let kCalendarIcon = "calendar_icon.png"
             static let kAddIcon = "plus_icon.png"
-
+            static let kPawnIcon = "pawn_icon.png"
         }
     }
     

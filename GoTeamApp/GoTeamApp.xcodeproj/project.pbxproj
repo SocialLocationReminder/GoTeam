@@ -17,6 +17,7 @@
 		E2C9E1311EBF10D700BBD78C /* ContactDataStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1301EBF10D700BBD78C /* ContactDataStoreService.swift */; };
 		E2C9E1331EBF13D000BBD78C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1321EBF13D000BBD78C /* User.swift */; };
 		E2C9E1361EBF166700BBD78C /* DataStoreServiceErrorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1351EBF166700BBD78C /* DataStoreServiceErrorCodes.swift */; };
+		E2C9E1381EBF19FD00BBD78C /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */; };
 		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
 		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
 		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
@@ -67,6 +68,7 @@
 		E2C9E1301EBF10D700BBD78C /* ContactDataStoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDataStoreService.swift; sourceTree = "<group>"; };
 		E2C9E1321EBF13D000BBD78C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E2C9E1351EBF166700BBD78C /* DataStoreServiceErrorCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreServiceErrorCodes.swift; sourceTree = "<group>"; };
+		E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				E2F1C9AF1EB432DE0034E0A7 /* TaskManager.swift */,
 				615B78121EB69EDC006F59D8 /* LabelManager.swift */,
 				F44B856F1EBC92B200FF489A /* SelectedLocationsManager.swift */,
+				E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */,
 			);
 			name = "Application Layer";
 			sourceTree = "<group>";
@@ -504,6 +507,7 @@
 				E2FEDA251EBD08A10020E3C0 /* LabelDataStore.swift in Sources */,
 				E2FEDA231EBD08950020E3C0 /* LabelDataStoreProtocol.swift in Sources */,
 				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,
+				E2C9E1381EBF19FD00BBD78C /* ContactManager.swift in Sources */,
 				E2C9E1331EBF13D000BBD78C /* User.swift in Sources */,
 				E2FEDA291EBD094E0020E3C0 /* LocationDataStore.swift in Sources */,
 				E2FEDA2C1EBD30840020E3C0 /* Resources.swift in Sources */,

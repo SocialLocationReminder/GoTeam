@@ -66,7 +66,7 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
     
     
     internal static func newParseObject(contact: Contact) -> PFObject {
-        let pfObject = PFObject()
+        let pfObject = PFObject(className:Contact.kContactClass)
         
         if let contactID = contact.contactID {
             pfObject[Contact.kContactID] = contactID
