@@ -44,9 +44,13 @@
     [self prepareContactsDataSource];
     [self prepareNavigationBar];
     [self customizeColors];
-    
     [self _showAdditionalInfoViewAnimated:NO];
-    self.buttonItemCancel.enabled = YES;    
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.buttonItemSelect.enabled = NO;
+    [self.searchBar becomeFirstResponder];
 }
 
 - (void)setAdditionalInfoView:(UIView *)additionalInfoView

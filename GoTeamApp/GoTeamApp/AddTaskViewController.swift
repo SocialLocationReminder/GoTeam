@@ -62,7 +62,7 @@ class AddTaskViewController: UIViewController {
             TableState.dueDate : TaskSpecialCharacter.dueDate,
             TableState.recurrence : TaskSpecialCharacter.recurrence,
             TableState.location : TaskSpecialCharacter.location,
-            TableState.contact : TaskSpecialCharacter.contact
+           // TableState.contact : TaskSpecialCharacter.contact - exception, doesn't use the table view for now
         ]
 
     
@@ -243,7 +243,7 @@ class AddTaskViewController: UIViewController {
     }
     
     func contactButtonTapped(sender : UITapGestureRecognizer) {
-        showKBContactsController(char: TaskSpecialCharacter.contact.rawValue)
+        showKBContactsController()
     }
     
     func showTable(state: TableState, char : Character) {
@@ -282,6 +282,7 @@ class AddTaskViewController: UIViewController {
         }
     }
 }
+
 
 
 //MARK: - UITableViewDelegate, UITableViewDataSource
@@ -547,6 +548,26 @@ extension AddTaskViewController : UITextViewDelegate {
         
         // 7. location button
         setLocationButtonState()
+        
+        // 8. contacts button
+        setContactsButtonState()
+        
+    }
+    
+    func setContactsButtonState() {
+        contactButton.isHighlighted = false
+        contactButton.isUserInteractionEnabled = true
+        let textArray = Array(textView.text.characters)
+        if textArray.count > 0 && textArray.last == TaskSpecialCharacter.contact.rawValue {
+            showKBContactsController()
+            contactButton.isHighlighted = true
+            contactButton.isUserInteractionEnabled = false
+            return;
+        }
+        
+        if let contacts = task.taskContacts {
+            
+        }
     }
     
     func setLocationButtonState() {
@@ -771,6 +792,26 @@ extension AddTaskViewController : UITextViewDelegate {
         }
     }
     
+    func removeFromTextViewIfLast(character : Character) {
+        if textView.attributedText.length > 0 {
+            let attributedStr = NSMutableAttributedString(attributedString: textView.attributedText)
+            let textArray = Array(attributedStr.string.characters)
+            if textArray[textArray.count - 1] == character {
+                attributedStr.deleteCharacters(in: NSMakeRange(attributedStr.length - 1, 1))
+                textView.attributedText = attributedStr
+            }
+        } else {
+            let textArray = Array(textView.text.characters)
+            if textArray.count > 0 && textArray[textArray.count - 1] == character {
+                if var text = textView.text {
+                    text.remove(at: text.index(before: text.endIndex))
+                    textView.text = text
+                }
+            }
+        }
+    }
+    
+    
     
     func attributeTextView(pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
         
@@ -817,18 +858,37 @@ extension AddTaskViewController : KBContactsSelectionViewControllerDelegate {
         kbContactsController.delegate = self
     }
     
+    
     func contactsSelected(contacts : [APContact]) {
+        
+        if contacts.count > 0 {
+            removeFromTextViewIfLast(character: TaskSpecialCharacter.contact.rawValue)
+        }
+        
         for contact in contacts {
+            // @todo: replace this with first name
             let fullName = contact.fullName()
             if let fullName = fullName {
+                
                 let str = TaskSpecialCharacter.contact.stringValue() + fullName
                 appendToTextView(string: str)
                 attributeTextView(pattern: str, options: .caseInsensitive, fgColor: UIColor.white, bgColor: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1))
+                if task.taskContacts == nil {
+                    task.taskContacts = [Contact]()
+                }
+                if task.taskContactsSubranges == nil {
+                    task.taskContactsSubranges = [Range<String.Index>]()
+                }
+                task.taskContacts?.append(Contact.contact(apContact: contact))
+                if let range = textView.text.range(of: str) {
+                    task.taskContactsSubranges?.append(range)
+                }
             }
         }
+        textView.becomeFirstResponder()
     }
     
-    func showKBContactsController(char : Character) {
+    func showKBContactsController() {
         
         setupKBContactsController()
         self.present(kbContactsController, animated: true, completion: nil)
