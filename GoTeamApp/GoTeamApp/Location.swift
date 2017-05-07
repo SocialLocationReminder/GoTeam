@@ -25,6 +25,13 @@ class Location: NSObject, MKAnnotation {
     locationID = String(describing: coordinate)
   }
   
+  init(latitude: Double, longitude: Double) {
+    super.init()
+    self.latitude = latitude
+    self.longitude = longitude
+    self.locationID = String(describing: coordinate)
+  }
+  
   init(placemark: MKPlacemark) {
     super.init()
     locationID = String(describing: coordinate)

@@ -90,6 +90,19 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     addButton.clipsToBounds = true
   }
   
+  @IBAction func addLocationOnMap(_ sender: UILongPressGestureRecognizer) {
+    
+    if sender.state == .began {
+      
+      let coordinate = mapView.convert(sender.location(in: mapView), toCoordinateFrom: mapView)
+      let location = Location(latitude: coordinate.latitude, longitude: coordinate.longitude)
+      location.title = "New location"
+      mapView.addAnnotation(location)
+      print("NEW LOCATION COORDINATE = \(String(describing: location.coordinate))")
+      
+    }
+  }
+  
   func flipViews(fromView from: UIView, toView to: UIView, completion: ((Bool) -> Void)?) {
     let transitionParams :  UIViewAnimationOptions = [.transitionFlipFromLeft, .showHideTransitionViews]
     UIView.transition(from: from, to: to, duration: 0.5, options: transitionParams, completion: completion)
