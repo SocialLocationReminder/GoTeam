@@ -12,6 +12,7 @@
 		615B78111EB68661006F59D8 /* AddLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78101EB68661006F59D8 /* AddLabelViewController.swift */; };
 		615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78121EB69EDC006F59D8 /* LabelManager.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
+		E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */; };
 		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
 		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
 		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
@@ -58,6 +59,7 @@
 		615B780E1EB65418006F59D8 /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		615B78101EB68661006F59D8 /* AddLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLabelViewController.swift; sourceTree = "<group>"; };
 		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
+		E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				F4635EA71EB627C1008BDD0B /* Location.swift */,
 				E2F1C9A91EB1B85A0034E0A7 /* Task.swift */,
 				615B780E1EB65418006F59D8 /* Labels.swift */,
+				E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				615B780D1EB64FBB006F59D8 /* LabelTableViewCell.swift in Sources */,
 				E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */,
 				E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */,
+				E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */,
 				E2FEDA321EBEC27C0020E3C0 /* ContactsViewController.swift in Sources */,
 				F4635EA41EB62776008BDD0B /* EditLocationViewController.swift in Sources */,
 				E2FEDA251EBD08A10020E3C0 /* LabelDataStore.swift in Sources */,

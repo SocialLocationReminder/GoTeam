@@ -23,7 +23,7 @@ class Task : ListItem {
     var taskLabel : String?
     var taskSocialContact : String?
     var taskLocation : Location?
-    
+    var taskContacts : [Contact]?
     
     // sub ranges
     var taskPrioritySubrange : Range<String.Index>?
@@ -31,6 +31,7 @@ class Task : ListItem {
     var taskLabelSubrange : Range<String.Index>?
     var taskRecurrenceSubrange : Range<String.Index>?
     var taskLocationSubrange : Range<String.Index>?
+    var taskContactsSubranges : [Range<String.Index>]?
     
     init() {
         taskID = Date()

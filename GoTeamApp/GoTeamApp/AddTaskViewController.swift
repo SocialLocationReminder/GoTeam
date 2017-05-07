@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KBContactsSelection
 
 
 enum TableState {
@@ -17,6 +18,7 @@ enum TableState {
     case label
     case recurrence
     case location
+    case contact
 }
 
 class AddTaskViewController: UIViewController {
@@ -59,7 +61,8 @@ class AddTaskViewController: UIViewController {
             TableState.label : TaskSpecialCharacter.label,
             TableState.dueDate : TaskSpecialCharacter.dueDate,
             TableState.recurrence : TaskSpecialCharacter.recurrence,
-            TableState.location : TaskSpecialCharacter.location
+            TableState.location : TaskSpecialCharacter.location,
+            TableState.contact : TaskSpecialCharacter.contact
         ]
 
     
@@ -72,7 +75,8 @@ class AddTaskViewController: UIViewController {
     let recurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
     
     
-
+    // contacts
+    var kbContactsController : KBContactsSelectionViewController! 
     
     // --- application layer ---
     let labelManager = LabelManager.sharedInstance
@@ -119,11 +123,23 @@ class AddTaskViewController: UIViewController {
         // 9. locations
         setupLocationButton()
         
+        // 10. contacts
+        setupContactButton()
+        setupKBContactsController()
+        
         tableStateToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
         }
     }
     
+    
+    func setupContactButton() {
+        contactButton.isUserInteractionEnabled = true
+        contactButton.isHighlighted = false
+        let contactTapGR = UITapGestureRecognizer(target: self, action: #selector(contactButtonTapped(sender:)))
+        contactButton.addGestureRecognizer(contactTapGR)
+        
+    }
     
     func setupLocationButton() {
         locationButton.isUserInteractionEnabled = true
@@ -224,6 +240,10 @@ class AddTaskViewController: UIViewController {
 
     func locationButtonTapped(sender : UITapGestureRecognizer) {
         showTable(state: .location, char: TaskSpecialCharacter.location.rawValue)
+    }
+    
+    func contactButtonTapped(sender : UITapGestureRecognizer) {
+        showKBContactsController(char: TaskSpecialCharacter.contact.rawValue)
     }
     
     func showTable(state: TableState, char : Character) {
@@ -771,3 +791,47 @@ extension AddTaskViewController : UITextViewDelegate {
         textView.attributedText = attributedString
     }
 }
+
+
+extension AddTaskViewController : KBContactsSelectionViewControllerDelegate {
+    func setupKBContactsController() {
+        
+        kbContactsController = KBContactsSelectionViewController(configuration: { (config) in
+            config?.shouldShowNavigationBar = true
+            // config?.tintColor = UIColor.blue
+            config?.title = Resources.Strings.Contacts.kNavigationBarTitle
+            config?.selectButtonTitle = Resources.Strings.AddTasks.kSelectContacts
+            config?.mode = KBContactsSelectionMode.messages
+            config?.skipUnnamedContacts = true
+            config?.customSelectButtonHandler = { (contacts : Any!) in
+                self.kbContactsController.dismiss(animated: true, completion: nil)
+                if let contacts = contacts as? [APContact] {
+                    self.contactsSelected(contacts: contacts)
+                }
+            }
+            config?.contactEnabledValidation = { (contact : Any) in
+                return true
+            }
+        })
+        kbContactsController.title = Resources.Strings.Contacts.kNavigationBarTitle
+        kbContactsController.delegate = self
+    }
+    
+    func contactsSelected(contacts : [APContact]) {
+        for contact in contacts {
+            let fullName = contact.fullName()
+            if let fullName = fullName {
+                let str = TaskSpecialCharacter.contact.stringValue() + fullName
+                appendToTextView(string: str)
+                attributeTextView(pattern: str, options: .caseInsensitive, fgColor: UIColor.white, bgColor: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1))
+            }
+        }
+    }
+    
+    func showKBContactsController(char : Character) {
+        
+        setupKBContactsController()
+        self.present(kbContactsController, animated: true, completion: nil)
+    }
+}
+

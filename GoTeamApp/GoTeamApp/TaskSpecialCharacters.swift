@@ -15,8 +15,8 @@ enum TaskSpecialCharacter : Character {
     case dueDate = "^"
     case label = "#"
     case recurrence = "*"
-    case location = "+"
-    case contact = "@"
+    case location = "@"
+    case contact = "+"
     func stringValue() -> String {
         return String(rawValue)
     }
