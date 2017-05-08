@@ -48,6 +48,7 @@ import UIKit
     
     // state
     func setButtonState()
+    @objc optional func userTriggedAnnotation()
     
     // table view data source 
     func numberOfSections() -> Int
@@ -57,5 +58,8 @@ import UIKit
     // table view delegate
     func didSelect(_ indexPath : IndexPath)
     
+    // segue and presentation related
     @objc optional func unwind(segue : UIStoryboardSegue)
+    
+
 }

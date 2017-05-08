@@ -48,8 +48,7 @@ class ContactsAnnotationController : NSObject, AnnotationControllerProtocol {
     
     // MARK: - gesture recognizer
     @objc func buttonTapped(sender : UITapGestureRecognizer) {
-        setupKBContactsController() // doing this each time to clear state, no other way
-        delegate?.present(sender: self, controller: kbContactsController)
+        userTriggedAnnotation()
     }
     
     
@@ -57,6 +56,11 @@ class ContactsAnnotationController : NSObject, AnnotationControllerProtocol {
     func setButtonState() {
         
         
+    }
+    
+    func userTriggedAnnotation() {
+        setupKBContactsController() // doing this each time to clear state, no other way
+        delegate?.present(sender: self, controller: kbContactsController)
     }
     
     // MARK: - Table View data source related

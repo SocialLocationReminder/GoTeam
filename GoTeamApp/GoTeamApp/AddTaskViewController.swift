@@ -59,7 +59,8 @@ class AddTaskViewController: UIViewController {
             .location : TaskSpecialCharacter.location,
             .contact : TaskSpecialCharacter.contact
     ]
-
+    
+    var specialHandlingAnnotationTypes : [AnnotationType]!
     
     // constructed by swapping the keys and values of the above map
     var specialCharacterToTableStateMap = [TaskSpecialCharacter : AnnotationType]()
@@ -107,6 +108,8 @@ class AddTaskViewController: UIViewController {
             annotationControllers[ix].setup(button: buttons[ix], textView: textView, annotationType: annotationTypes[ix], task: task)
             annotationControllers[ix].delegate = self
         }
+        
+        specialHandlingAnnotationTypes = [.contact]
     }
     
     
@@ -251,6 +254,14 @@ extension AddTaskViewController : UITextViewDelegate {
             if let specialChar = TaskSpecialCharacter(rawValue: textArray[textArray.count - 1]),
                 let state = specialCharacterToTableStateMap[specialChar] {
                     tableState = state
+                    for specialHandling in specialHandlingAnnotationTypes {
+                        if specialHandling == state {
+                            if let ix = indexFor(annotationType: state) {
+                                annotationControllers[ix].userTriggedAnnotation?()
+                            }
+                            return;
+                        }
+                    }
                     showTable(annotationType: state)
             }
         }
