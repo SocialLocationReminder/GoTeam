@@ -285,6 +285,8 @@ class AddTaskViewController: UIViewController {
                 appendToTextView(string: Resources.Strings.AddTasks.kDateAndTimeSeparatorString)
                 appendToTextView(string: timeSelectedStr)
             }
+            appendToTextView(string: " ")
+            setDateButtonState()
         }
     }
 }
@@ -429,6 +431,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             task.taskRecurrence = nil
         } else {
             appendToTextView(string: String(recurrenceArray[indexPath.row]))
+            appendToTextView(string: " ")
+            setRecurrenceButtonState()
         }
     }
     
@@ -440,6 +444,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             task.taskPriority = nil
         } else {
             appendToTextView(string: String(indexPath.row + 1))
+            appendToTextView(string: " ")
+            setPriorityButtonState()
         }
     }
 
@@ -456,6 +462,8 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
             task.taskDate = nil
         } else {
             appendToTextView(string: dateArray[indexPath.row])
+            appendToTextView(string: " ")
+            setDateButtonState()
         }
     }
     
@@ -469,12 +477,16 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
         
         if let labelName = labels![indexPath.row].labelName {
             appendToTextView(string: labelName)
+            appendToTextView(string: " ")
+            setLabelButtonState()
         }
     }
 
     func handleLocationSelected(_ indexPath : IndexPath) {
         if let locationName = locations()[indexPath.row].title {
             appendToTextView(string: locationName)
+            appendToTextView(string: " ")
+            setLocationButtonState()
         }
     }
 

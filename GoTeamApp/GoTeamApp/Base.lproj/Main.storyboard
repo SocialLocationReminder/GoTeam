@@ -34,9 +34,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I7e-gL-uYn" userLabel="Delete View">
-                                                    <color key="backgroundColor" red="0.76470588240000004" green="0.058823529409999999" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.2588235438" green="0.75686275960000005" blue="0.96862745289999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEc-nA-Lnb">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Done" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEc-nA-Lnb">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -100,9 +100,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPX-Hk-QL0" userLabel="Delete View">
-                                                    <color key="backgroundColor" red="0.76470588240000004" green="0.058823529409999999" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.2588235438" green="0.75686275960000005" blue="0.96862745289999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WEv-CE-Yi6">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Done" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WEv-CE-Yi6">
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -296,10 +296,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddTaskCell" id="C7R-aw-IzE" customClass="AddTaskCell" customModule="GoTeamApp">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C7R-aw-IzE" id="huW-RB-R3Y">
-                                            <frame key="frameInset" width="375" height="43"/>
+                                            <frame key="frameInset" width="1000" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Mr-o2-gAz">
@@ -523,7 +523,7 @@
                             <constraint firstAttribute="trailing" secondItem="jZd-d8-5Ug" secondAttribute="trailing" id="DGk-gu-VLI"/>
                             <constraint firstItem="IZd-FJ-slL" firstAttribute="top" secondItem="Y9E-MD-2en" secondAttribute="bottom" constant="5" id="Mjj-OX-5Lh"/>
                             <constraint firstItem="IZd-FJ-slL" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" id="ajj-uH-xb5"/>
-                            <constraint firstItem="Y9E-MD-2en" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" id="ava-qP-ECq"/>
+                            <constraint firstItem="Y9E-MD-2en" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" constant="10" id="ava-qP-ECq"/>
                             <constraint firstAttribute="trailing" secondItem="Y9E-MD-2en" secondAttribute="trailing" id="bFs-bX-JpZ"/>
                             <constraint firstItem="jZd-d8-5Ug" firstAttribute="top" secondItem="Y9E-MD-2en" secondAttribute="bottom" constant="5" id="c58-kn-bXu"/>
                             <constraint firstItem="N3b-nm-KMi" firstAttribute="top" secondItem="IZd-FJ-slL" secondAttribute="bottom" id="fGo-g7-T4Y"/>
@@ -1225,6 +1225,6 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="MSY-eV-Tla"/>
+        <segue reference="Qoh-cV-2w8"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -45,12 +45,13 @@ class TaskWithAnnotationsCell: UITableViewCell {
             if let task = task {
                 taskNameLabel.text = task.taskName
                 taskDateLabel.text = ""
+                taskTimeLabel.text = ""
                 if let date = task.taskDate {
                     TaskCell.dateFormatter.dateFormat = "MMM d"
                     taskDateLabel.text = TaskCell.dateFormatter.string(from: date)
                     
                     if let timeSet = task.timeSet,
-                        task.timeSet == true {
+                        timeSet == true {
                         TaskCell.dateFormatter.dateFormat = "hh:mm a"
                         taskTimeLabel.text = TaskCell.dateFormatter.string(from: date)
                     }
