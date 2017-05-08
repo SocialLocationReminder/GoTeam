@@ -18,6 +18,7 @@ class TasksViewController: UIViewController {
     @IBOutlet weak var addButton: UIButton!
     
     
+    var searchKey = ""
     
     // cells
     let kTaskCell = "TaskCell"
@@ -29,6 +30,7 @@ class TasksViewController: UIViewController {
 
     // application layer 
     let taskManager = TaskManager()
+    let labelManager = LabelManager.sharedInstance
     
     // MARK: - view load related
     override func viewDidLoad() {
@@ -42,7 +44,7 @@ class TasksViewController: UIViewController {
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        // setup search bar 
+        // setup search bar
         searchBar.delegate = self
         
         // fetch tasks
@@ -60,6 +62,7 @@ class TasksViewController: UIViewController {
             DispatchQueue.main.async {
                 hud.hide(animated: true)
                 self.tasks = receivedTasks
+                self.searchIfLabelIsAvailableForFilter()
                 self.tableView.reloadData()
             }
         }) { (error) in
@@ -67,6 +70,13 @@ class TasksViewController: UIViewController {
                 // @todo: show network error
                 hud.hide(animated: true)
             }
+        }
+    }
+    
+    func searchIfLabelIsAvailableForFilter() {
+        if !self.searchKey.isEmpty {
+            self.searchBar.text = "#"+self.searchKey
+            self.applyFilterPerSearchText()
         }
     }
     
