@@ -184,7 +184,8 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
         if localTasks![indexPath.row].taskPriority != nil ||
             localTasks![indexPath.row].taskRecurrence != nil ||
             localTasks![indexPath.row].taskLabel != nil ||
-            localTasks![indexPath.row].taskLocation != nil {
+            localTasks![indexPath.row].taskLocation != nil ||
+            localTasks![indexPath.row].taskContacts != nil {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: kTaskWithAnnotationsCell) as! TaskWithAnnotationsCell
             cell.task = localTasks![indexPath.row]
