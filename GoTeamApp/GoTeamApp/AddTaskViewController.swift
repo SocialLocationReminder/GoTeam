@@ -25,16 +25,6 @@ class AddTaskViewController: UIViewController {
 
     static let dateFormatter = DateFormatter()
     
-    let kShowCalendarSegue = "showCalendarSegue"
-    let kShowAddLabelScreen = "showAddLabelScreen"
-    
-    let kPriorityHigh = "!1"
-    let kPriorityMedium = "!2"
-    let kPriorityLow = "!3"
-    
-    var labelsMsg     : String!
-    var locationsMsg  : String!
-    
     // --- outlets ---
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var maskView: UIView!
@@ -53,37 +43,28 @@ class AddTaskViewController: UIViewController {
     
     
     // --- table view related ---
-    var tableState : TableState = .none
-    var tableFilter : String?
-    var tableStateToCharacterMap : [TableState : TaskSpecialCharacter] =
-        [
-            TableState.priority : TaskSpecialCharacter.priority,
-            TableState.label : TaskSpecialCharacter.label,
-            TableState.dueDate : TaskSpecialCharacter.dueDate,
-            TableState.recurrence : TaskSpecialCharacter.recurrence,
-            TableState.location : TaskSpecialCharacter.location,
-           // TableState.contact : TaskSpecialCharacter.contact - exception, doesn't use the table view for now
-        ]
+    var tableState : AnnotationType = .none
 
+
+    // annotations
+    var annnotationTypeToControllerMap = [AnnotationType : AnnotationControllerProtocol]()
+    var annotationTypes : [AnnotationType]!
+    var annotationControllers : [AnnotationControllerProtocol]!
+    var annotationTypeToCharacterMap : [AnnotationType : TaskSpecialCharacter] =
+        [
+            .priority : TaskSpecialCharacter.priority,
+            .label : TaskSpecialCharacter.label,
+            .dueDate : TaskSpecialCharacter.dueDate,
+            .recurrence : TaskSpecialCharacter.recurrence,
+            .location : TaskSpecialCharacter.location,
+            .contact : TaskSpecialCharacter.contact
+    ]
+    
+    var specialHandlingAnnotationTypes : [AnnotationType]!
     
     // constructed by swapping the keys and values of the above map
-    var specialCharacterToTableStateMap = [TaskSpecialCharacter : TableState]()
+    var specialCharacterToTableStateMap = [TaskSpecialCharacter : AnnotationType]()
 
-    
-    let priorityArray = ["1 - High", "2 - Medium", "3 - Low", "None"]
-    var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
-    let recurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
-    
-    
-    // contacts
-    var kbContactsController : KBContactsSelectionViewController! 
-    
-    // --- application layer ---
-    let labelManager = LabelManager.sharedInstance
-    var labels : [Labels]?
-    let locationManager = SelectedLocationsManager.sharedInstance
-    let contactManager = ContactManager.sharedInstance
-    
     // MARK: - init/load related
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,198 +76,68 @@ class AddTaskViewController: UIViewController {
         textView.text = ""
         textView.accessibilityHint = ""
         
-        
         // 2. setup mask view
         buttonView.isHidden = true
-        
         
         // 3. setup table view
         tableView.isHidden = true
         tableView.dataSource = self
         tableView.delegate = self
-        
-        // 4. setup button
-        setupPriorityButton()
-        
-        // 5. setup due date
-        setupDate()
-        
-        // 6. new task
+
+        // 4. new task
         task = Task()
 
-        // 7. fetch labels
-        setupLabelButton()
-        
-        // 8. recurrence
-        setupRecurrenceButton()
-        
-        // 9. locations
-        setupLocationButton()
-        
-        // 10. contacts
-        setupContactButton()
-        setupKBContactsController()
-        
-        tableStateToCharacterMap.forEach { (k, v) in
+        // 5. setup annotation controllers
+        setupAnnotationControllers()
+
+        // setup specialCharacterToTableStateMap
+        annotationTypeToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
         }
     }
     
-    
-    func setupContactButton() {
-        contactButton.isUserInteractionEnabled = true
-        contactButton.isHighlighted = false
-        let contactTapGR = UITapGestureRecognizer(target: self, action: #selector(contactButtonTapped(sender:)))
-        contactButton.addGestureRecognizer(contactTapGR)
-        
-    }
-    
-    func setupLocationButton() {
-        locationButton.isUserInteractionEnabled = true
-        locationButton.isHighlighted = false
-        let locationTapGR = UITapGestureRecognizer(target: self, action: #selector(locationButtonTapped(sender:)))
-        locationButton.addGestureRecognizer(locationTapGR)
-        self.locationsMsg = Resources.Strings.AddTasks.kLoadingLocations
-        fetchLocations()
-    }
-    
-    func setupRecurrenceButton() {
-        repeatButton.isUserInteractionEnabled = true
-        repeatButton.isHighlighted = false
-        let repeatTapGR = UITapGestureRecognizer(target: self, action: #selector(repeatButtonTapped(sender:)))
-        repeatButton.addGestureRecognizer(repeatTapGR)
-    }
-    
-    func setupLabelButton() {
-        listButton.isUserInteractionEnabled = true
-        listButton.isHighlighted = false
-        let listTapGR = UITapGestureRecognizer(target: self, action: #selector(labelButtonTapped))
-        listButton.addGestureRecognizer(listTapGR)
-        self.labelsMsg = Resources.Strings.AddTasks.kLoadingLabels
-        fetchLabels()
-    }
-    
-    func fetchLocations() {
-        locationManager.allLocations(fetch: true, success: { (locations) in
-            if self.tableState == .location {
-                self.tableView.reloadData()
-            }
-        }) { (error) in
-            self.locationsMsg = Resources.Strings.AddTasks.kFailedLoadingLabels
+    func setupAnnotationControllers() {
+        annotationTypes = [.priority, .label, .dueDate, .recurrence, .location, .contact]
+        annotationControllers =
+            [
+                PriorityAnnotationController(), LabelAnnotationController(), DateTimeAnnotationController(),
+                RecurrenceAnnotationController(), LocationAnnotationController(), ContactsAnnotationController()
+        ]
+        let buttons : [UIImageView] = [priorityButton, listButton, dueDateButton, repeatButton, locationButton, contactButton]
+        for ix in 0..<annotationControllers.count {
+            annotationControllers[ix].setup(button: buttons[ix], textView: textView, annotationType: annotationTypes[ix], task: task)
+            annotationControllers[ix].delegate = self
         }
-    }
-    
-    func fetchLabels() {
-        labelManager.allLabels(fetch: true, success: { (labels) in
-            self.labels = labels
-            if self.tableState == .label {
-                self.tableView.reloadData()
-            }
-            }) { (error) in
-                if self.tableState == .label {
-                    self.labelsMsg = Resources.Strings.AddTasks.kFailedLoadingLocations
-                    self.tableView.reloadData()
-                }
-        }
-    }
-    
-    func setupDate() {
-        let today = Date()
-        let dayAfter = Calendar.current.date(byAdding: .day, value: 2, to: today)
-        AddTaskViewController.dateFormatter.dateFormat = "EEEE"
-        dateArray[2] = AddTaskViewController.dateFormatter.string(from: dayAfter!)
-        let dayAfterThat = Calendar.current.date(byAdding: .day, value: 3, to: today)
-        dateArray[3] = AddTaskViewController.dateFormatter.string(from: dayAfterThat!)
-        let nextDayAfterDayAfter = Calendar.current.date(byAdding: .day, value: 4, to: today)
-        dateArray[4] = AddTaskViewController.dateFormatter.string(from: nextDayAfterDayAfter!)
         
-        dateButton.isHighlighted = false
-        let dateButtonTapGR = UITapGestureRecognizer(target: self, action: #selector(dateButtonTapped))
-        dateButton.addGestureRecognizer(dateButtonTapGR)
-    }
-
-    func setupPriorityButton() {
-        priorityButton.isHighlighted = false
-        let priorityTapGR = UITapGestureRecognizer(target: self, action: #selector(priorityButtonTapped))
-        priorityButton.addGestureRecognizer(priorityTapGR)
+        specialHandlingAnnotationTypes = [.contact]
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         
     }
 
-    // MARK: - Gesture Recognizer handlers
-    func dateButtonTapped(sender : UITapGestureRecognizer) {
-        showTable(state: .dueDate, char : TaskSpecialCharacter.dueDate.rawValue)
-    }
-
     
-    func priorityButtonTapped(sender : UITapGestureRecognizer) {
-        showTable(state: .priority, char : TaskSpecialCharacter.priority.rawValue)
-    }
-    
-    func labelButtonTapped(sender : UITapGestureRecognizer) {
-        showTable(state: .label, char : TaskSpecialCharacter.label.rawValue)
-    }
-    
-    func repeatButtonTapped(sender : UITapGestureRecognizer) {
-        showTable(state: .recurrence, char: TaskSpecialCharacter.recurrence.rawValue)
-    }
-
-    func locationButtonTapped(sender : UITapGestureRecognizer) {
-        showTable(state: .location, char: TaskSpecialCharacter.location.rawValue)
-    }
-    
-    func contactButtonTapped(sender : UITapGestureRecognizer) {
-        showKBContactsController()
-    }
-    
-    func showTable(state: TableState, char : Character) {
-        
-        let text = textView.text
-        let textArray = Array(text!.characters)
-
-        
-        if textArray.count == 0 || textArray[textArray.count - 1] != char {
-            if textArray.count > 0 && textArray[textArray.count - 1] != " " {
-                textView.text = textView.text + " "
-            }
-            textView.text = textView.text + String(char)
-        }
-        
-        tableView.isHidden = false
-        maskView.isHidden = true
-        tableState = state
-        tableView.reloadData()
-    }
-    
-    
-    // MARK: - unwind segues
-    
+    // MARK: - unwind segues and prepare for segue
     @IBAction func unwindCancelToAddTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
         
     }
 
     @IBAction func unwindDoneAddTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
-        if let calendarVC = segue.source as? CalendarViewController {
-            
-            let dateSelected = calendarVC.dateSelected ?? Date()
-            AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
-            let dateSelectedStr = AddTaskViewController.dateFormatter.string(from: dateSelected)
-            appendToTextView(string: dateSelectedStr)
-            if calendarVC.timePicked == true {
-                AddTaskViewController.dateFormatter.dateFormat = "hh:mm a"
-                let timeSelectedStr = AddTaskViewController.dateFormatter.string(from: dateSelected)
-                appendToTextView(string: Resources.Strings.AddTasks.kDateAndTimeSeparatorString)
-                appendToTextView(string: timeSelectedStr)
-            }
-            appendToTextView(string: " ")
-            setDateButtonState()
+        if segue.identifier == DateTimeAnnotationController.kUnwindCalendarSegue,
+            let calendarVC = segue.source as? CalendarViewController,
+            let annotationType = calendarVC.annotationType,
+            let ix = indexFor(annotationType: annotationType) {
+            annotationControllers[ix].unwind?(segue: segue)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == DateTimeAnnotationController.kShowCalendarSegue,
+            let navVC = segue.destination as? UINavigationController,
+            let calendarVC = navVC.topViewController as? CalendarViewController {
+            calendarVC.annotationType = tableState
         }
     }
 }
@@ -297,37 +148,18 @@ class AddTaskViewController: UIViewController {
 extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        switch tableState {
-        case .priority:
-            return 1
-        case .dueDate:
-            return 2
-        case .label:
-            return 2
-        case .recurrence:
-            return 1
-        case .location:
-            return 1
-        default:
-            return 0
+        
+        if let annotationTypeIx = indexFor(annotationType: tableState) {
+            return annotationControllers[annotationTypeIx].numberOfSections()
         }
+        return 0;
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch tableState {
-        case .priority:
-            return priorityArray.count
-        case .dueDate:
-            return section == 0 ? dateArray.count : 1
-        case .label:
-            return section == 0 ? labels?.count ?? 1 : 1
-        case .recurrence:
-            return recurrenceArray.count
-        case .location:
-            return locations().count
-        default:
-            return 0
+        if let annotationTypeIx = indexFor(annotationType: tableState) {
+            return annotationControllers[annotationTypeIx].numberOfRows(section: section)
         }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -339,202 +171,37 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    func dateCell(indexPath : IndexPath) -> AddTaskCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
-        cell.addTaskImageView?.image = nil
-        cell.primayTextLabel.text = indexPath.section == 0 ? dateArray[indexPath.row] : Resources.Strings.AddTasks.kPickADate
-        if indexPath.section == 0 {
-            let today = Date()
-            let labelDate = Calendar.current.date(byAdding: .day, value: indexPath.row, to: today)
-            AddTaskViewController.dateFormatter.dateFormat = "MMM d"
-            cell.secondaryTextLabel.text = AddTaskViewController.dateFormatter.string(from: labelDate!)
-            cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kCalendarIcon)
-        } else {
-            cell.addkTaskImageViewLeadingConstraint.constant = -10.0
-        }
-        return cell
-    }
-    
-    func priorityCell(indexPath : IndexPath) -> AddTaskCell {
-        
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
-        cell.addTaskImageView?.image = nil
-        cell.primayTextLabel.text = priorityArray[indexPath.row]
-        cell.secondaryTextLabel.text = ""
-        return cell
-    }
-    
-    func labelCell(indexPath : IndexPath) -> AddTaskCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier:Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
-        cell.addTaskImageView?.image = nil
-        if indexPath.section == 0 {
-            if let labels = labels {
-                cell.primayTextLabel.text = labels[indexPath.row].labelName
-                cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kListIcon)
-            } else {
-                cell.primayTextLabel.text = self.labelsMsg
-                cell.addkTaskImageViewLeadingConstraint.constant = -10.0
+    func indexFor(annotationType : AnnotationType) -> Int? {
+
+        for jx in 0..<annotationTypes.count {
+            if annotationTypes[jx] == annotationType {
+                return jx
             }
-        } else {
-            cell.primayTextLabel.text = Resources.Strings.AddTasks.kNewList
-            cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kAddIcon)
         }
-        
-        cell.secondaryTextLabel.text = ""
-        return cell
+        return nil
     }
-    
-    func recurrenceCell(indexPath : IndexPath) -> AddTaskCell {
-        
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
-        cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kRecurringIcon)
-        cell.primayTextLabel.text = recurrenceArray[indexPath.row]
-        cell.secondaryTextLabel.text = ""
-        return cell
-    }
-    
-    func locationCell(indexPath : IndexPath) -> AddTaskCell {
-        
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
-        cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kLocationIcon)
-        cell.primayTextLabel.text = locations()[indexPath.row].title
-        cell.secondaryTextLabel.text = ""
-        return cell
-    }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch tableState {
-        case .priority:
-            return priorityCell(indexPath: indexPath)
-        case .dueDate:
-            return dateCell(indexPath: indexPath)
-        case .label:
-            return labelCell(indexPath: indexPath)
-        case .recurrence:
-            return recurrenceCell(indexPath: indexPath)
-        case .location:
-            return locationCell(indexPath: indexPath)
-        default:
-            return UITableViewCell()
+        if let annotationTypeIx = indexFor(annotationType: tableState) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Resources.Strings.AddTasks.kAddTaskCell) as! AddTaskCell
+            annotationControllers[annotationTypeIx].populate(cell: cell, indexPath: indexPath)
+            return cell
         }
+        return UITableViewCell()
     }
     
     
     // MARK: - selected row in table view
-    
-    func handleRecurrenceSelected(_ indexPath : IndexPath) {
-        
-        if indexPath.row == recurrenceArray.count - 1  {
-            let chars = Array(textView.text.characters)
-            textView.text = String(chars[0..<chars.count - 2])
-            task.taskRecurrence = nil
-        } else {
-            appendToTextView(string: String(recurrenceArray[indexPath.row]))
-            appendToTextView(string: " ")
-            setRecurrenceButtonState()
-        }
-    }
-    
-
-    func handlePrioritySelected(_ indexPath : IndexPath) {
-        if indexPath.row == priorityArray.count - 1  {
-            let chars = Array(textView.text.characters)
-            textView.text = String(chars[0..<chars.count - 2])
-            task.taskPriority = nil
-        } else {
-            appendToTextView(string: String(indexPath.row + 1))
-            appendToTextView(string: " ")
-            setPriorityButtonState()
-        }
-    }
-
-    func handleDateSelected(_ indexPath : IndexPath) {
-        
-        if indexPath.section == 1 {
-            // show a calendar view
-            performSegue(withIdentifier: kShowCalendarSegue, sender: self)
-            return;
-        }
-        if indexPath.row == dateArray.count - 1  {
-            let chars = Array(textView.text.characters)
-            textView.text = String(chars[0..<chars.count - 2])
-            task.taskDate = nil
-        } else {
-            appendToTextView(string: dateArray[indexPath.row])
-            appendToTextView(string: " ")
-            setDateButtonState()
-        }
-    }
-    
-    func handleLabelSelected(_ indexPath : IndexPath) {
-        
-        if indexPath.section == 1 {
-            // show add label screen
-            performSegue(withIdentifier: kShowAddLabelScreen, sender: self)
-            return;
-        }
-        
-        if let labelName = labels![indexPath.row].labelName {
-            appendToTextView(string: labelName)
-            appendToTextView(string: " ")
-            setLabelButtonState()
-        }
-    }
-
-    func handleLocationSelected(_ indexPath : IndexPath) {
-        if let locationName = locations()[indexPath.row].title {
-            appendToTextView(string: locationName)
-            appendToTextView(string: " ")
-            setLocationButtonState()
-        }
-    }
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch tableState {
-        case .priority:
-            handlePrioritySelected(indexPath)
-        case .dueDate:
-            handleDateSelected(indexPath)
-        case .label:
-            handleLabelSelected(indexPath)
-        case .recurrence:
-            handleRecurrenceSelected(indexPath)
-        case .location:
-            handleLocationSelected(indexPath)
-        default:
-            break
+        
+        if let annotationTypeIx = indexFor(annotationType: tableState) {
+            annotationControllers[annotationTypeIx].didSelect(indexPath)
         }
 
         tableState = .none
         tableView.isHidden = true
         maskView.isHidden = false
-    }
-    
-    
-    func locations() -> [Location] {
-        if let tableFilter = tableFilter {
-            
-            if tableFilter.characters.count == 0 {
-                return locationManager.locations;
-            }
-            
-            var filteredLocations = [Location]();
-            
-            for location in locationManager.locations {
-                
-                if let locationName = location.title {
-                    
-                    let locationRange = locationName.range(of: tableFilter, options: .caseInsensitive, range: nil, locale: nil)
-                    
-                    if locationRange?.isEmpty == false {
-                        filteredLocations.append(location);
-                    }
-                }
-            }
-            return filteredLocations
-        }
-        return locationManager.locations
     }
 }
 
@@ -552,217 +219,12 @@ extension AddTaskViewController : UITextViewDelegate {
         // 2. table view
         setTableViewState(textArray)
         
-        // 3. priority button
-        setPriorityButtonState()
-        
-        // 4. date button
-        setDateButtonState()
-        
-        // 5. label button
-        setLabelButtonState()
-        
-        // 6. recurrence button
-        setRecurrenceButtonState()
-        
-        // 7. location button
-        setLocationButtonState()
-        
-        // 8. contacts button
-        setContactsButtonState()
-        
-    }
-    
-    func setContactsButtonState() {
-        contactButton.isHighlighted = false
-        contactButton.isUserInteractionEnabled = true
-        let textArray = Array(textView.text.characters)
-        if textArray.count > 0 && textArray.last == TaskSpecialCharacter.contact.rawValue {
-            showKBContactsController()
-            contactButton.isHighlighted = true
-            contactButton.isUserInteractionEnabled = false
-            return;
+        // 3. annotation controller button states
+        for controller in annotationControllers {
+            controller.setButtonState()
         }
     }
-    
-    func setLocationButtonState() {
-        locationButton.isHighlighted = false
-        locationButton.isUserInteractionEnabled = true
-        for ix in 0..<locations().count {
-            let location = locations()[ix]
-            let testString = TaskSpecialCharacter.location.stringValue() + location.title!
-            if textView.text.contains(testString) {
-                locationButton.isHighlighted = true
-                locationButton.isUserInteractionEnabled = false
-                if task.taskLocation == nil {
-                    
-                    task.taskLocation = location
-                    task.taskLabelSubrange = textView.text.range(of: testString)
-                    attributeTextView(pattern: testString, options: .caseInsensitive,
-                                      fgColor: UIColor.white, bgColor: UIColor.gray)
-                }
-                break
-            }
-        }
-        
-        if repeatButton.isUserInteractionEnabled == true {
-            task.taskRecurrence = nil
-            task.taskRecurrenceSubrange = nil
-        }
-    }
-    
-    func setRecurrenceButtonState() {
-        
-        repeatButton.isHighlighted = false
-        repeatButton.isUserInteractionEnabled = true
-        for ix in 0..<recurrenceArray.count {
-            let testString = TaskSpecialCharacter.recurrence.stringValue() + recurrenceArray[ix]
-            if textView.text.contains(testString) {
-                repeatButton.isHighlighted = true
-                repeatButton.isUserInteractionEnabled = false
-                if task.taskRecurrence == nil {
-                    
-                    // @todo: need to support multiple labels
-                    task.taskRecurrence = ix
-                    task.taskRecurrenceSubrange = textView.text.range(of: testString)
-                    attributeTextView(pattern: testString, options: .caseInsensitive,
-                                      fgColor: UIColor.white, bgColor: UIColor.green)
-                }
-                
-                break
-            }
-        }
-        
-        if repeatButton.isUserInteractionEnabled == true {
-            task.taskRecurrence = nil
-            task.taskRecurrenceSubrange = nil
-        }
 
-    }
-    
-    func setLabelButtonState() {
-        
-        guard let _ = labels else { return; }
-        
-        listButton.isHighlighted = false
-        listButton.isUserInteractionEnabled = true
-        for ix in 0..<labels!.count {
-            if let labelName = labels![ix].labelName {
-                let testString = TaskSpecialCharacter.label.stringValue() + labelName
-                if textView.text.contains(testString) {
-                    listButton.isHighlighted = true
-                    listButton.isUserInteractionEnabled = false
-                    if task.taskLabel == nil {
-
-                        // @todo: need to support multiple labels
-                        task.taskLabel = labelName
-                        task.taskLabelSubrange = textView.text.range(of: testString)
-                        attributeTextView(pattern: testString, options: .caseInsensitive,
-                                          fgColor: UIColor.white, bgColor: UIColor.cyan)
-                    }
-                    
-                    break
-                }
-            }
-        }
-        if listButton.isUserInteractionEnabled == true {
-            task.taskLabel = nil
-            task.taskLabelSubrange = nil
-        }
-    }
-    
-    func setDateButtonState() {
-        dateButton.isHighlighted = false
-        dateButton.isUserInteractionEnabled = true
-        for ix in 0..<dateArray.count {
-            let testString = TaskSpecialCharacter.dueDate.stringValue() + dateArray[ix]
-            if textView.text.contains(testString) {
-                dateButton.isHighlighted = true
-                dateButton.isUserInteractionEnabled = false
-                if task.taskDate == nil {
-                    let today = Date()
-                    task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
-                    task.taskDateSubrange = textView.text.range(of: testString)
-                    attributeTextView(pattern: testString, options: .caseInsensitive,
-                                      fgColor: UIColor.white, bgColor: UIColor.brown)
-                }
-
-                break
-            }
-        }
-        
-        // date only pattern
-        let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
-        let dateAndTimePattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4} at \\d{1,2}:\\d{2} (AM|PM)"
-        
-        // date and time pattern
-        if let range = textView.text.range(of: dateAndTimePattern, options: .regularExpression, range: nil, locale: nil),
-            !range.isEmpty {
-            dateButton.isHighlighted = true
-            dateButton.isUserInteractionEnabled = false
-            if task.taskDate == nil {
-                let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
-                let dateString = textView.text.substring(with: subRange)
-                AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy 'at' hh:mm a"
-                task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
-                task.timeSet = true
-                task.taskDateSubrange = range
-                attributeTextView(pattern: dateAndTimePattern, options: .regularExpression,
-                                  fgColor: UIColor.white, bgColor: UIColor.brown)
-            }
-        } else if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
-            !range.isEmpty {
-            dateButton.isHighlighted = true
-            dateButton.isUserInteractionEnabled = false
-            if task.taskDate == nil {
-                let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
-                let dateString = textView.text.substring(with: subRange)
-                AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
-                task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
-                task.taskDateSubrange = range
-                attributeTextView(pattern: pattern, options: .regularExpression,
-                                  fgColor: UIColor.white, bgColor: UIColor.brown)
-            }
-        }
-        
-        
-        
-        if dateButton.isUserInteractionEnabled == true {
-            task.taskDate = nil
-            task.taskDateSubrange = nil
-        }
-    }
-    
-
-    func setPriorityButtonState() {
-        
-        priorityButton.isHighlighted = true
-        priorityButton.isUserInteractionEnabled = false
-        if textView.text.contains(kPriorityHigh) == false &&
-            textView.text.contains(kPriorityMedium) == false &&
-            textView.text.contains(kPriorityLow) == false {
-            
-            priorityButton.isHighlighted = false
-            priorityButton.isUserInteractionEnabled = true
-            task.taskPriority = nil
-            task.taskPrioritySubrange = nil
-            // @todo: change the attribute color here for the "!"
-        }
-        
-        let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
-        
-        if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
-            !range.isEmpty, task.taskPriority == nil {
-            let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
-            let priorityString = textView.text.substring(with: subRange)
-            task.taskPriority = Int(priorityString)
-            task.taskPrioritySubrange = range
-            
-            // attribute the text
-            attributePriorityText()
-        }
-    }
- 
-    
     func setButtonViewState(_ textArray : [Character]) {
         if textArray.count > 0 && self.buttonView.isHidden == true {
             self.buttonView.isHidden = false
@@ -775,7 +237,7 @@ extension AddTaskViewController : UITextViewDelegate {
         // 1. handle hide scenarios
         var hideTableView = textArray.count == 0 || tableState == .none
         if textArray.count > 0,
-            let specialCharacter = tableStateToCharacterMap[tableState] {
+            let specialCharacter = annotationTypeToCharacterMap[tableState] {
             hideTableView = textArray[textArray.count - 1] != specialCharacter.rawValue
         }
         
@@ -792,31 +254,56 @@ extension AddTaskViewController : UITextViewDelegate {
             if let specialChar = TaskSpecialCharacter(rawValue: textArray[textArray.count - 1]),
                 let state = specialCharacterToTableStateMap[specialChar] {
                     tableState = state
-                    showTable(state: state, char: specialChar.rawValue)
+                    for specialHandling in specialHandlingAnnotationTypes {
+                        if specialHandling == state {
+                            if let ix = indexFor(annotationType: state) {
+                                annotationControllers[ix].userTriggedAnnotation?()
+                            }
+                            return;
+                        }
+                    }
+                    showTable(annotationType: state)
             }
         }
     }
     
+
     
-    func attributePriorityText() {
-        
-        let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + "(1|2|3)"
-        
-        if let taskPriority = task.taskPriority {
-            var bgColor = UIColor.white
-            if taskPriority == 1 {
-                bgColor = UIColor.red
-            } else if taskPriority == 2 {
-                bgColor = UIColor.blue
-            } else if taskPriority == 3 {
-                bgColor = UIColor.orange
-            }
-            attributeTextView(pattern: pattern, options: .regularExpression,
-                              fgColor: UIColor.white, bgColor: bgColor)
-        }
+
+}
+
+extension AddTaskViewController : AnnotationControllerDelegate {
+    
+    func reloadTable(sender : AnnotationControllerProtocol, annotationType: AnnotationType) {
+        self.tableView.reloadData()
     }
     
-    func appendToTextView(string : String) {
+    func buttonTapped(sender : AnnotationControllerProtocol, annotationType: AnnotationType) {
+        showTable(annotationType: annotationType)
+    }
+    
+    func showTable(annotationType: AnnotationType) {
+        if let char = annotationTypeToCharacterMap[annotationType] {
+            let text = textView.text
+            let textArray = Array(text!.characters)
+        
+        
+            if textArray.count == 0 || textArray[textArray.count - 1] != char.rawValue {
+                if textArray.count > 0 && textArray[textArray.count - 1] != " " {
+                    textView.text = textView.text + " "
+                }
+                textView.text = textView.text + char.stringValue()
+            }
+        
+            tableView.isHidden = false
+            maskView.isHidden = true
+            tableState = annotationType
+            tableView.reloadData()
+        }
+    }
+
+    
+    func appendToTextView(sender: AnnotationControllerProtocol, string : String) {
         if textView.attributedText.length > 0 {
             let attributedStr = NSMutableAttributedString(attributedString: textView.attributedText)
             attributedStr.append(NSAttributedString(string: string))
@@ -826,17 +313,17 @@ extension AddTaskViewController : UITextViewDelegate {
         }
     }
     
-    func removeFromTextViewIfLast(character : Character) {
+    func removeFromTextView(sender: AnnotationControllerProtocol, character : String) {
         if textView.attributedText.length > 0 {
             let attributedStr = NSMutableAttributedString(attributedString: textView.attributedText)
             let textArray = Array(attributedStr.string.characters)
-            if textArray[textArray.count - 1] == character {
+            if String(textArray[textArray.count - 1]) == character {
                 attributedStr.deleteCharacters(in: NSMakeRange(attributedStr.length - 1, 1))
                 textView.attributedText = attributedStr
             }
         } else {
             let textArray = Array(textView.text.characters)
-            if textArray.count > 0 && textArray[textArray.count - 1] == character {
+            if textArray.count > 0 && String(textArray[textArray.count - 1]) == character {
                 if var text = textView.text {
                     text.remove(at: text.index(before: text.endIndex))
                     textView.text = text
@@ -847,7 +334,7 @@ extension AddTaskViewController : UITextViewDelegate {
     
     
     
-    func attributeTextView(pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
+    func attributeTextView(sender: AnnotationControllerProtocol, pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
         
         let objString = textView.text as NSString
         let range = objString.range(of: pattern, options: options)
@@ -865,74 +352,16 @@ extension AddTaskViewController : UITextViewDelegate {
         attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))
         textView.attributedText = attributedString
     }
+    
+    // present and peform segue
+    func present(sender: AnnotationControllerProtocol, controller : UIViewController) {
+        self.present(controller, animated: true, completion: nil)
+    }
+    
+    func perform(sender : AnnotationControllerProtocol, segue : String) {
+        performSegue(withIdentifier: segue, sender: self)
+    }
+    
 }
 
-
-extension AddTaskViewController : KBContactsSelectionViewControllerDelegate {
-    func setupKBContactsController() {
-        
-        kbContactsController = KBContactsSelectionViewController(configuration: { (config) in
-            config?.shouldShowNavigationBar = true
-            // config?.tintColor = UIColor.blue
-            config?.title = Resources.Strings.Contacts.kNavigationBarTitle
-            config?.selectButtonTitle = Resources.Strings.AddTasks.kSelectContacts
-            config?.mode = KBContactsSelectionMode.messages
-            config?.skipUnnamedContacts = true
-            config?.customSelectButtonHandler = { (contacts : Any!) in
-                self.kbContactsController.dismiss(animated: true, completion: nil)
-                if let contacts = contacts as? [APContact] {
-                    self.contactsSelected(contacts: contacts)
-                }
-            }
-            config?.contactEnabledValidation = { (contact : Any) in
-                return true
-            }
-        })
-        kbContactsController.title = Resources.Strings.Contacts.kNavigationBarTitle
-        kbContactsController.delegate = self
-    }
-    
-    
-    func contactsSelected(contacts : [APContact]) {
-        
-        if contacts.count > 0 {
-            removeFromTextViewIfLast(character: TaskSpecialCharacter.contact.rawValue)
-        }
-        
-        for contact in contacts {
-            // @todo: replace this with first name
-            let fullName = contact.fullName()
-            if let fullName = fullName {
-                
-                let str = TaskSpecialCharacter.contact.stringValue() + fullName
-                appendToTextView(string: str)
-                attributeTextView(pattern: str, options: .caseInsensitive, fgColor: UIColor.white, bgColor: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1))
-                if task.taskContacts == nil {
-                    task.taskContacts = [Contact]()
-                }
-                if task.taskContactsSubranges == nil {
-                    task.taskContactsSubranges = [Range<String.Index>]()
-                }
-                let contactObj = Contact.contact(apContact: contact)
-                contactManager.add(contact: contactObj, success: {
-                    print("sucess in adding contact")
-                    }, error: { (error) in
-                        // @todo: show error
-                        print("error in saving contact")
-                })
-                task.taskContacts?.append(contactObj)
-                if let range = textView.text.range(of: str) {
-                    task.taskContactsSubranges?.append(range)
-                }
-            }
-        }
-        textView.becomeFirstResponder()
-    }
-    
-    func showKBContactsController() {
-        
-        setupKBContactsController()
-        self.present(kbContactsController, animated: true, completion: nil)
-    }
-}
 

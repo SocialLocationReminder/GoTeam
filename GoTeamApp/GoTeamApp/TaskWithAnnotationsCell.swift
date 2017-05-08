@@ -62,10 +62,12 @@ class TaskWithAnnotationsCell: UITableViewCell {
                 secondAnnotationLabel.isHidden = true
                 thirdAnnotationLabel.isHidden = true
                 fourthAnnotationLabel.isHidden = true
+                taskNameTrailingImageView.isHidden = true
                 firstAnnotationImage.image = nil
                 secondAnnotationImage.image = nil
                 thirdAnnotationImage.image = nil
                 fourthAnnotationImage.image = nil
+                taskNameTrailingImageView.image = nil
                 
                 if let priority = task.taskPriority {
                     setAnnotation(text: TaskWithAnnotationsCell.priorityTextArray[priority - 1], image: UIImage(named: Resources.Images.Tasks.kExclamation))
