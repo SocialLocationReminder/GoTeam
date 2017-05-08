@@ -13,19 +13,22 @@ import UIKit
 
 class DateTimeAnnotationController : AnnotationControllerProtocol {
     
-    let kShowCalendarSegue = "showCalendarSegue"
+    static let kShowCalendarSegue = "showCalendarSegue"
+    static let kUnwindCalendarSegue = "unwindDoneCalendarViewController"
     
     weak internal var delegate: AnnotationControllerDelegate?
 
     var textView : UITextView!
     var task : Task!
-    var button : UIButton!
+    var button : UIImageView!
     
     static let kNumberOfSections = 2
     var annotationType : AnnotationType!
+    
+    // data
     var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
     
-    func setup(button : UIButton, textView : UITextView, annotationType : AnnotationType, task : Task) {
+    func setup(button : UIImageView, textView : UITextView, annotationType : AnnotationType, task : Task) {
         
         self.textView = textView
         self.annotationType = annotationType
@@ -70,7 +73,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                     let today = Date()
                     task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
                     task.taskDateSubrange = textView.text.range(of: testString)
-                    delegate?.attributeTextView(pattern: testString, options: .caseInsensitive,
+                    delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
                                       fgColor: UIColor.white, bgColor: UIColor.brown)
                 }
                 
@@ -78,8 +81,27 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
             }
         }
         
+        // date only pattern
         let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
-        if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
+        let dateAndTimePattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4} at \\d{1,2}:\\d{2} (AM|PM)"
+        
+        // date and time pattern
+        if let range = textView.text.range(of: dateAndTimePattern, options: .regularExpression, range: nil, locale: nil),
+            !range.isEmpty {
+            button.isHighlighted = true
+            button.isUserInteractionEnabled = false
+            if task.taskDate == nil {
+                let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
+                let dateString = textView.text.substring(with: subRange)
+                AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy 'at' hh:mm a"
+                task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
+                task.timeSet = true
+                task.taskDateSubrange = range
+                delegate?.attributeTextView(sender: self, pattern: dateAndTimePattern, options: .regularExpression,
+                                            fgColor: UIColor.white, bgColor: UIColor.brown)
+                
+            }
+        } else if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
             !range.isEmpty {
             button.isHighlighted = true
             button.isUserInteractionEnabled = false
@@ -89,14 +111,9 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                 AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
                 task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
                 task.taskDateSubrange = range
-                delegate?.attributeTextView(pattern: pattern, options: .regularExpression,
+                delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
                                   fgColor: UIColor.white, bgColor: UIColor.brown)
             }
-        }
-        
-        if button.isUserInteractionEnabled == true {
-            task.taskDate = nil
-            task.taskDateSubrange = nil
         }
     }
     
@@ -131,7 +148,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
     func didSelect(_ indexPath : IndexPath) {
         
         if indexPath.section == 1 {
-            delegate?.perform(segue: kShowCalendarSegue)
+            delegate?.perform(sender: self, segue: DateTimeAnnotationController.kShowCalendarSegue)
             return;
         }
         
@@ -140,7 +157,27 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
             textView.text = String(chars[0..<chars.count - 2])
             task.taskDate = nil
         } else {
-            delegate?.appendToTextView(string: dateArray[indexPath.row])
+            delegate?.appendToTextView(sender: self, string: dateArray[indexPath.row])
+        }
+    }
+    
+    // MARK: - unwind segue from CalendarViewController
+    func unwind(segue : UIStoryboardSegue) {
+        if let calendarVC = segue.source as? CalendarViewController {
+            
+            let dateSelected = calendarVC.dateSelected ?? Date()
+            AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
+            let dateSelectedStr = AddTaskViewController.dateFormatter.string(from: dateSelected)
+            delegate?.appendToTextView(sender: self, string: dateSelectedStr)
+            if calendarVC.timePicked == true {
+                AddTaskViewController.dateFormatter.dateFormat = "hh:mm a"
+                let timeSelectedStr = AddTaskViewController.dateFormatter.string(from: dateSelected)
+                delegate?.appendToTextView(sender: self, string: Resources.Strings.AddTasks.kDateAndTimeSeparatorString)
+                delegate?.appendToTextView(sender: self, string: timeSelectedStr)
+            }
+            delegate?.appendToTextView(sender: self, string: " ")
+            setButtonState()
+            textView.becomeFirstResponder()
         }
     }
 
