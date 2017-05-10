@@ -233,7 +233,7 @@ extension AddTaskViewController : UITextViewDelegate {
         setTableViewState(textArray)
         
         // 3. annotation controller button states
-        for controller in annotationControllers {
+        for controller in self.annotationControllers {
             controller.setButtonStateAndAnnotation()
         }
     }

@@ -128,7 +128,7 @@ class TasksViewController: UIViewController {
                 ranges.append(contactSubrange)
             }
         }
-        ranges.sort() { $0.lowerBound > $1.lowerBound }
+        ranges.sort() { $0.upperBound > $1.upperBound }
         for range in ranges {
             task.taskName?.removeSubrange(range)
         }

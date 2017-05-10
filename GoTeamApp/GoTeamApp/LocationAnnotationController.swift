@@ -73,7 +73,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
 //                }
                 
                 task.taskLocation = location
-                task.taskLabelSubrange = textView.text.range(of: testString)
+                task.taskLocationSubrange = textView.text.range(of: testString)
                 delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
                                             fgColor: Resources.Colors.Annotations.kLocationFGColor,
                                             bgColor: Resources.Colors.Annotations.kLocationBGColor)
@@ -140,6 +140,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     
     func fetchLocations() {
         locationManager.allLocations(fetch: true, success: { (locations) in
+                self.setButtonStateAndAnnotation()
                 self.delegate?.reloadTable(sender: self, annotationType: self.annotationType)
 
         }) { (error) in
