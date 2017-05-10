@@ -35,6 +35,12 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         setupGestureRecognizer()
     }
     
+    func clearAnnotationInTask() {
+        task.taskLocationSubrange = nil
+        task.taskLocation = nil
+    }
+
+    
     func setupGestureRecognizer() {
         button.isUserInteractionEnabled = true
         button.isHighlighted = false
@@ -53,7 +59,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     
     
     // MARK: - button state
-    func setButtonState() {
+    func setButtonStateAndAnnotation() {
         button.isHighlighted = false
         button.isUserInteractionEnabled = true
         for ix in 0..<locations().count {
@@ -100,7 +106,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         if let locationName = locations()[indexPath.row].title {
             delegate?.appendToTextView(sender: self, string: locationName)
             delegate?.appendToTextView(sender: self, string: " ")
-            setButtonState()
+            setButtonStateAndAnnotation()
         }
     }
     

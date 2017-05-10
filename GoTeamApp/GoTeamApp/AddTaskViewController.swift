@@ -95,15 +95,14 @@ class AddTaskViewController: UIViewController {
         } else {
             self.title = Resources.Strings.AddTasks.kAddScreenTitle
         }
-        
-        addAnnotatedTextToTextView()
     }
     
     func addAnnotatedTextToTextView() {
         guard task.taskNameWithAnnotations != nil else { return; }
         textView.text = task.taskNameWithAnnotations
         for controller in annotationControllers {
-            controller.setButtonState()
+            controller.clearAnnotationInTask()
+            controller.setButtonStateAndAnnotation()
         }
         buttonView.isHidden = false
     }
@@ -233,7 +232,7 @@ extension AddTaskViewController : UITextViewDelegate {
         
         // 3. annotation controller button states
         for controller in annotationControllers {
-            controller.setButtonState()
+            controller.setButtonStateAndAnnotation()
         }
     }
 
@@ -365,7 +364,7 @@ extension AddTaskViewController : AnnotationControllerDelegate {
 
         attributedString.addAttribute(NSForegroundColorAttributeName, value: fgColor, range: range)
         attributedString.addAttribute(NSBackgroundColorAttributeName, value: bgColor, range: range)
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(range.location + range.length, 1))
         textView.attributedText = attributedString
     }
     

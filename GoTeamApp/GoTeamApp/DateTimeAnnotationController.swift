@@ -35,6 +35,11 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
         setupGestureRecognizer()
     }
     
+    func clearAnnotationInTask() {
+        task.taskDateSubrange = nil
+        task.taskDate = nil
+    }
+    
     func setupGestureRecognizer() {
         let today = Date()
         let dayAfter = Calendar.current.date(byAdding: .day, value: 2, to: today)
@@ -58,7 +63,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
 
     
     // MARK: - button state
-    func setButtonState() {
+    func setButtonStateAndAnnotation() {
         button.isHighlighted = false
         button.isUserInteractionEnabled = true
         for ix in 0..<dateArray.count {
@@ -71,7 +76,8 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                     task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
                     task.taskDateSubrange = textView.text.range(of: testString)
                     delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                      fgColor: UIColor.white, bgColor: UIColor.brown)
+                                                fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
+                                                bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
                 }
                 
                 break
@@ -112,6 +118,11 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                                             fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
                                             bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
             }
+        }
+        
+        if button.isUserInteractionEnabled == true {
+            task.taskDate = nil
+            task.taskDateSubrange = nil
         }
     }
     
@@ -174,7 +185,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                 delegate?.appendToTextView(sender: self, string: timeSelectedStr)
             }
             delegate?.appendToTextView(sender: self, string: " ")
-            setButtonState()
+            setButtonStateAndAnnotation()
             textView.becomeFirstResponder()
         }
     }

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class RecurrenceAnnotationController : AnnotationControllerProtocol {
+
     
     
     weak internal var delegate: AnnotationControllerDelegate?
@@ -33,6 +34,12 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
         setupGestureRecognizer()
     }
     
+    func clearAnnotationInTask() {
+        task.taskRecurrence = nil
+        task.taskRecurrenceSubrange = nil
+    }
+    
+    
     func setupGestureRecognizer() {
         button.isUserInteractionEnabled = true
         button.isHighlighted = false
@@ -48,7 +55,7 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
     
     
     // MARK: - button state
-    func setButtonState() {
+    func setButtonStateAndAnnotation() {
         button.isHighlighted = false
         button.isUserInteractionEnabled = true
         let recurrenceArray = Resources.Strings.AnnotationController.kRecurrenceArray
@@ -57,17 +64,17 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
             if textView.text.contains(testString) {
                 button.isHighlighted = true
                 button.isUserInteractionEnabled = false
-                if task.taskRecurrence == nil {
-                    
-                    // @todo: need to support multiple labels
-                    task.taskRecurrence = ix
-                    task.taskRecurrenceSubrange = textView.text.range(of: testString)
-                    delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                                fgColor: Resources.Colors.Annotations.kRecurrenceBGColor,
-                                                bgColor: Resources.Colors.Annotations.kRecurrenceFGColor)
+                print(task.taskRecurrence)
+                if let _ = task.taskRecurrence {
+                    break;
                 }
                 
-                break
+                // @todo: need to support multiple labels
+                task.taskRecurrence = ix
+                task.taskRecurrenceSubrange = textView.text.range(of: testString)
+                delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
+                                            fgColor: Resources.Colors.Annotations.kRecurrenceFGColor,
+                                            bgColor: Resources.Colors.Annotations.kRecurrenceBGColor)
             }
         }
         
@@ -102,7 +109,7 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
         } else {
             delegate?.appendToTextView(sender: self, string: String(recurrenceArray[indexPath.row]))
             delegate?.appendToTextView(sender: self, string: " ")
-            setButtonState()
+            setButtonStateAndAnnotation()
         }
     }
     

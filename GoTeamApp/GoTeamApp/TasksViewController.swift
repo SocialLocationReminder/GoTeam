@@ -153,10 +153,12 @@ class TasksViewController: UIViewController {
 
             if let cell = sender as? TaskCell {
                 addTasksVC.task = cell.task
+                // addTasksVC.task.taskNameWithAnnotations = cell.task?.taskNameWithAnnotations
                 addTasksVC.viewControllerState = .editMode
             }
             if let cell = sender as? TaskWithAnnotationsCell {
                 addTasksVC.task = cell.task
+                // addTasksVC.task.taskNameWithAnnotations = cell.task?.taskNameWithAnnotations
                 addTasksVC.viewControllerState = .editMode
             }
         }
