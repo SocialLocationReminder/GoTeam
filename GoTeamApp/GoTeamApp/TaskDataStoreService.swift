@@ -28,33 +28,19 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         parseTask[Task.kTaskName] = task.taskName
         parseTask[Task.kTaskID] = task.taskID
         
-        if let taskNameWithAnnotations = task.taskNameWithAnnotations {
-            parseTask[Task.kTaskNameWithAnnotation] = taskNameWithAnnotations
-        }
-        
-        if let taskDate = task.taskDate {
-            parseTask[Task.kTaskDate] = taskDate
-        }
-        
-        if let taskFromDate = task.taskFromDate {
-            parseTask[Task.kTaskFromDate] = taskFromDate
-        }
-        
-        if let taskPriority = task.taskPriority {
-            parseTask[Task.kTaskPriority] = taskPriority
-        }
-        if let taskList = task.taskLabel {
-            parseTask[Task.kTaskList] = taskList
-        }
-        
-        if let taskReccurence = task.taskRecurrence {
-            parseTask[Task.kTaskReccurence] = taskReccurence
-        }
+        parseTask[Task.kTaskNameWithAnnotation] = task.taskNameWithAnnotations ?? NSNull()
+        parseTask[Task.kTaskDate] = task.taskDate ?? NSNull()
+        parseTask[Task.kTaskFromDate] = task.taskFromDate ?? NSNull()
+        parseTask[Task.kTaskPriority] = task.taskPriority ?? NSNull()
+        parseTask[Task.kTaskList] = task.taskLabel ?? NSNull()
+        parseTask[Task.kTaskReccurence] = task.taskRecurrence ?? NSNull()
         
         if let taskLocation = task.taskLocation {
             if let pfObject = LocationDataStoreService.parseObject(location: taskLocation) {
                 parseTask[Task.kTaskLocation] =  pfObject
             }
+        } else {
+            parseTask[Task.kTaskLocation] =  NSNull()
         }
         
         if let taskContacts = task.taskContacts {
@@ -67,6 +53,8 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
             if parseObjectsArray.count > 0 {
                 parseTask[Task.kTaskContacts] = parseObjectsArray
             }
+        } else {
+            parseTask[Task.kTaskContacts] = NSNull()
         }
         
         if let timeSet = task.timeSet {
