@@ -19,7 +19,7 @@ protocol MapSearch {
   func createNewLocation(location: Location)
 }
 
-class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,MKMapViewDelegate,UIPopoverPresentationControllerDelegate ,MapSearch {
+class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate,UIPopoverPresentationControllerDelegate, CLLocationManagerDelegate, MapSearch {
   
   @IBOutlet weak var mapView: MKMapView!
   @IBOutlet weak var tableView: UITableView!
@@ -32,7 +32,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   var selectedLocationIndex: Int?
   var filteredLocations: [Location]!
   
-  let locationManager = CLLocationManager()
+ 
   var resultSearchController: UISearchController?
   var showAlertInfo = true
   
@@ -43,12 +43,9 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     tableView.delegate = self
     tableView.dataSource = self
     locationSearchBar.delegate = self
-    
-    // Location Manager Setup
-    locationManager.delegate = self
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest
-    locationManager.requestWhenInUseAuthorization()
-    locationManager.requestLocation()
+    // Initialize Location Manager
+    LocationManager.sharedInstance.delegate = self
+    LocationManager.sharedInstance.requestLocation()
     
     // Setup search results table
     let locationSearchTable = storyboard?.instantiateViewController(withIdentifier: "LocationSearchTable") as? LocationSearchTable
@@ -151,7 +148,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
     if status == .authorizedWhenInUse {
-      self.locationManager.requestLocation()
+      LocationManager.sharedInstance.requestLocation()
     }
   }
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
