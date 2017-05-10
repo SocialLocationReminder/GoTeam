@@ -40,9 +40,9 @@
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I7e-gL-uYn" userLabel="Delete View">
                                                     <rect key="frame" x="0.0" y="0.0" width="1000" height="43.5"/>
-                                                    <color key="backgroundColor" red="0.76470588240000004" green="0.058823529409999999" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.2588235438" green="0.75686275960000005" blue="0.96862745289999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEc-nA-Lnb">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Done" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zEc-nA-Lnb">
                                                     <rect key="frame" x="28" y="11.5" width="49.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -97,10 +97,12 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellFGViewLeadingSpaceConstraint" destination="7CL-o2-QSC" id="N9d-ZR-DHE"/>
+                                            <outlet property="doneLabel" destination="zEc-nA-Lnb" id="5EU-PB-hmg"/>
                                             <outlet property="taskDate" destination="5X3-E9-3Wq" id="wrR-UA-gfK"/>
                                             <outlet property="taskName" destination="MYa-d7-6HV" id="wM3-BB-cBd"/>
                                             <outlet property="taskTimeLabel" destination="aep-Sf-Oop" id="aeD-3a-H2m"/>
                                             <outlet property="topView" destination="ygG-hu-SrN" id="8X0-ve-pWe"/>
+                                            <segue destination="3dm-wV-afP" kind="showDetail" identifier="showEditTasksScreen" action="showViewController:sender:" id="yYI-S9-l9G"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskWithAnnotationsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskWithAnnotationsCell" rowHeight="70" id="3Yr-n1-mjs" customClass="TaskWithAnnotationsCell" customModule="GoTeamApp" customModuleProvider="target">
@@ -112,7 +114,7 @@
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPX-Hk-QL0" userLabel="Delete View">
                                                     <rect key="frame" x="0.0" y="0.0" width="1000" height="69.5"/>
-                                                    <color key="backgroundColor" red="0.76470588240000004" green="0.058823529409999999" blue="0.070588235289999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.2588235438" green="0.75686275960000005" blue="0.96862745289999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WEv-CE-Yi6">
                                                     <rect key="frame" x="20" y="24.5" width="49.5" height="20.5"/>
@@ -247,6 +249,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellFGViewLeadingSpaceConstraint" destination="Tlx-aP-emI" id="SF4-mD-Ibo"/>
+                                            <outlet property="doneLabel" destination="WEv-CE-Yi6" id="3jh-w2-a1c"/>
                                             <outlet property="firstAnnotationImage" destination="huf-x5-eMi" id="kno-0P-vyo"/>
                                             <outlet property="firstAnnotationLabel" destination="740-7z-1Se" id="Pg3-s4-SbD"/>
                                             <outlet property="fourthAnnotationImage" destination="Lwb-4Y-Qug" id="sLD-Ag-w0l"/>
@@ -260,6 +263,7 @@
                                             <outlet property="thirdAnnotationImage" destination="shK-vU-8gE" id="hnG-p0-UrS"/>
                                             <outlet property="thirdAnnotationLabel" destination="fSj-Op-vha" id="NJy-LM-ydi"/>
                                             <outlet property="topView" destination="qLY-vu-SUK" id="QxP-93-WAq"/>
+                                            <segue destination="3dm-wV-afP" kind="presentation" identifier="showEditTasksScreenFromAnnotatedCell" id="2MQ-gb-Vt5"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -573,7 +577,7 @@
                             <constraint firstAttribute="trailing" secondItem="jZd-d8-5Ug" secondAttribute="trailing" id="DGk-gu-VLI"/>
                             <constraint firstItem="IZd-FJ-slL" firstAttribute="top" secondItem="Y9E-MD-2en" secondAttribute="bottom" constant="5" id="Mjj-OX-5Lh"/>
                             <constraint firstItem="IZd-FJ-slL" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" id="ajj-uH-xb5"/>
-                            <constraint firstItem="Y9E-MD-2en" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" id="ava-qP-ECq"/>
+                            <constraint firstItem="Y9E-MD-2en" firstAttribute="leading" secondItem="Ax9-Yp-DdL" secondAttribute="leading" constant="10" id="ava-qP-ECq"/>
                             <constraint firstAttribute="trailing" secondItem="Y9E-MD-2en" secondAttribute="trailing" id="bFs-bX-JpZ"/>
                             <constraint firstItem="jZd-d8-5Ug" firstAttribute="top" secondItem="Y9E-MD-2en" secondAttribute="bottom" constant="5" id="c58-kn-bXu"/>
                             <constraint firstItem="N3b-nm-KMi" firstAttribute="top" secondItem="IZd-FJ-slL" secondAttribute="bottom" id="fGo-g7-T4Y"/>
@@ -597,8 +601,8 @@
                     <connections>
                         <outlet property="buttonView" destination="4W6-bi-B1F" id="VVG-m2-cyK"/>
                         <outlet property="contactButton" destination="AC4-jp-n4U" id="hTw-K1-qe7"/>
-                        <outlet property="dateButton" destination="cU2-td-TtI" id="4VZ-pe-uhi"/>
-                        <outlet property="dueDateButton" destination="Nae-lr-EdZ" id="G1m-Zj-YIC"/>
+                        <outlet property="dueDateButton" destination="cU2-td-TtI" id="srG-jJ-QTb"/>
+                        <outlet property="fromDateButton" destination="Nae-lr-EdZ" id="ePB-Jf-53v"/>
                         <outlet property="listButton" destination="zho-ah-aNt" id="ryt-O7-lsi"/>
                         <outlet property="locationButton" destination="Z1i-Zl-rDO" id="UAH-u2-PHh"/>
                         <outlet property="maskView" destination="jZd-d8-5Ug" id="8aC-4U-Z8F"/>
@@ -1257,12 +1261,12 @@
                     <navigationItem key="navigationItem" id="1bV-cc-ORV">
                         <barButtonItem key="leftBarButtonItem" title="X" id="qna-of-5PT">
                             <connections>
-                                <segue destination="k8F-pz-8NO" kind="unwind" unwindAction="unwindCancelToAddTasksViewControllerSegue:" id="5bA-Q4-9ly"/>
+                                <segue destination="k8F-pz-8NO" kind="unwind" identifier="unwindCancelCalendarViewController" unwindAction="unwindCancelToAddTasksViewControllerSegue:" id="5bA-Q4-9ly"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="lbS-l1-L7e">
                             <connections>
-                                <segue destination="k8F-pz-8NO" kind="unwind" unwindAction="unwindDoneAddTasksViewControllerSegue:" id="N7H-h0-EwH"/>
+                                <segue destination="k8F-pz-8NO" kind="unwind" identifier="unwindDoneCalendarViewController" unwindAction="unwindDoneAddTasksViewControllerSegue:" id="N7H-h0-EwH"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1421,6 +1425,7 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="MSY-eV-Tla"/>
+        <segue reference="2MQ-gb-Vt5"/>
+        <segue reference="Qoh-cV-2w8"/>
     </inferredMetricsTieBreakers>
 </document>

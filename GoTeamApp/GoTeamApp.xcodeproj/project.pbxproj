@@ -21,6 +21,12 @@
 		E2C9E1381EBF19FD00BBD78C /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */; };
 		E2C9E13B1EBF943C00BBD78C /* DateTimeAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E13A1EBF943C00BBD78C /* DateTimeAnnotationController.swift */; };
 		E2C9E13D1EBF945300BBD78C /* AnnotationControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E13C1EBF945300BBD78C /* AnnotationControllerProtocol.swift */; };
+		E2C9E13F1EC030AE00BBD78C /* LocationAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E13E1EC030AE00BBD78C /* LocationAnnotationController.swift */; };
+		E2C9E1411EC0346D00BBD78C /* PriorityAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1401EC0346D00BBD78C /* PriorityAnnotationController.swift */; };
+		E2C9E1431EC0373000BBD78C /* RecurrenceAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1421EC0373000BBD78C /* RecurrenceAnnotationController.swift */; };
+		E2C9E1451EC0383700BBD78C /* LabelAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1441EC0383700BBD78C /* LabelAnnotationController.swift */; };
+		E2C9E1471EC03A7C00BBD78C /* ContactsAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1461EC03A7C00BBD78C /* ContactsAnnotationController.swift */; };
+		E2C9E1491EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1481EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift */; };
 		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
 		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
 		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
@@ -74,6 +80,12 @@
 		E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
 		E2C9E13A1EBF943C00BBD78C /* DateTimeAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeAnnotationController.swift; sourceTree = "<group>"; };
 		E2C9E13C1EBF945300BBD78C /* AnnotationControllerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationControllerProtocol.swift; sourceTree = "<group>"; };
+		E2C9E13E1EC030AE00BBD78C /* LocationAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAnnotationController.swift; sourceTree = "<group>"; };
+		E2C9E1401EC0346D00BBD78C /* PriorityAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriorityAnnotationController.swift; sourceTree = "<group>"; };
+		E2C9E1421EC0373000BBD78C /* RecurrenceAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecurrenceAnnotationController.swift; sourceTree = "<group>"; };
+		E2C9E1441EC0383700BBD78C /* LabelAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelAnnotationController.swift; sourceTree = "<group>"; };
+		E2C9E1461EC03A7C00BBD78C /* ContactsAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsAnnotationController.swift; sourceTree = "<group>"; };
+		E2C9E1481EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromDateTimeAnnotationController.swift; sourceTree = "<group>"; };
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -176,6 +188,12 @@
 			children = (
 				E2C9E13C1EBF945300BBD78C /* AnnotationControllerProtocol.swift */,
 				E2C9E13A1EBF943C00BBD78C /* DateTimeAnnotationController.swift */,
+				E2C9E13E1EC030AE00BBD78C /* LocationAnnotationController.swift */,
+				E2C9E1401EC0346D00BBD78C /* PriorityAnnotationController.swift */,
+				E2C9E1421EC0373000BBD78C /* RecurrenceAnnotationController.swift */,
+				E2C9E1441EC0383700BBD78C /* LabelAnnotationController.swift */,
+				E2C9E1461EC03A7C00BBD78C /* ContactsAnnotationController.swift */,
+				E2C9E1481EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift */,
 			);
 			name = Annotations;
 			sourceTree = "<group>";
@@ -503,21 +521,26 @@
 				F44B85721EBC9EDA00FF489A /* MapAlertController.swift in Sources */,
 				F4635EA81EB627C1008BDD0B /* Location.swift in Sources */,
 				615B78111EB68661006F59D8 /* AddLabelViewController.swift in Sources */,
+				E2C9E1431EC0373000BBD78C /* RecurrenceAnnotationController.swift in Sources */,
 				E2F1C9BE1EB52AED0034E0A7 /* ListItemProtocol.swift in Sources */,
 				F44B85701EBC92B200FF489A /* SelectedLocationsManager.swift in Sources */,
 				F4635EA21EB62776008BDD0B /* LocationsViewController.swift in Sources */,
+				E2C9E13F1EC030AE00BBD78C /* LocationAnnotationController.swift in Sources */,
 				E2F1C9BC1EB52AB30034E0A7 /* ListManagerProtocol.swift in Sources */,
 				E2F1C9B71EB522720034E0A7 /* TableCellUtil.swift in Sources */,
 				E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */,
+				E2C9E1491EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift in Sources */,
 				615B780F1EB65418006F59D8 /* Labels.swift in Sources */,
 				E2F1C9BA1EB5297D0034E0A7 /* TableViewGenericDataSource.swift in Sources */,
 				615B780D1EB64FBB006F59D8 /* LabelTableViewCell.swift in Sources */,
 				E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */,
 				E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */,
+				E2C9E1471EC03A7C00BBD78C /* ContactsAnnotationController.swift in Sources */,
 				E2C9E12F1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift in Sources */,
 				E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */,
 				E2FEDA321EBEC27C0020E3C0 /* ContactsViewController.swift in Sources */,
 				E2FEDA251EBD08A10020E3C0 /* LabelDataStore.swift in Sources */,
+				E2C9E1451EC0383700BBD78C /* LabelAnnotationController.swift in Sources */,
 				E2FEDA231EBD08950020E3C0 /* LabelDataStoreProtocol.swift in Sources */,
 				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,
 				E2C9E1381EBF19FD00BBD78C /* ContactManager.swift in Sources */,
@@ -529,6 +552,7 @@
 				61C9BEFC1EBFEB500017C220 /* EditLabelViewController.swift in Sources */,
 				E2C9E13D1EBF945300BBD78C /* AnnotationControllerProtocol.swift in Sources */,
 				E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */,
+				E2C9E1411EC0346D00BBD78C /* PriorityAnnotationController.swift in Sources */,
 				F4635EA51EB62776008BDD0B /* LocationCell.swift in Sources */,
 				E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */,
 				E2C9E13B1EBF943C00BBD78C /* DateTimeAnnotationController.swift in Sources */,

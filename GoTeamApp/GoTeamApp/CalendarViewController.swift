@@ -18,6 +18,8 @@ class CalendarViewController: UIViewController {
     @IBOutlet weak var timePickerView: UIView!
     @IBOutlet weak var maskView: UIView!
     
+    var annotationType : AnnotationType!
+    
     var timePicker : ESTimePicker!
     
     let calendarManager = JTCalendarManager()

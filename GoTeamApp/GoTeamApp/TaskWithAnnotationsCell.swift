@@ -21,6 +21,7 @@ class TaskWithAnnotationsCell: UITableViewCell {
     @IBOutlet weak var taskDateLabel: UILabel!
     @IBOutlet weak var taskTimeLabel: UILabel!
     @IBOutlet weak var taskNameTrailingImageView: UIImageView!
+    @IBOutlet weak var doneLabel: UILabel!
     
     @IBOutlet weak var firstAnnotationImage: UIImageView!
     @IBOutlet weak var secondAnnotationImage: UIImageView!
@@ -41,16 +42,18 @@ class TaskWithAnnotationsCell: UITableViewCell {
     
     var task : Task? {
         didSet {
-            cellFGViewLeadingSpaceConstraint.constant = 0            
+            cellFGViewLeadingSpaceConstraint.constant = 0
+            doneLabel.isHidden = true
             if let task = task {
                 taskNameLabel.text = task.taskName
                 taskDateLabel.text = ""
+                taskTimeLabel.text = ""
                 if let date = task.taskDate {
                     TaskCell.dateFormatter.dateFormat = "MMM d"
                     taskDateLabel.text = TaskCell.dateFormatter.string(from: date)
                     
                     if let timeSet = task.timeSet,
-                        task.timeSet == true {
+                        timeSet == true {
                         TaskCell.dateFormatter.dateFormat = "hh:mm a"
                         taskTimeLabel.text = TaskCell.dateFormatter.string(from: date)
                     }
@@ -61,10 +64,12 @@ class TaskWithAnnotationsCell: UITableViewCell {
                 secondAnnotationLabel.isHidden = true
                 thirdAnnotationLabel.isHidden = true
                 fourthAnnotationLabel.isHidden = true
+                taskNameTrailingImageView.isHidden = true
                 firstAnnotationImage.image = nil
                 secondAnnotationImage.image = nil
                 thirdAnnotationImage.image = nil
                 fourthAnnotationImage.image = nil
+                taskNameTrailingImageView.image = nil
                 
                 if let priority = task.taskPriority {
                     setAnnotation(text: TaskWithAnnotationsCell.priorityTextArray[priority - 1], image: UIImage(named: Resources.Images.Tasks.kExclamation))
@@ -120,14 +125,19 @@ class TaskWithAnnotationsCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         let tapGR = UIPanGestureRecognizer(target: self, action: #selector(topViewPanned))
+        tapGR.delegate = self
         self.topView.addGestureRecognizer(tapGR)
         tableCellUtil = TableCellUtil(contentView: contentView, viewLeadingConstraint: cellFGViewLeadingSpaceConstraint)
     }
     
     func topViewPanned(sender : UIPanGestureRecognizer) {
+        doneLabel.isHidden = false
         tableCellUtil.handleDeletePan(sender: sender, deleteActionComplete: {
+            self.doneLabel.isHidden = true
             self.delegate?.deleteTaskAnnotationsCell(sender: self)
-            }, deleteActionInComplete: nil)
+            }, deleteActionInComplete: {
+                self.doneLabel.isHidden = true
+        })
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -135,5 +145,10 @@ class TaskWithAnnotationsCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
 
 }
