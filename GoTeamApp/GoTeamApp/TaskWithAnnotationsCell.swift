@@ -21,6 +21,7 @@ class TaskWithAnnotationsCell: UITableViewCell {
     @IBOutlet weak var taskDateLabel: UILabel!
     @IBOutlet weak var taskTimeLabel: UILabel!
     @IBOutlet weak var taskNameTrailingImageView: UIImageView!
+    @IBOutlet weak var doneLabel: UILabel!
     
     @IBOutlet weak var firstAnnotationImage: UIImageView!
     @IBOutlet weak var secondAnnotationImage: UIImageView!
@@ -41,7 +42,8 @@ class TaskWithAnnotationsCell: UITableViewCell {
     
     var task : Task? {
         didSet {
-            cellFGViewLeadingSpaceConstraint.constant = 0            
+            cellFGViewLeadingSpaceConstraint.constant = 0
+            doneLabel.isHidden = true
             if let task = task {
                 taskNameLabel.text = task.taskName
                 taskDateLabel.text = ""
@@ -128,9 +130,13 @@ class TaskWithAnnotationsCell: UITableViewCell {
     }
     
     func topViewPanned(sender : UIPanGestureRecognizer) {
+        doneLabel.isHidden = false
         tableCellUtil.handleDeletePan(sender: sender, deleteActionComplete: {
+            self.doneLabel.isHidden = true
             self.delegate?.deleteTaskAnnotationsCell(sender: self)
-            }, deleteActionInComplete: nil)
+            }, deleteActionInComplete: {
+                self.doneLabel.isHidden = true
+        })
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

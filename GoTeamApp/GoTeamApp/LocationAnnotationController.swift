@@ -67,7 +67,8 @@ class LocationAnnotationController : AnnotationControllerProtocol {
                     task.taskLocation = location
                     task.taskLabelSubrange = textView.text.range(of: testString)
                     delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                      fgColor: UIColor.white, bgColor: UIColor.gray)
+                                                fgColor: Resources.Colors.Annotations.kLocationFGColor,
+                                                bgColor: Resources.Colors.Annotations.kLocationBGColor)
                 }
                 break
             }

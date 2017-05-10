@@ -13,9 +13,6 @@ import UIKit
 
 class DateTimeAnnotationController : AnnotationControllerProtocol {
     
-    static let kShowCalendarSegue = "showCalendarSegue"
-    static let kUnwindCalendarSegue = "unwindDoneCalendarViewController"
-    
     weak internal var delegate: AnnotationControllerDelegate?
 
     var textView : UITextView!
@@ -26,7 +23,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
     var annotationType : AnnotationType!
     
     // data
-    var dateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
+    var dateArray = Resources.Strings.AnnotationController.kDateArray
     
     func setup(button : UIImageView, textView : UITextView, annotationType : AnnotationType, task : Task) {
         
@@ -82,9 +79,8 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
         }
         
         // date only pattern
-        let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
-        let dateAndTimePattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4} at \\d{1,2}:\\d{2} (AM|PM)"
-        
+        let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + Resources.Strings.AnnotationController.kDateRegExPattern
+        let dateAndTimePattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + Resources.Strings.AnnotationController.kDateTimeRegExPattern
         // date and time pattern
         if let range = textView.text.range(of: dateAndTimePattern, options: .regularExpression, range: nil, locale: nil),
             !range.isEmpty {
@@ -98,7 +94,8 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                 task.timeSet = true
                 task.taskDateSubrange = range
                 delegate?.attributeTextView(sender: self, pattern: dateAndTimePattern, options: .regularExpression,
-                                            fgColor: UIColor.white, bgColor: UIColor.brown)
+                                            fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
+                                            bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
                 
             }
         } else if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
@@ -112,7 +109,8 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                 task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
                 task.taskDateSubrange = range
                 delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
-                                  fgColor: UIColor.white, bgColor: UIColor.brown)
+                                            fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
+                                            bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
             }
         }
     }
@@ -148,7 +146,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
     func didSelect(_ indexPath : IndexPath) {
         
         if indexPath.section == 1 {
-            delegate?.perform(sender: self, segue: DateTimeAnnotationController.kShowCalendarSegue)
+            delegate?.perform(sender: self, segue: Resources.Strings.DateTimeAnnotationController.kShowCalendarSegue)
             return;
         }
         

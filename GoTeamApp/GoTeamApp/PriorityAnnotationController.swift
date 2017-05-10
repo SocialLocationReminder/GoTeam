@@ -119,14 +119,15 @@ class PriorityAnnotationController : AnnotationControllerProtocol {
         if let taskPriority = task.taskPriority {
             var bgColor = UIColor.white
             if taskPriority == 1 {
-                bgColor = UIColor.red
+                bgColor = Resources.Colors.Annotations.kPriority1BGColor
             } else if taskPriority == 2 {
-                bgColor = UIColor.blue
+                bgColor = Resources.Colors.Annotations.kPriorrity2BGColor
             } else if taskPriority == 3 {
-                bgColor = UIColor.orange
+                bgColor = Resources.Colors.Annotations.kPriority3BGColor
             }
             delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
-                                        fgColor: UIColor.white, bgColor: bgColor)
+                                        fgColor: Resources.Colors.Annotations.kPriorityFGColor,
+                                        bgColor: bgColor)
         }
     }
     

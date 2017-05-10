@@ -81,7 +81,8 @@ class LabelAnnotationController : AnnotationControllerProtocol {
                         task.taskLabel = labelName
                         task.taskLabelSubrange = textView.text.range(of: testString)
                         delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                          fgColor: UIColor.white, bgColor: UIColor.cyan)
+                                                    fgColor: Resources.Colors.Annotations.kLabelBGColor,
+                                                    bgColor: Resources.Colors.Annotations.kLabelFGColor)
                     }
                     
                     break

@@ -10,15 +10,9 @@ import UIKit
 import KBContactsSelection
 
 
-enum TableState {
-    case none
-    case fromDate
-    case dueDate
-    case priority
-    case label
-    case recurrence
-    case location
-    case contact
+enum ViewControllerState {
+    case addMode
+    case editMode
 }
 
 class AddTaskViewController: UIViewController {
@@ -40,7 +34,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var task : Task!
-    
+    var viewControllerState = ViewControllerState.addMode
     
     // --- table view related ---
     var tableState : AnnotationType = .none
@@ -94,6 +88,20 @@ class AddTaskViewController: UIViewController {
         annotationTypeToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
         }
+        
+        if viewControllerState == .editMode {
+            self.title = Resources.Strings.AddTasks.kEditScreenTitle
+            addAnnotatedTextToTextView()
+        } else {
+            self.title = Resources.Strings.AddTasks.kAddScreenTitle
+        }
+    }
+    
+    func addAnnotatedTextToTextView() {
+        guard task.taskNameWithAnnotations != nil else { return; }
+        if let attributedString = NSKeyedUnarchiver.unarchiveObject(with: task.taskNameWithAnnotations!) as? NSAttributedString {
+            textView.attributedText = attributedString
+        }
     }
     
     func setupAnnotationControllers() {
@@ -125,7 +133,7 @@ class AddTaskViewController: UIViewController {
     }
 
     @IBAction func unwindDoneAddTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
-        if segue.identifier == DateTimeAnnotationController.kUnwindCalendarSegue,
+        if segue.identifier == Resources.Strings.DateTimeAnnotationController.kUnwindCalendarSegue,
             let calendarVC = segue.source as? CalendarViewController,
             let annotationType = calendarVC.annotationType,
             let ix = indexFor(annotationType: annotationType) {
@@ -134,7 +142,7 @@ class AddTaskViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == DateTimeAnnotationController.kShowCalendarSegue,
+        if segue.identifier == Resources.Strings.DateTimeAnnotationController.kShowCalendarSegue,
             let navVC = segue.destination as? UINavigationController,
             let calendarVC = navVC.topViewController as? CalendarViewController {
             calendarVC.annotationType = tableState
@@ -304,6 +312,10 @@ extension AddTaskViewController : AnnotationControllerDelegate {
 
     
     func appendToTextView(sender: AnnotationControllerProtocol, string : String) {
+        appendToTextView(string: string)
+    }
+    
+    internal func appendToTextView(string : String) {
         if textView.attributedText.length > 0 {
             let attributedStr = NSMutableAttributedString(attributedString: textView.attributedText)
             attributedStr.append(NSAttributedString(string: string))
@@ -334,7 +346,7 @@ extension AddTaskViewController : AnnotationControllerDelegate {
     
     
     
-    func attributeTextView(sender: AnnotationControllerProtocol, pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
+    internal func attributeTextView(sender: AnnotationControllerProtocol, pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
         
         let objString = textView.text as NSString
         let range = objString.range(of: pattern, options: options)
@@ -346,7 +358,7 @@ extension AddTaskViewController : AnnotationControllerDelegate {
         } else {
             attributedString = NSMutableAttributedString(string: textView.text + " ")
         }
-        
+
         attributedString.addAttribute(NSForegroundColorAttributeName, value: fgColor, range: range)
         attributedString.addAttribute(NSBackgroundColorAttributeName, value: bgColor, range: range)
         attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))

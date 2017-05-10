@@ -16,6 +16,7 @@ class Task : NSObject {
     
     static let kTaskID   = "kTaskID"
     static let kTaskName = "kTaskName"
+    static let kTaskNameWithAnnotation = "kTaskNameWithAnnotation"
     static let kTaskDate = "kTaskDate"
     static let kTaskPriority = "kTaskPriority"
     static let kTaskReccurence = "kTaskReccurence"
@@ -28,7 +29,7 @@ class Task : NSObject {
     var taskID : Date?
     var taskName : String?
     var taskDate : Date?
-    var taskNameWithAnnotations : String?
+    var taskNameWithAnnotations : Data?
     var timeSet : Bool?
     
     var taskRecurrence : Int?
