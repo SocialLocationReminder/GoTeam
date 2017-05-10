@@ -551,8 +551,8 @@
                     <connections>
                         <outlet property="buttonView" destination="4W6-bi-B1F" id="VVG-m2-cyK"/>
                         <outlet property="contactButton" destination="AC4-jp-n4U" id="hTw-K1-qe7"/>
-                        <outlet property="dateButton" destination="cU2-td-TtI" id="4VZ-pe-uhi"/>
-                        <outlet property="dueDateButton" destination="Nae-lr-EdZ" id="G1m-Zj-YIC"/>
+                        <outlet property="dueDateButton" destination="cU2-td-TtI" id="srG-jJ-QTb"/>
+                        <outlet property="fromDateButton" destination="Nae-lr-EdZ" id="ePB-Jf-53v"/>
                         <outlet property="listButton" destination="zho-ah-aNt" id="ryt-O7-lsi"/>
                         <outlet property="locationButton" destination="Z1i-Zl-rDO" id="UAH-u2-PHh"/>
                         <outlet property="maskView" destination="jZd-d8-5Ug" id="8aC-4U-Z8F"/>

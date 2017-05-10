@@ -28,6 +28,7 @@ class Task : NSObject {
     
     var taskID : Date?
     var taskName : String?
+    var taskFromDate :Date?
     var taskDate : Date?
     var taskNameWithAnnotations : String?
     var timeSet : Bool?
@@ -40,6 +41,7 @@ class Task : NSObject {
     
     // sub ranges
     var taskPrioritySubrange : Range<String.Index>?
+    var taskFromDateSubrange : Range<String.Index>?
     var taskDateSubrange : Range<String.Index>?
     var taskLabelSubrange : Range<String.Index>?
     var taskRecurrenceSubrange : Range<String.Index>?

@@ -25,6 +25,7 @@
 		E2C9E1431EC0373000BBD78C /* RecurrenceAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1421EC0373000BBD78C /* RecurrenceAnnotationController.swift */; };
 		E2C9E1451EC0383700BBD78C /* LabelAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1441EC0383700BBD78C /* LabelAnnotationController.swift */; };
 		E2C9E1471EC03A7C00BBD78C /* ContactsAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1461EC03A7C00BBD78C /* ContactsAnnotationController.swift */; };
+		E2C9E1491EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1481EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift */; };
 		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
 		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
 		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
@@ -82,6 +83,7 @@
 		E2C9E1421EC0373000BBD78C /* RecurrenceAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecurrenceAnnotationController.swift; sourceTree = "<group>"; };
 		E2C9E1441EC0383700BBD78C /* LabelAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelAnnotationController.swift; sourceTree = "<group>"; };
 		E2C9E1461EC03A7C00BBD78C /* ContactsAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsAnnotationController.swift; sourceTree = "<group>"; };
+		E2C9E1481EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromDateTimeAnnotationController.swift; sourceTree = "<group>"; };
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				E2C9E1421EC0373000BBD78C /* RecurrenceAnnotationController.swift */,
 				E2C9E1441EC0383700BBD78C /* LabelAnnotationController.swift */,
 				E2C9E1461EC03A7C00BBD78C /* ContactsAnnotationController.swift */,
+				E2C9E1481EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift */,
 			);
 			name = Annotations;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 				E2F1C9BC1EB52AB30034E0A7 /* ListManagerProtocol.swift in Sources */,
 				E2F1C9B71EB522720034E0A7 /* TableCellUtil.swift in Sources */,
 				E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */,
+				E2C9E1491EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift in Sources */,
 				615B780F1EB65418006F59D8 /* Labels.swift in Sources */,
 				E2F1C9BA1EB5297D0034E0A7 /* TableViewGenericDataSource.swift in Sources */,
 				615B780D1EB64FBB006F59D8 /* LabelTableViewCell.swift in Sources */,

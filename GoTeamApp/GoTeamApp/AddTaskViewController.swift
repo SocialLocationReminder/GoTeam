@@ -22,7 +22,7 @@ class AddTaskViewController: UIViewController {
     // --- outlets ---
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var maskView: UIView!
-    @IBOutlet weak var dateButton: UIImageView!
+    @IBOutlet weak var fromDateButton: UIImageView!
     @IBOutlet weak var dueDateButton: UIImageView!
     @IBOutlet weak var priorityButton: UIImageView!
     @IBOutlet weak var listButton: UIImageView!
@@ -49,10 +49,11 @@ class AddTaskViewController: UIViewController {
             .priority : TaskSpecialCharacter.priority,
             .label : TaskSpecialCharacter.label,
             .dueDate : TaskSpecialCharacter.dueDate,
+            .fromDate : TaskSpecialCharacter.fromDate,
             .recurrence : TaskSpecialCharacter.recurrence,
             .location : TaskSpecialCharacter.location,
-            .contact : TaskSpecialCharacter.contact
-    ]
+            .contact : TaskSpecialCharacter.contact,
+]
     
     var specialHandlingAnnotationTypes : [AnnotationType]!
     
@@ -108,13 +109,14 @@ class AddTaskViewController: UIViewController {
     }
     
     func setupAnnotationControllers() {
-        annotationTypes = [.priority, .label, .dueDate, .recurrence, .location, .contact]
+        annotationTypes = [.priority, .label, .dueDate, .fromDate, .recurrence, .location, .contact]
         annotationControllers =
             [
                 PriorityAnnotationController(), LabelAnnotationController(), DateTimeAnnotationController(),
-                RecurrenceAnnotationController(), LocationAnnotationController(), ContactsAnnotationController()
+                FromDateTimeAnnotationController(), RecurrenceAnnotationController(),
+                LocationAnnotationController(), ContactsAnnotationController()
         ]
-        let buttons : [UIImageView] = [priorityButton, listButton, dueDateButton, repeatButton, locationButton, contactButton]
+        let buttons : [UIImageView] = [priorityButton, listButton, dueDateButton, fromDateButton, repeatButton, locationButton, contactButton]
         for ix in 0..<annotationControllers.count {
             annotationControllers[ix].setup(button: buttons[ix], textView: textView, annotationType: annotationTypes[ix], task: task)
             annotationControllers[ix].delegate = self

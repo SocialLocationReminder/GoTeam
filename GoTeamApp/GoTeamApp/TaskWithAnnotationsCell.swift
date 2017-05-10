@@ -125,6 +125,7 @@ class TaskWithAnnotationsCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         let tapGR = UIPanGestureRecognizer(target: self, action: #selector(topViewPanned))
+        tapGR.delegate = self
         self.topView.addGestureRecognizer(tapGR)
         tableCellUtil = TableCellUtil(contentView: contentView, viewLeadingConstraint: cellFGViewLeadingSpaceConstraint)
     }
@@ -144,5 +145,10 @@ class TaskWithAnnotationsCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
 
 }
