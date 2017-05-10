@@ -47,7 +47,8 @@ import UIKit
     func setup(button : UIImageView, textView : UITextView, annotationType : AnnotationType, task : Task);
     
     // state
-    func setButtonState()
+    func setButtonStateAndAnnotation()
+    func clearAnnotationInTask()
     @objc optional func userTriggedAnnotation()
     
     // table view data source 

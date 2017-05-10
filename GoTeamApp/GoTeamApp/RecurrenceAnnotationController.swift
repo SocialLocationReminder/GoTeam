@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class RecurrenceAnnotationController : AnnotationControllerProtocol {
+
     
     
     weak internal var delegate: AnnotationControllerDelegate?
@@ -23,9 +24,6 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
     var annotationType : AnnotationType!
     
     
-    // data
-    let recurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
-    
     func setup(button : UIImageView, textView : UITextView, annotationType : AnnotationType, task : Task) {
         
         self.textView = textView
@@ -35,6 +33,12 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
         
         setupGestureRecognizer()
     }
+    
+    func clearAnnotationInTask() {
+        task.taskRecurrence = nil
+        task.taskRecurrenceSubrange = nil
+    }
+    
     
     func setupGestureRecognizer() {
         button.isUserInteractionEnabled = true
@@ -51,24 +55,26 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
     
     
     // MARK: - button state
-    func setButtonState() {
+    func setButtonStateAndAnnotation() {
         button.isHighlighted = false
         button.isUserInteractionEnabled = true
+        let recurrenceArray = Resources.Strings.AnnotationController.kRecurrenceArray
         for ix in 0..<recurrenceArray.count {
             let testString = TaskSpecialCharacter.recurrence.stringValue() + recurrenceArray[ix]
             if textView.text.contains(testString) {
                 button.isHighlighted = true
                 button.isUserInteractionEnabled = false
-                if task.taskRecurrence == nil {
-                    
-                    // @todo: need to support multiple labels
-                    task.taskRecurrence = ix
-                    task.taskRecurrenceSubrange = textView.text.range(of: testString)
-                    delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                                fgColor: UIColor.white, bgColor: UIColor.green)
-                }
+                print(task.taskRecurrence)
+//                if let _ = task.taskRecurrence {
+//                    break;
+//                }
                 
-                break
+                // @todo: need to support multiple labels
+                task.taskRecurrence = ix
+                task.taskRecurrenceSubrange = textView.text.range(of: testString)
+                delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
+                                            fgColor: Resources.Colors.Annotations.kRecurrenceFGColor,
+                                            bgColor: Resources.Colors.Annotations.kRecurrenceBGColor)
             }
         }
         
@@ -84,18 +90,18 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
     }
     
     func numberOfRows(section: Int) -> Int {
-        return recurrenceArray.count
+        return Resources.Strings.AnnotationController.kRecurrenceArray.count
     }
     
     func populate(cell : AddTaskCell, indexPath : IndexPath)  {
         cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kRecurringIcon)
-        cell.primayTextLabel.text = recurrenceArray[indexPath.row]
+        cell.primayTextLabel.text = Resources.Strings.AnnotationController.kRecurrenceArray[indexPath.row]
         cell.secondaryTextLabel.text = ""
     }
     
     // MARK: - table view delegate related
     func didSelect(_ indexPath : IndexPath) {
-        
+        let recurrenceArray = Resources.Strings.AnnotationController.kRecurrenceArray
         if indexPath.row == recurrenceArray.count - 1  {
             let chars = Array(textView.text.characters)
             textView.text = String(chars[0..<chars.count - 2])
@@ -103,7 +109,7 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
         } else {
             delegate?.appendToTextView(sender: self, string: String(recurrenceArray[indexPath.row]))
             delegate?.appendToTextView(sender: self, string: " ")
-            setButtonState()
+            setButtonStateAndAnnotation()
         }
     }
     

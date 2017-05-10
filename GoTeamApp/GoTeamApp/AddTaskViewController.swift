@@ -10,15 +10,9 @@ import UIKit
 import KBContactsSelection
 
 
-enum TableState {
-    case none
-    case fromDate
-    case dueDate
-    case priority
-    case label
-    case recurrence
-    case location
-    case contact
+enum ViewControllerState {
+    case addMode
+    case editMode
 }
 
 class AddTaskViewController: UIViewController {
@@ -28,7 +22,7 @@ class AddTaskViewController: UIViewController {
     // --- outlets ---
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var maskView: UIView!
-    @IBOutlet weak var dateButton: UIImageView!
+    @IBOutlet weak var fromDateButton: UIImageView!
     @IBOutlet weak var dueDateButton: UIImageView!
     @IBOutlet weak var priorityButton: UIImageView!
     @IBOutlet weak var listButton: UIImageView!
@@ -40,7 +34,7 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var task : Task!
-    
+    var viewControllerState = ViewControllerState.addMode
     
     // --- table view related ---
     var tableState : AnnotationType = .none
@@ -55,10 +49,11 @@ class AddTaskViewController: UIViewController {
             .priority : TaskSpecialCharacter.priority,
             .label : TaskSpecialCharacter.label,
             .dueDate : TaskSpecialCharacter.dueDate,
+            .fromDate : TaskSpecialCharacter.fromDate,
             .recurrence : TaskSpecialCharacter.recurrence,
             .location : TaskSpecialCharacter.location,
-            .contact : TaskSpecialCharacter.contact
-    ]
+            .contact : TaskSpecialCharacter.contact,
+]
     
     var specialHandlingAnnotationTypes : [AnnotationType]!
     
@@ -85,7 +80,7 @@ class AddTaskViewController: UIViewController {
         tableView.delegate = self
 
         // 4. new task
-        task = Task()
+        task =  task ?? Task()
 
         // 5. setup annotation controllers
         setupAnnotationControllers()
@@ -94,16 +89,34 @@ class AddTaskViewController: UIViewController {
         annotationTypeToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
         }
+        
+        if viewControllerState == .editMode {
+            self.title = Resources.Strings.AddTasks.kEditScreenTitle
+            addAnnotatedTextToTextView()
+        } else {
+            self.title = Resources.Strings.AddTasks.kAddScreenTitle
+        }
+    }
+    
+    func addAnnotatedTextToTextView() {
+        guard task.taskNameWithAnnotations != nil else { return; }
+        textView.text = task.taskNameWithAnnotations
+        for controller in annotationControllers {
+            controller.clearAnnotationInTask()
+            controller.setButtonStateAndAnnotation()
+        }
+        buttonView.isHidden = false
     }
     
     func setupAnnotationControllers() {
-        annotationTypes = [.priority, .label, .dueDate, .recurrence, .location, .contact]
+        annotationTypes = [.priority, .label, .dueDate, .fromDate, .recurrence, .location, .contact]
         annotationControllers =
             [
                 PriorityAnnotationController(), LabelAnnotationController(), DateTimeAnnotationController(),
-                RecurrenceAnnotationController(), LocationAnnotationController(), ContactsAnnotationController()
+                FromDateTimeAnnotationController(), RecurrenceAnnotationController(),
+                LocationAnnotationController(), ContactsAnnotationController()
         ]
-        let buttons : [UIImageView] = [priorityButton, listButton, dueDateButton, repeatButton, locationButton, contactButton]
+        let buttons : [UIImageView] = [priorityButton, listButton, dueDateButton, fromDateButton, repeatButton, locationButton, contactButton]
         for ix in 0..<annotationControllers.count {
             annotationControllers[ix].setup(button: buttons[ix], textView: textView, annotationType: annotationTypes[ix], task: task)
             annotationControllers[ix].delegate = self
@@ -125,7 +138,7 @@ class AddTaskViewController: UIViewController {
     }
 
     @IBAction func unwindDoneAddTasksViewControllerSegue(_ segue : UIStoryboardSegue) {
-        if segue.identifier == DateTimeAnnotationController.kUnwindCalendarSegue,
+        if segue.identifier == Resources.Strings.DateTimeAnnotationController.kUnwindCalendarSegue,
             let calendarVC = segue.source as? CalendarViewController,
             let annotationType = calendarVC.annotationType,
             let ix = indexFor(annotationType: annotationType) {
@@ -134,7 +147,7 @@ class AddTaskViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == DateTimeAnnotationController.kShowCalendarSegue,
+        if segue.identifier == Resources.Strings.DateTimeAnnotationController.kShowCalendarSegue,
             let navVC = segue.destination as? UINavigationController,
             let calendarVC = navVC.topViewController as? CalendarViewController {
             calendarVC.annotationType = tableState
@@ -220,8 +233,8 @@ extension AddTaskViewController : UITextViewDelegate {
         setTableViewState(textArray)
         
         // 3. annotation controller button states
-        for controller in annotationControllers {
-            controller.setButtonState()
+        for controller in self.annotationControllers {
+            controller.setButtonStateAndAnnotation()
         }
     }
 
@@ -304,6 +317,10 @@ extension AddTaskViewController : AnnotationControllerDelegate {
 
     
     func appendToTextView(sender: AnnotationControllerProtocol, string : String) {
+        appendToTextView(string: string)
+    }
+    
+    internal func appendToTextView(string : String) {
         if textView.attributedText.length > 0 {
             let attributedStr = NSMutableAttributedString(attributedString: textView.attributedText)
             attributedStr.append(NSAttributedString(string: string))
@@ -334,7 +351,7 @@ extension AddTaskViewController : AnnotationControllerDelegate {
     
     
     
-    func attributeTextView(sender: AnnotationControllerProtocol, pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
+    internal func attributeTextView(sender: AnnotationControllerProtocol, pattern : String, options: NSString.CompareOptions, fgColor : UIColor, bgColor : UIColor) {
         
         let objString = textView.text as NSString
         let range = objString.range(of: pattern, options: options)
@@ -342,14 +359,18 @@ extension AddTaskViewController : AnnotationControllerDelegate {
         
         if textView.attributedText.length > 0 {
             attributedString = NSMutableAttributedString(attributedString: textView.attributedText)
-            attributedString.append(NSAttributedString(string: " "))
         } else {
-            attributedString = NSMutableAttributedString(string: textView.text + " ")
+            attributedString = NSMutableAttributedString(string: textView.text)
         }
         
         attributedString.addAttribute(NSForegroundColorAttributeName, value: fgColor, range: range)
         attributedString.addAttribute(NSBackgroundColorAttributeName, value: bgColor, range: range)
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(objString.length, 1))
+        
+        // if there is more text after the attributed text, flip it back to the default color
+         if range.location + range.length < objString.length {
+            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(range.location + range.length, 1))
+            attributedString.addAttribute(NSBackgroundColorAttributeName, value: UIColor.white, range: NSMakeRange(range.location + range.length, 1))
+        }
         textView.attributedText = attributedString
     }
     

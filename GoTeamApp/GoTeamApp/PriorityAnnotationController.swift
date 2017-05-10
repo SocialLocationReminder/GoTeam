@@ -38,6 +38,11 @@ class PriorityAnnotationController : AnnotationControllerProtocol {
         setupGestureRecognizer()
     }
     
+    func clearAnnotationInTask() {
+        task.taskPrioritySubrange = nil
+        task.taskPriority = nil
+    }
+    
     func setupGestureRecognizer() {
         button.isUserInteractionEnabled = true
         button.isHighlighted = false
@@ -53,33 +58,34 @@ class PriorityAnnotationController : AnnotationControllerProtocol {
     
     
     // MARK: - button state
-    func setButtonState() {
+    func setButtonStateAndAnnotation() {
         
-        button.isHighlighted = true
-        button.isUserInteractionEnabled = false
-        for priorityValue in priorityValues {
-            let testString = TaskSpecialCharacter.priority.stringValue() + String(priorityValue)
-            if textView.text.contains(testString) == false {
-            
-                button.isHighlighted = false
-                button.isUserInteractionEnabled = true
-                task.taskPriority = nil
-                task.taskPrioritySubrange = nil
-                // @todo: change the attribute color here for the "!"
-            }
-        }
-        
+        button.isHighlighted = false
+        button.isUserInteractionEnabled = true
         let pattern = "\\" + TaskSpecialCharacter.priority.stringValue() + buildPriorityValuesRegEx()
         
         if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
-            !range.isEmpty, task.taskPriority == nil {
+            !range.isEmpty {
+            button.isHighlighted = true
+            button.isUserInteractionEnabled = false
+//            if let _ = task.taskPriority {
+//                break;
+//            }
+            
             let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
             let priorityString = textView.text.substring(with: subRange)
+            button.isHighlighted = true
+            button.isUserInteractionEnabled = false
             task.taskPriority = Int(priorityString)
             task.taskPrioritySubrange = range
             
             // attribute the text
             attributePriorityText()
+        }
+        
+        if button.isUserInteractionEnabled == true {
+            task.taskPriority = nil
+            task.taskPrioritySubrange = nil
         }
     }
     
@@ -107,7 +113,7 @@ class PriorityAnnotationController : AnnotationControllerProtocol {
         } else {
             delegate?.appendToTextView(sender: self, string: String(indexPath.row + 1))
             delegate?.appendToTextView(sender: self, string: " ")
-            setButtonState()
+            setButtonStateAndAnnotation()
         }
     }
     
@@ -119,14 +125,15 @@ class PriorityAnnotationController : AnnotationControllerProtocol {
         if let taskPriority = task.taskPriority {
             var bgColor = UIColor.white
             if taskPriority == 1 {
-                bgColor = UIColor.red
+                bgColor = Resources.Colors.Annotations.kPriority1BGColor
             } else if taskPriority == 2 {
-                bgColor = UIColor.blue
+                bgColor = Resources.Colors.Annotations.kPriorrity2BGColor
             } else if taskPriority == 3 {
-                bgColor = UIColor.orange
+                bgColor = Resources.Colors.Annotations.kPriority3BGColor
             }
             delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
-                                        fgColor: UIColor.white, bgColor: bgColor)
+                                        fgColor: Resources.Colors.Annotations.kPriorityFGColor,
+                                        bgColor: bgColor)
         }
     }
     

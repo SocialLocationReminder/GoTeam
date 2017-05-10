@@ -20,28 +20,27 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     func add(task : Task) {
         
         let parseTask = PFObject(className:Task.kTaskClass)
+        update(parseTask: parseTask, task: task)
+    }
+    
+    func update(parseTask: PFObject, task: Task) {
         parseTask[kTUserName] = userName
         parseTask[Task.kTaskName] = task.taskName
         parseTask[Task.kTaskID] = task.taskID
         
-        if let taskDate = task.taskDate {
-            parseTask[Task.kTaskDate] = taskDate
-        }
-        if let taskPriority = task.taskPriority {
-            parseTask[Task.kTaskPriority] = taskPriority
-        }
-        if let taskList = task.taskLabel {
-            parseTask[Task.kTaskList] = taskList
-        }
-        
-        if let taskReccurence = task.taskRecurrence {
-            parseTask[Task.kTaskReccurence] = taskReccurence
-        }
+        parseTask[Task.kTaskNameWithAnnotation] = task.taskNameWithAnnotations ?? NSNull()
+        parseTask[Task.kTaskDate] = task.taskDate ?? NSNull()
+        parseTask[Task.kTaskFromDate] = task.taskFromDate ?? NSNull()
+        parseTask[Task.kTaskPriority] = task.taskPriority ?? NSNull()
+        parseTask[Task.kTaskList] = task.taskLabel ?? NSNull()
+        parseTask[Task.kTaskReccurence] = task.taskRecurrence ?? NSNull()
         
         if let taskLocation = task.taskLocation {
             if let pfObject = LocationDataStoreService.parseObject(location: taskLocation) {
                 parseTask[Task.kTaskLocation] =  pfObject
             }
+        } else {
+            parseTask[Task.kTaskLocation] =  NSNull()
         }
         
         if let taskContacts = task.taskContacts {
@@ -54,12 +53,14 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
             if parseObjectsArray.count > 0 {
                 parseTask[Task.kTaskContacts] = parseObjectsArray
             }
+        } else {
+            parseTask[Task.kTaskContacts] = NSNull()
         }
         
         if let timeSet = task.timeSet {
             parseTask[Task.kTaskTimeSet] = timeSet
         }
-    
+        
         parseTask.saveInBackground { (success, error) in
             if success {
                 print("saved successfully")
@@ -69,6 +70,20 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         }
     }
     
+    func update(task : Task) {
+        let query = PFQuery(className:Task.kTaskClass)
+        query.whereKey(kTUserName, equalTo: userName)
+        query.whereKey(Task.kTaskID, equalTo: task.taskID!)
+        //  query.includeKey(kTUserName)
+        query.includeKey(Task.kTaskID)
+        
+        query.findObjectsInBackground(block: { (tasks, error) in
+            if let tasks = tasks {
+                let pfTask = tasks.first
+                self.update(parseTask: pfTask!, task: task)
+            }
+        })
+    }
     
     func delete(task : Task) {
         
@@ -112,7 +127,9 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
             do {
                 task.taskID = pfTask[Task.kTaskID] as? Date
                 task.taskName = pfTask[Task.kTaskName] as? String
+                task.taskNameWithAnnotations = pfTask[Task.kTaskNameWithAnnotation] as? String
                 task.taskDate = pfTask[Task.kTaskDate] as? Date
+                task.taskFromDate = pfTask[Task.kTaskFromDate] as? Date
                 task.taskPriority = pfTask[Task.kTaskPriority] as? Int
                 task.timeSet = pfTask[Task.kTaskTimeSet] as? Bool
                 

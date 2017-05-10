@@ -18,6 +18,7 @@ class TaskCell: UITableViewCell {
     @IBOutlet weak var taskName: UILabel!
     @IBOutlet weak var taskDate: UILabel!
     @IBOutlet weak var taskTimeLabel: UILabel!
+    @IBOutlet weak var doneLabel: UILabel!
     
     @IBOutlet weak var deleteView: UIView!
     @IBOutlet weak var topView: UIView!
@@ -33,6 +34,7 @@ class TaskCell: UITableViewCell {
     var task : Task? {
         didSet {
             cellFGViewLeadingSpaceConstraint.constant = 0
+            doneLabel.isHidden = true
             if let task = task {
                 self.taskName.text = task.taskName
                 taskDate.text = ""
@@ -54,20 +56,29 @@ class TaskCell: UITableViewCell {
         super.awakeFromNib()
         
         let tapGR = UIPanGestureRecognizer(target: self, action: #selector(topViewPanned))
+        tapGR.delegate = self
         self.topView.addGestureRecognizer(tapGR)
         tableCellUtil = TableCellUtil(contentView: contentView, viewLeadingConstraint: cellFGViewLeadingSpaceConstraint)
     }
     
     func topViewPanned(sender : UIPanGestureRecognizer) {
-        tableCellUtil.handleDeletePan(sender: sender, deleteActionComplete: { 
+        doneLabel.isHidden = false
+        tableCellUtil.handleDeletePan(sender: sender, deleteActionComplete: {
+                self.doneLabel.isHidden = true
                 self.delegate?.deleteTaskCell(sender: self)
-            }, deleteActionInComplete: nil)
+            }, deleteActionInComplete: {
+                self.doneLabel.isHidden = true
+        })
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 
 }

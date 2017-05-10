@@ -35,6 +35,12 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         setupGestureRecognizer()
     }
     
+    func clearAnnotationInTask() {
+        task.taskLocationSubrange = nil
+        task.taskLocation = nil
+    }
+
+    
     func setupGestureRecognizer() {
         button.isUserInteractionEnabled = true
         button.isHighlighted = false
@@ -53,7 +59,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     
     
     // MARK: - button state
-    func setButtonState() {
+    func setButtonStateAndAnnotation() {
         button.isHighlighted = false
         button.isUserInteractionEnabled = true
         for ix in 0..<locations().count {
@@ -62,13 +68,16 @@ class LocationAnnotationController : AnnotationControllerProtocol {
             if textView.text.contains(testString) {
                 button.isHighlighted = true
                 button.isUserInteractionEnabled = false
-                if task.taskLocation == nil {
-                    
-                    task.taskLocation = location
-                    task.taskLabelSubrange = textView.text.range(of: testString)
-                    delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                      fgColor: UIColor.white, bgColor: UIColor.gray)
-                }
+//                if let _ = task.taskLocation {
+//                    break;
+//                }
+                
+                task.taskLocation = location
+                task.taskLocationSubrange = textView.text.range(of: testString)
+                delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
+                                            fgColor: Resources.Colors.Annotations.kLocationFGColor,
+                                            bgColor: Resources.Colors.Annotations.kLocationBGColor)
+                
                 break
             }
         }
@@ -99,7 +108,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         if let locationName = locations()[indexPath.row].title {
             delegate?.appendToTextView(sender: self, string: locationName)
             delegate?.appendToTextView(sender: self, string: " ")
-            setButtonState()
+            setButtonStateAndAnnotation()
         }
     }
     
@@ -131,6 +140,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     
     func fetchLocations() {
         locationManager.allLocations(fetch: true, success: { (locations) in
+                self.setButtonStateAndAnnotation()
                 self.delegate?.reloadTable(sender: self, annotationType: self.annotationType)
 
         }) { (error) in

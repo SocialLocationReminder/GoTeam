@@ -86,10 +86,12 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellFGViewLeadingSpaceConstraint" destination="7CL-o2-QSC" id="N9d-ZR-DHE"/>
+                                            <outlet property="doneLabel" destination="zEc-nA-Lnb" id="5EU-PB-hmg"/>
                                             <outlet property="taskDate" destination="5X3-E9-3Wq" id="wrR-UA-gfK"/>
                                             <outlet property="taskName" destination="MYa-d7-6HV" id="wM3-BB-cBd"/>
                                             <outlet property="taskTimeLabel" destination="aep-Sf-Oop" id="aeD-3a-H2m"/>
                                             <outlet property="topView" destination="ygG-hu-SrN" id="8X0-ve-pWe"/>
+                                            <segue destination="3dm-wV-afP" kind="showDetail" identifier="showEditTasksScreen" action="showViewController:sender:" id="yYI-S9-l9G"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskWithAnnotationsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskWithAnnotationsCell" rowHeight="70" id="3Yr-n1-mjs" customClass="TaskWithAnnotationsCell" customModule="GoTeamApp" customModuleProvider="target">
@@ -221,6 +223,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="cellFGViewLeadingSpaceConstraint" destination="Tlx-aP-emI" id="SF4-mD-Ibo"/>
+                                            <outlet property="doneLabel" destination="WEv-CE-Yi6" id="3jh-w2-a1c"/>
                                             <outlet property="firstAnnotationImage" destination="huf-x5-eMi" id="kno-0P-vyo"/>
                                             <outlet property="firstAnnotationLabel" destination="740-7z-1Se" id="Pg3-s4-SbD"/>
                                             <outlet property="fourthAnnotationImage" destination="Lwb-4Y-Qug" id="sLD-Ag-w0l"/>
@@ -234,6 +237,7 @@
                                             <outlet property="thirdAnnotationImage" destination="shK-vU-8gE" id="hnG-p0-UrS"/>
                                             <outlet property="thirdAnnotationLabel" destination="fSj-Op-vha" id="NJy-LM-ydi"/>
                                             <outlet property="topView" destination="qLY-vu-SUK" id="QxP-93-WAq"/>
+                                            <segue destination="3dm-wV-afP" kind="presentation" identifier="showEditTasksScreenFromAnnotatedCell" id="2MQ-gb-Vt5"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -296,10 +300,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddTaskCell" id="C7R-aw-IzE" customClass="AddTaskCell" customModule="GoTeamApp">
-                                        <rect key="frame" x="0.0" y="28" width="1000" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C7R-aw-IzE" id="huW-RB-R3Y">
-                                            <frame key="frameInset" width="1000" height="43"/>
+                                            <frame key="frameInset" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Mr-o2-gAz">
@@ -547,8 +551,8 @@
                     <connections>
                         <outlet property="buttonView" destination="4W6-bi-B1F" id="VVG-m2-cyK"/>
                         <outlet property="contactButton" destination="AC4-jp-n4U" id="hTw-K1-qe7"/>
-                        <outlet property="dateButton" destination="cU2-td-TtI" id="4VZ-pe-uhi"/>
-                        <outlet property="dueDateButton" destination="Nae-lr-EdZ" id="G1m-Zj-YIC"/>
+                        <outlet property="dueDateButton" destination="cU2-td-TtI" id="srG-jJ-QTb"/>
+                        <outlet property="fromDateButton" destination="Nae-lr-EdZ" id="ePB-Jf-53v"/>
                         <outlet property="listButton" destination="zho-ah-aNt" id="ryt-O7-lsi"/>
                         <outlet property="locationButton" destination="Z1i-Zl-rDO" id="UAH-u2-PHh"/>
                         <outlet property="maskView" destination="jZd-d8-5Ug" id="8aC-4U-Z8F"/>
@@ -1225,6 +1229,7 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="2MQ-gb-Vt5"/>
         <segue reference="Qoh-cV-2w8"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -38,6 +38,11 @@ class LabelAnnotationController : AnnotationControllerProtocol {
         setupGestureRecognizer()
     }
     
+    func clearAnnotationInTask() {
+        task.taskLabel = nil
+        task.taskLabelSubrange = nil
+    }
+    
     func setupGestureRecognizer() {
         button.isUserInteractionEnabled = true
         button.isHighlighted = false
@@ -49,6 +54,7 @@ class LabelAnnotationController : AnnotationControllerProtocol {
     func fetchLabels() {
         labelManager.allLabels(fetch: true, success: { (labels) in
             self.labels = labels
+            self.setButtonStateAndAnnotation()
             self.delegate?.reloadTable(sender: self, annotationType: self.annotationType)
         }) { (error) in
             
@@ -64,7 +70,7 @@ class LabelAnnotationController : AnnotationControllerProtocol {
     
     
     // MARK: - button state
-    func setButtonState() {
+    func setButtonStateAndAnnotation() {
         guard let _ = labels else { return; }
         
         button.isHighlighted = false
@@ -75,14 +81,17 @@ class LabelAnnotationController : AnnotationControllerProtocol {
                 if textView.text.contains(testString) {
                     button.isHighlighted = true
                     button.isUserInteractionEnabled = false
-                    if task.taskLabel == nil {
-                        
-                        // @todo: need to support multiple labels
-                        task.taskLabel = labelName
-                        task.taskLabelSubrange = textView.text.range(of: testString)
-                        delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                          fgColor: UIColor.white, bgColor: UIColor.cyan)
-                    }
+//                    if let _ = task.taskLabel  {
+//                        break;
+//                    }
+                    
+                    // @todo: need to support multiple labels
+                    task.taskLabel = labelName
+                    task.taskLabelSubrange = textView.text.range(of: testString)
+                    delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
+                                                fgColor: Resources.Colors.Annotations.kLabelFGColor,
+                                                bgColor: Resources.Colors.Annotations.kLabelBGColor)
+                    
                     
                     break
                 }
@@ -141,7 +150,7 @@ class LabelAnnotationController : AnnotationControllerProtocol {
         if let labelName = labels![indexPath.row].labelName {
             delegate?.appendToTextView(sender: self, string: labelName)
             delegate?.appendToTextView(sender: self, string: " ")
-            setButtonState()
+            setButtonStateAndAnnotation()
         }
 
     }

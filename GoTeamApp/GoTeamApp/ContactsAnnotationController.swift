@@ -38,6 +38,10 @@ class ContactsAnnotationController : NSObject, AnnotationControllerProtocol {
         setupGestureRecognizer()
     }
     
+    func clearAnnotationInTask() {
+        
+    }
+    
     func setupGestureRecognizer() {
         button.isUserInteractionEnabled = true
         button.isHighlighted = false
@@ -53,8 +57,7 @@ class ContactsAnnotationController : NSObject, AnnotationControllerProtocol {
     
     
     // MARK: - button state
-    func setButtonState() {
-        
+    func setButtonStateAndAnnotation() {
         
     }
     
@@ -126,7 +129,9 @@ extension ContactsAnnotationController : KBContactsSelectionViewControllerDelega
                 
                 let str = TaskSpecialCharacter.contact.stringValue() + fullName
                 delegate?.appendToTextView(sender: self, string: str)
-                delegate?.attributeTextView(sender: self, pattern: str, options: .caseInsensitive, fgColor: UIColor.white, bgColor: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1))
+                delegate?.attributeTextView(sender: self, pattern: str, options: .caseInsensitive,
+                                            fgColor: Resources.Colors.Annotations.kContactFGColor,
+                                            bgColor: Resources.Colors.Annotations.kContactBGColor)
                 if task.taskContacts == nil {
                     task.taskContacts = [Contact]()
                 }
