@@ -116,7 +116,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
             do {
                 task.taskID = pfTask[Task.kTaskID] as? Date
                 task.taskName = pfTask[Task.kTaskName] as? String
-                task.taskNameWithAnnotations = pfTask[Task.kTaskNameWithAnnotation] as? Data
+                task.taskNameWithAnnotations = pfTask[Task.kTaskNameWithAnnotation] as? String
                 task.taskDate = pfTask[Task.kTaskDate] as? Date
                 task.taskPriority = pfTask[Task.kTaskPriority] as? Int
                 task.timeSet = pfTask[Task.kTaskTimeSet] as? Bool

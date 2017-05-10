@@ -79,7 +79,7 @@ class AddTaskViewController: UIViewController {
         tableView.delegate = self
 
         // 4. new task
-        task = Task()
+        task =  task ?? Task()
 
         // 5. setup annotation controllers
         setupAnnotationControllers()
@@ -95,13 +95,17 @@ class AddTaskViewController: UIViewController {
         } else {
             self.title = Resources.Strings.AddTasks.kAddScreenTitle
         }
+        
+        addAnnotatedTextToTextView()
     }
     
     func addAnnotatedTextToTextView() {
         guard task.taskNameWithAnnotations != nil else { return; }
-        if let attributedString = NSKeyedUnarchiver.unarchiveObject(with: task.taskNameWithAnnotations!) as? NSAttributedString {
-            textView.attributedText = attributedString
+        textView.text = task.taskNameWithAnnotations
+        for controller in annotationControllers {
+            controller.setButtonState()
         }
+        buttonView.isHidden = false
     }
     
     func setupAnnotationControllers() {

@@ -29,7 +29,7 @@ class Task : NSObject {
     var taskID : Date?
     var taskName : String?
     var taskDate : Date?
-    var taskNameWithAnnotations : Data?
+    var taskNameWithAnnotations : String?
     var timeSet : Bool?
     
     var taskRecurrence : Int?

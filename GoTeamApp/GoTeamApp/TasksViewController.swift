@@ -91,12 +91,13 @@ class TasksViewController: UIViewController {
         
         if let task = task {
             task.taskName = addTaskVC.textView.text
-            let attributedString = addTaskVC.textView.attributedText
-
-            task.taskNameWithAnnotations = NSKeyedArchiver.archivedData(withRootObject: attributedString)
-            
+            task.taskNameWithAnnotations = task.taskName
             removeAnnotations(task: task)
-            add(task: task)
+            if addTaskVC.viewControllerState == .editMode {
+                update(task: task)
+            } else {
+                add(task: task)
+            }
         }
         
         self.tableView.reloadData()
@@ -170,6 +171,15 @@ class TasksViewController: UIViewController {
         // would need to be redone
         applyFilterPerSearchText()
     }
+
+    func update(task : Task) {
+        taskManager.add(task: task)
+        
+        // if table is in a filtered state, then the filtered list
+        // would need to be redone
+        applyFilterPerSearchText()
+    }
+
     
     func remove(task : Task) {
         taskManager.delete(task: task)

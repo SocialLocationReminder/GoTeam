@@ -13,5 +13,4 @@ target 'GoTeamApp' do
   pod 'JTCalendar', '~> 2.0'
   pod 'KBContactsSelection'
   pod 'ESTimePicker'
-  pod 'NSAttributedString+Encoding'
 end
