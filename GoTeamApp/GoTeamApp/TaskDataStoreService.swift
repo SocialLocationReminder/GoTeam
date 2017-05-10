@@ -20,6 +20,10 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     func add(task : Task) {
         
         let parseTask = PFObject(className:Task.kTaskClass)
+        update(parseTask: parseTask, task: task)
+    }
+    
+    func update(parseTask: PFObject, task: Task) {
         parseTask[kTUserName] = userName
         parseTask[Task.kTaskName] = task.taskName
         parseTask[Task.kTaskID] = task.taskID
@@ -63,7 +67,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         if let timeSet = task.timeSet {
             parseTask[Task.kTaskTimeSet] = timeSet
         }
-    
+        
         parseTask.saveInBackground { (success, error) in
             if success {
                 print("saved successfully")
@@ -73,6 +77,20 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         }
     }
     
+    func update(task : Task) {
+        let query = PFQuery(className:Task.kTaskClass)
+        query.whereKey(kTUserName, equalTo: userName)
+        query.whereKey(Task.kTaskID, equalTo: task.taskID!)
+        //  query.includeKey(kTUserName)
+        query.includeKey(Task.kTaskID)
+        
+        query.findObjectsInBackground(block: { (tasks, error) in
+            if let tasks = tasks {
+                let pfTask = tasks.first
+                self.update(parseTask: pfTask!, task: task)
+            }
+        })
+    }
     
     func delete(task : Task) {
         

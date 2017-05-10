@@ -25,7 +25,7 @@ class TaskManager {
 
     func update(task : Task) {
         queue.async {
-            self.dataStoreService.add(task: task)
+            self.dataStoreService.update(task: task)
         }
     }
 

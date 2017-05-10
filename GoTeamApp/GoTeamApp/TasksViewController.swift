@@ -175,7 +175,7 @@ class TasksViewController: UIViewController {
     }
 
     func update(task : Task) {
-        taskManager.add(task: task)
+        taskManager.update(task: task)
         
         // if table is in a filtered state, then the filtered list
         // would need to be redone
