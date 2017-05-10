@@ -108,6 +108,9 @@ class TasksViewController: UIViewController {
         if let taskDateSubrange = task.taskDateSubrange {
             ranges.append(taskDateSubrange)
         }
+        if let taskFromDateSubrange = task.taskFromDateSubrange {
+            ranges.append(taskFromDateSubrange)
+        }
         if let taskLabelSubrange = task.taskLabelSubrange {
             ranges.append(taskLabelSubrange)
         }

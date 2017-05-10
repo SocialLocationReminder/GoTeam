@@ -35,6 +35,11 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         if let taskDate = task.taskDate {
             parseTask[Task.kTaskDate] = taskDate
         }
+        
+        if let taskFromDate = task.taskFromDate {
+            parseTask[Task.kTaskFromDate] = taskFromDate
+        }
+        
         if let taskPriority = task.taskPriority {
             parseTask[Task.kTaskPriority] = taskPriority
         }
@@ -136,6 +141,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
                 task.taskName = pfTask[Task.kTaskName] as? String
                 task.taskNameWithAnnotations = pfTask[Task.kTaskNameWithAnnotation] as? String
                 task.taskDate = pfTask[Task.kTaskDate] as? Date
+                task.taskFromDate = pfTask[Task.kTaskFromDate] as? Date
                 task.taskPriority = pfTask[Task.kTaskPriority] as? Int
                 task.timeSet = pfTask[Task.kTaskTimeSet] as? Bool
                 

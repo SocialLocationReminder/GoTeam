@@ -18,6 +18,7 @@ class Task : NSObject {
     static let kTaskName = "kTaskName"
     static let kTaskNameWithAnnotation = "kTaskNameWithAnnotation"
     static let kTaskDate = "kTaskDate"
+    static let kTaskFromDate = "kTaskFromDate"
     static let kTaskPriority = "kTaskPriority"
     static let kTaskReccurence = "kTaskReccurence"
     static let kTaskList = "kTaskList"
