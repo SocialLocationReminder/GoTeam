@@ -65,9 +65,9 @@ class RecurrenceAnnotationController : AnnotationControllerProtocol {
                 button.isHighlighted = true
                 button.isUserInteractionEnabled = false
                 print(task.taskRecurrence)
-                if let _ = task.taskRecurrence {
-                    break;
-                }
+//                if let _ = task.taskRecurrence {
+//                    break;
+//                }
                 
                 // @todo: need to support multiple labels
                 task.taskRecurrence = ix

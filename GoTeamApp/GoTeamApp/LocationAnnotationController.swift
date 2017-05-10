@@ -68,14 +68,16 @@ class LocationAnnotationController : AnnotationControllerProtocol {
             if textView.text.contains(testString) {
                 button.isHighlighted = true
                 button.isUserInteractionEnabled = false
-                if task.taskLocation == nil {
-                    
-                    task.taskLocation = location
-                    task.taskLabelSubrange = textView.text.range(of: testString)
-                    delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                                fgColor: Resources.Colors.Annotations.kLocationFGColor,
-                                                bgColor: Resources.Colors.Annotations.kLocationBGColor)
-                }
+//                if let _ = task.taskLocation {
+//                    break;
+//                }
+                
+                task.taskLocation = location
+                task.taskLabelSubrange = textView.text.range(of: testString)
+                delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
+                                            fgColor: Resources.Colors.Annotations.kLocationFGColor,
+                                            bgColor: Resources.Colors.Annotations.kLocationBGColor)
+                
                 break
             }
         }

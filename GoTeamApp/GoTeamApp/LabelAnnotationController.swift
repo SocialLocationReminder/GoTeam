@@ -81,15 +81,17 @@ class LabelAnnotationController : AnnotationControllerProtocol {
                 if textView.text.contains(testString) {
                     button.isHighlighted = true
                     button.isUserInteractionEnabled = false
-                    if task.taskLabel == nil {
-                        
-                        // @todo: need to support multiple labels
-                        task.taskLabel = labelName
-                        task.taskLabelSubrange = textView.text.range(of: testString)
-                        delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                                    fgColor: Resources.Colors.Annotations.kLabelFGColor,
-                                                    bgColor: Resources.Colors.Annotations.kLabelBGColor)
-                    }
+//                    if let _ = task.taskLabel  {
+//                        break;
+//                    }
+                    
+                    // @todo: need to support multiple labels
+                    task.taskLabel = labelName
+                    task.taskLabelSubrange = textView.text.range(of: testString)
+                    delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
+                                                fgColor: Resources.Colors.Annotations.kLabelFGColor,
+                                                bgColor: Resources.Colors.Annotations.kLabelBGColor)
+                    
                     
                     break
                 }

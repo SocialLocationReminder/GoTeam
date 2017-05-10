@@ -363,13 +363,14 @@ extension AddTaskViewController : AnnotationControllerDelegate {
             attributedString = NSMutableAttributedString(string: textView.text)
         }
         
-        if range.location + range.length == objString.length {
-            attributedString.append(NSAttributedString(string: " "))
-        }
-
         attributedString.addAttribute(NSForegroundColorAttributeName, value: fgColor, range: range)
         attributedString.addAttribute(NSBackgroundColorAttributeName, value: bgColor, range: range)
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(range.location + range.length, 1))
+        
+        // if there is more text after the attributed text, flip it back to the default color
+         if range.location + range.length < objString.length {
+            attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range: NSMakeRange(range.location + range.length, 1))
+            attributedString.addAttribute(NSBackgroundColorAttributeName, value: UIColor.white, range: NSMakeRange(range.location + range.length, 1))
+        }
         textView.attributedText = attributedString
     }
     

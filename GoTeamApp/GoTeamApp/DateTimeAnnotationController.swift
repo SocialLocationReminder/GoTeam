@@ -71,14 +71,14 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
             if textView.text.contains(testString) {
                 button.isHighlighted = true
                 button.isUserInteractionEnabled = false
-                if task.taskDate == nil {
+                // if task.taskDate == nil {
                     let today = Date()
                     task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
                     task.taskDateSubrange = textView.text.range(of: testString)
                     delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
                                                 fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
                                                 bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
-                }
+                // }
                 
                 break
             }
@@ -92,7 +92,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
             !range.isEmpty {
             button.isHighlighted = true
             button.isUserInteractionEnabled = false
-            if task.taskDate == nil {
+            //if task.taskDate == nil {
                 let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
                 let dateString = textView.text.substring(with: subRange)
                 AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy 'at' hh:mm a"
@@ -103,12 +103,12 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                                             fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
                                             bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
                 
-            }
+            //}
         } else if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
             !range.isEmpty {
             button.isHighlighted = true
             button.isUserInteractionEnabled = false
-            if task.taskDate == nil {
+            // if task.taskDate == nil {
                 let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
                 let dateString = textView.text.substring(with: subRange)
                 AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
@@ -117,7 +117,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                 delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
                                             fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
                                             bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
-            }
+            // }
         }
         
         if button.isUserInteractionEnabled == true {

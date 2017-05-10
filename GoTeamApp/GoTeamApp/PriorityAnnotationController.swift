@@ -68,17 +68,19 @@ class PriorityAnnotationController : AnnotationControllerProtocol {
             !range.isEmpty {
             button.isHighlighted = true
             button.isUserInteractionEnabled = false
-            if task.taskPriority == nil {
-                let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
-                let priorityString = textView.text.substring(with: subRange)
-                button.isHighlighted = true
-                button.isUserInteractionEnabled = false
-                task.taskPriority = Int(priorityString)
-                task.taskPrioritySubrange = range
+//            if let _ = task.taskPriority {
+//                break;
+//            }
             
-                // attribute the text
-                attributePriorityText()
-            }
+            let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
+            let priorityString = textView.text.substring(with: subRange)
+            button.isHighlighted = true
+            button.isUserInteractionEnabled = false
+            task.taskPriority = Int(priorityString)
+            task.taskPrioritySubrange = range
+            
+            // attribute the text
+            attributePriorityText()
         }
         
         if button.isUserInteractionEnabled == true {
