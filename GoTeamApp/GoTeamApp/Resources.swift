@@ -39,6 +39,8 @@ class Resources {
             
             static let kEditScreenTitle = "Edit Task"
             static let kAddScreenTitle  = "Add Task"
+            
+            static let kSpeechPrompt = "Say Something, I'm Listerning"
         }
         
         class TasksViewController {
