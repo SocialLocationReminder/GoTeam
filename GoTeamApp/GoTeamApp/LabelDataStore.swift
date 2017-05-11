@@ -40,6 +40,18 @@ class LabelDataStoreService : LabelDataStoreServiceProtocol {
         }
     }
     
+    func update(label : Labels) {
+        let query = PFQuery(className:kLabelsClass)
+        query.whereKey(kTUserName, equalTo: userName)
+        query.whereKey(kLabelID, equalTo: label.labelID)
+        query.includeKey(userName)
+        query.findObjectsInBackground(block: { (labels, returnedError) in
+            if let labels = labels {
+                labels.first?[self.kLabelName] = label.labelName
+                labels.first?.saveInBackground()
+            }
+        })
+    }
     
     func delete(label : Labels) {
         let query = PFQuery(className:kLabelsClass)

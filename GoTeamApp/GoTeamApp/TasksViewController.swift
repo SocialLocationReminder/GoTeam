@@ -18,13 +18,20 @@ class TasksViewController: UIViewController {
     @IBOutlet weak var addButton: UIButton!
     
     
+    var searchKey = ""
+
+    // cells
+    let kTaskCell = "TaskCell"
+    let kTaskWithAnnotationsCell = "TaskWithAnnotationsCell"
+    
     // tasks and filtered tasks
     var tasks : [Task]?
     var filteredTasks : [Task]?
 
     // application layer 
     let taskManager = TaskManager()
-    
+    let labelManager = LabelManager.sharedInstance
+
     // MARK: - view load related
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +44,7 @@ class TasksViewController: UIViewController {
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        // setup search bar 
+        // setup search bar
         searchBar.delegate = self
         
         // fetch tasks
@@ -55,6 +62,7 @@ class TasksViewController: UIViewController {
             DispatchQueue.main.async {
                 hud.hide(animated: true)
                 self.tasks = receivedTasks
+                self.searchIfLabelIsAvailableForFilter()
                 self.tableView.reloadData()
             }
         }) { (error) in
@@ -65,6 +73,13 @@ class TasksViewController: UIViewController {
         }
     }
     
+    func searchIfLabelIsAvailableForFilter() {
+        if !self.searchKey.isEmpty {
+            self.searchBar.text = "#"+self.searchKey
+            self.applyFilterPerSearchText()
+        }
+    }
+
     func setupAddButton() {
         
         addButton.layer.cornerRadius = 48.0 / 2.0
@@ -133,7 +148,7 @@ class TasksViewController: UIViewController {
             task.taskName?.removeSubrange(range)
         }
     }
-    
+
     func remove(prefix: TaskSpecialCharacter, textArray : [String],  text : String) -> String {
         var text = text
         let prefixStr = prefix.stringValue()
@@ -148,7 +163,7 @@ class TasksViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+
         if segue.identifier == Resources.Strings.TasksViewController.kShowEditTasksScreen ||
             segue.identifier == Resources.Strings.TasksViewController.kShowEditTasksScreenFromAnnotatedCell {
             let navVC = segue.destination as! UINavigationController
@@ -166,7 +181,7 @@ class TasksViewController: UIViewController {
             }
         }
     }
-    
+
     // MARK: - task management
     func add(task : Task) {
         tasks?.append(task)
@@ -179,13 +194,13 @@ class TasksViewController: UIViewController {
 
     func update(task : Task) {
         taskManager.update(task: task)
-        
+
         // if table is in a filtered state, then the filtered list
         // would need to be redone
         applyFilterPerSearchText()
     }
 
-    
+
     func remove(task : Task) {
         taskManager.delete(task: task)
         tasks = tasks?.filter() { $0 !== task }
@@ -220,10 +235,10 @@ extension TasksViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tasksList()?.count ?? 0
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
     }
 }
 

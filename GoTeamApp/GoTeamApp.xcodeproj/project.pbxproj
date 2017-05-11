@@ -11,6 +11,7 @@
 		615B780F1EB65418006F59D8 /* Labels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B780E1EB65418006F59D8 /* Labels.swift */; };
 		615B78111EB68661006F59D8 /* AddLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78101EB68661006F59D8 /* AddLabelViewController.swift */; };
 		615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78121EB69EDC006F59D8 /* LabelManager.swift */; };
+		61C9BEFC1EBFEB500017C220 /* EditLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */; };
 		E2C9E12F1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E12E1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift */; };
@@ -70,6 +71,7 @@
 		615B780E1EB65418006F59D8 /* Labels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Labels.swift; sourceTree = "<group>"; };
 		615B78101EB68661006F59D8 /* AddLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLabelViewController.swift; sourceTree = "<group>"; };
 		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
+		61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLabelViewController.swift; sourceTree = "<group>"; };
 		E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		E2C9E12E1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDataStoreServiceProtocol.swift; sourceTree = "<group>"; };
 		E2C9E1301EBF10D700BBD78C /* ContactDataStoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDataStoreService.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				E2F1C9901EAF013A0034E0A7 /* LabelsViewController.swift */,
 				615B780C1EB64FBB006F59D8 /* LabelTableViewCell.swift */,
 				615B78101EB68661006F59D8 /* AddLabelViewController.swift */,
+				61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */,
 			);
 			name = Labels;
 			sourceTree = "<group>";
@@ -483,7 +486,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8ADFCEAC9DD4F8ECD28DB6C1 /* [CP] Copy Pods Resources */ = {
@@ -546,6 +549,7 @@
 				E2FEDA2C1EBD30840020E3C0 /* Resources.swift in Sources */,
 				E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */,
 				E2C9E1361EBF166700BBD78C /* DataStoreServiceErrorCodes.swift in Sources */,
+				61C9BEFC1EBFEB500017C220 /* EditLabelViewController.swift in Sources */,
 				E2C9E13D1EBF945300BBD78C /* AnnotationControllerProtocol.swift in Sources */,
 				E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */,
 				E2C9E1411EC0346D00BBD78C /* PriorityAnnotationController.swift in Sources */,

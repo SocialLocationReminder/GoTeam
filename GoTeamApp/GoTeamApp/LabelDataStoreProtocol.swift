@@ -13,5 +13,6 @@ protocol LabelDataStoreServiceProtocol {
 
     func add(label : Labels);
     func delete(label : Labels);
+    func update(label : Labels);
     func allLabels(success:@escaping ([Labels]) -> (), error: @escaping ((Error) -> ()));
 }
