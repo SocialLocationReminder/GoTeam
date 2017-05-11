@@ -13,7 +13,7 @@ class ContactManager {
     
     let dataStoreService : ContactDataStoreServiceProtocol = ContactDataStoreService()
     
-    let queue = DispatchQueue(label: "ContactManagerQueue")
+    let queue = DispatchQueue(label: Resources.Strings.ContactManager.kContactManagerQueue)
     
     static let sharedInstance = ContactManager()
 

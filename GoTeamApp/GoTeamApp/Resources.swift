@@ -71,6 +71,18 @@ class Resources {
         class DataStoreService {
             static let kUnknownError = "Unknown Error"
         }
+        
+        class TaskManager {
+            static let kTaskManagerQueue = "kTaskManagerQueue"
+        }
+        
+        class LabelManager {
+            static let kLabelManagerQueue = "kLabelManagerQueue"
+        }
+        
+        class ContactManager {
+            static let kContactManagerQueue = "kContactManagerQueue"
+        }
     }
     
     class Colors {
