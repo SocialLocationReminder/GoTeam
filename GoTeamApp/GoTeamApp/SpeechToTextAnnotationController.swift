@@ -196,7 +196,7 @@ class SpeechToTextAnnotationController : NSObject, AnnotationControllerProtocol,
             print("audioEngine couldn't start because of an error.")
         }
         
-        textView.text = "Say something, I'm listening!"
+        // textView.text = "Say something, I'm listening!"
         
     }
     

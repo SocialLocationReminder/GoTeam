@@ -20,7 +20,5 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>${CURRENT_PROJECT_VERSION}</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>To add text for a task</string>
 </dict>
 </plist>
