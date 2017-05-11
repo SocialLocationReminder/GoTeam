@@ -181,7 +181,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   
   func showAlert(type: AlertType, location: Location) {
     
-    let alertController = MapAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+    let alertController = MapAlertController(title: "\n\n\n\n\n\n\n\n\n\n", message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
     
     //Check if location with the same coordinates already exists
     var newType = type
