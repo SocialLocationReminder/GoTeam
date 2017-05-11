@@ -53,7 +53,7 @@ class TasksViewController: UIViewController {
         // setup add button view
         setupAddButton()
         
-        
+        setupTapGestureRecognizer()
     }
     
     func setupTapGestureRecognizer() {
