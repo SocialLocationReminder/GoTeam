@@ -67,7 +67,8 @@ class AddTaskViewController: UIViewController {
         super.viewDidLoad()
 
         // 0. info label
-        infoLabel.isHidden = true
+        infoLabel.isHidden = false
+        infoLabel.text = ""
         
         // 1. setup text view
         textView.delegate = self
