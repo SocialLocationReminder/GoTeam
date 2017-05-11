@@ -52,6 +52,17 @@ class TasksViewController: UIViewController {
         
         // setup add button view
         setupAddButton()
+        
+        
+    }
+    
+    func setupTapGestureRecognizer() {
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(didTapView))
+        self.view.addGestureRecognizer(tapGR)
+    }
+    
+    func didTapView(sender : UITapGestureRecognizer) {
+        searchBar.resignFirstResponder()
     }
     
     func fetchTasks() {
