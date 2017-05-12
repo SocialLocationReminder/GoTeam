@@ -58,6 +58,8 @@ class TasksViewController: UIViewController {
     
     func setupTapGestureRecognizer() {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(didTapView))
+        //tapGR.delegate = self
+        tapGR.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGR)
     }
     
@@ -310,8 +312,4 @@ extension TasksViewController : TaskCellDelegate, TaskWithAnnotationsCellDelegat
     }
     
 }
-
-
-
-
 
