@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 class LocationAnnotationController : AnnotationControllerProtocol {
     
@@ -106,6 +107,24 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     // MARK: - table view delegate related
     func didSelect(_ indexPath : IndexPath) {
         if let locationName = locations()[indexPath.row].title {
+          
+            // Setup geofence region
+            let locationCoordinate = locations()[indexPath.row].coordinate
+            let radius = 100.0
+            let identifier = "Region for: " + locations()[indexPath.row].title!
+            let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
+            region.notifyOnEntry = true
+            region.notifyOnExit = true
+            // Start region monitoring
+            LocationManager.sharedInstance.startMonitoring(for: region)
+          
+            // List all monitored regions
+            for region in LocationManager.sharedInstance.monitoredRegions {
+              print("Monitored region = \(region.identifier)")
+              // stop monitoring
+              //LocationManager.sharedInstance.stopMonitoring(for: region)
+            }
+          
             delegate?.appendToTextView(sender: self, string: locationName)
             delegate?.appendToTextView(sender: self, string: " ")
             setButtonStateAndAnnotation()

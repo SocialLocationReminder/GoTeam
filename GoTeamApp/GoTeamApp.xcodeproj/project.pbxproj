@@ -54,6 +54,7 @@
 		E2FEDA291EBD094E0020E3C0 /* LocationDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA281EBD094E0020E3C0 /* LocationDataStore.swift */; };
 		E2FEDA2C1EBD30840020E3C0 /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA2B1EBD30840020E3C0 /* Resources.swift */; };
 		E2FEDA321EBEC27C0020E3C0 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEDA311EBEC27C0020E3C0 /* ContactsViewController.swift */; };
+		F43533951EC32CB100C45947 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43533941EC32CB100C45947 /* LocationManager.swift */; };
 		F44B85701EBC92B200FF489A /* SelectedLocationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B856F1EBC92B200FF489A /* SelectedLocationsManager.swift */; };
 		F44B85721EBC9EDA00FF489A /* MapAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44B85711EBC9EDA00FF489A /* MapAlertController.swift */; };
 		F44B85741EBC9F4800FF489A /* MapAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F44B85731EBC9F4800FF489A /* MapAlertView.xib */; };
@@ -116,6 +117,7 @@
 		E2FEDA2B1EBD30840020E3C0 /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		E2FEDA311EBEC27C0020E3C0 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoTeamApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F43533941EC32CB100C45947 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F44B856F1EBC92B200FF489A /* SelectedLocationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedLocationsManager.swift; sourceTree = "<group>"; };
 		F44B85711EBC9EDA00FF489A /* MapAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapAlertController.swift; sourceTree = "<group>"; };
 		F44B85731EBC9F4800FF489A /* MapAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapAlertView.xib; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				615B78121EB69EDC006F59D8 /* LabelManager.swift */,
 				F44B856F1EBC92B200FF489A /* SelectedLocationsManager.swift */,
 				E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */,
+				F43533941EC32CB100C45947 /* LocationManager.swift */,
 			);
 			name = "Application Layer";
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 			files = (
 				E2FEDA1F1EBD07BC0020E3C0 /* TaskDataStoreService.swift in Sources */,
 				615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */,
+				F43533951EC32CB100C45947 /* LocationManager.swift in Sources */,
 				F44B85761EBC9F6500FF489A /* MapAlertView.swift in Sources */,
 				E2C9E1311EBF10D700BBD78C /* ContactDataStoreService.swift in Sources */,
 				E2FEDA1C1EBD079E0020E3C0 /* TaskDataStoreServiceProtocol.swift in Sources */,

@@ -26,32 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           configuration.server = "https://social-location-reminder.herokuapp.com/parse"
         })
       )
-      
-      let username = "test1@gmail.com"
-      let password = "twk4672kw"
-      
-      //    Parse User Sign Up
-      //    let user = PFUser()
-      //    let email = "test1@gmail.com"
-      //    user.username = username
-      //    user.password = password
-      //    user.email = email
-      //    user.signUpInBackground { (succees: Bool, error: Error?) in
-      //      if let error = error {
-      //        print("Parse Sign Up Error: \(error.localizedDescription)")
-      //      } else {
-      //        print("Sign up succeeded")
-      //      }
-      //    }
-      
-      // Parse User Login
-      PFUser.logInWithUsername(inBackground: username, password: password) { (user: PFUser?, error: Error?) in
-        if user != nil {
-          print("Sucessful login to Parse Server")
-        } else {
-          print("Parse Login Error \(error!.localizedDescription)")
-        }
-      }
         return true
     }
 
