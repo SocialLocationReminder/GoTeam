@@ -37,7 +37,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     // table state logic
     var tableState = TableState.showLocations
     let regionRadiuses = ["10","30","100"]
-    let boundaryCrossings = ["On Enter", "On Exit"]
+    let boundaryCrossings = ["Notify on Entry", "Notify on Exit", "Notify on Entry & Exit"]
   
     // application layer
     let locationManager = SelectedLocationsManager.sharedInstance
@@ -162,24 +162,34 @@ class LocationAnnotationController : AnnotationControllerProtocol {
           boundaryCrossing = boundaryCrossings[indexPath.row]
           if let locationName = locationName {
             // Setup geofence region
+            print("Setting up geofence region")
             let locationCoordinate = locations()[indexPath.row].coordinate
             if let radius = Double(regionRadiuses[indexPath.row]) {
               let identifier = "Region for: " + locationName
+              print("Region identifier = \(identifier)")
               let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
               if let boundaryCrossing = boundaryCrossing {
-                if boundaryCrossing == "On Enter" {
+                print("Region boundary crossing = \(boundaryCrossing)")
+                if boundaryCrossing.contains("Entry") {
                   region.notifyOnEntry = true
+                } else {
+                  region.notifyOnEntry = false
                 }
-                if boundaryCrossing == "On Exit" {
+                if boundaryCrossing.contains("Exit") {
                   region.notifyOnExit = true
+                } else {
+                  region.notifyOnExit = false
                 }
               // Start region monitoring
               LocationManager.sharedInstance.startMonitoring(for: region)
               // List all monitored regions
+              print("List of all monitored regions")
               for region in LocationManager.sharedInstance.monitoredRegions {
-                  print("Monitored region = \(region.identifier)")
+                  print("Monitored region identifier = \(region.identifier)")
+                  print("Monitored region notify on Entry = \(region.notifyOnEntry)")
+                  print("Monitored region notify on Exit = \(region.notifyOnExit)")
                   // stop monitoring
-                  //LocationManager.sharedInstance.stopMonitoring(for: region)
+                  LocationManager.sharedInstance.stopMonitoring(for: region)
               }
             }
             delegate?.appendToTextView(sender: self, string: locationName)
