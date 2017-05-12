@@ -70,7 +70,6 @@ class FromDateTimeAnnotationController : AnnotationControllerProtocol {
         button.isHighlighted = false
         button.isUserInteractionEnabled = true
         
-        
         // 2. look for predefined patterns
         lookForPredefinedPatterns(specialChar: TaskSpecialCharacter.fromDate.stringValue())
         
@@ -86,7 +85,7 @@ class FromDateTimeAnnotationController : AnnotationControllerProtocol {
     
     @discardableResult func lookForPredefinedPatterns(specialChar : String) -> Bool {
         for ix in 0..<dateArray.count {
-            let testString = textView.text.contains(specialChar) ? (specialChar + dateArray[ix]) : dateArray[ix]
+            let testString =  (specialChar + dateArray[ix])
             if let range = textView.text.range(of: testString, options: .caseInsensitive, range: nil, locale: nil),
                 !range.isEmpty {
                 button.isHighlighted = true
@@ -115,13 +114,13 @@ class FromDateTimeAnnotationController : AnnotationControllerProtocol {
             let dateFormatType = result.dateFormatType,
             !range.isEmpty {
             
+            // only set the from date if the special character is present
+            if result.specialCharPresent == false { return false; }
+            
             button.isHighlighted = true
             button.isUserInteractionEnabled = false
             
-            var subRange = range
-            if result.specialCharPresent == true {
-                subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
-            }
+            let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
             
             let dateString = textView.text.substring(with: subRange).replacingOccurrences(of: " ", with: "", options: .caseInsensitive, range: nil)
             AddTaskViewController.dateFormatter.dateFormat = dateFormat

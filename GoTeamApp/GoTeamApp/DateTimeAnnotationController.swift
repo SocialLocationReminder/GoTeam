@@ -71,10 +71,11 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
 
         
         // 2. look for predefined patterns
-        lookForPredefinedPatterns(specialChar: TaskSpecialCharacter.dueDate.stringValue())
+        let foundPredefined = lookForPredefinedPatterns(specialChar: TaskSpecialCharacter.dueDate.stringValue())
         
         // 3. look for date and/or time patterns
-        lookForDateTimePatterns(specialChar: TaskSpecialCharacter.dueDate.stringValue())
+        lookForDateTimePatterns(specialChar: TaskSpecialCharacter.dueDate.stringValue(),
+                                    foundPredefined:foundPredefined)
 
         // 4. if button is still enabled that implies that no patterns were found nil out the dates
         if button.isUserInteractionEnabled == true {
@@ -93,7 +94,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                 
                 let today = Date()
                 task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
-                task.taskDateSubrange = textView.text.range(of: testString)
+                task.taskDateSubrange = range
                 delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
                                             fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
                                             bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
@@ -103,7 +104,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
         return false
     }
     
-    @discardableResult func lookForDateTimePatterns(specialChar : String) -> Bool {
+    @discardableResult func lookForDateTimePatterns(specialChar : String, foundPredefined: Bool) -> Bool {
         
         let result = DateTimeUtil.findDateOrTimePattern(specialChar: specialChar, text: textView.text)
         
@@ -126,7 +127,10 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
             AddTaskViewController.dateFormatter.dateFormat = dateFormat
             if dateFormatType == .timeOnly {
                 if let timePicked = AddTaskViewController.dateFormatter.date(from: dateString) {
-                    let today = task.taskDate ?? Date()
+                    var today = Date()
+                    if foundPredefined, let taskDate = task.taskDate {
+                        today = taskDate
+                    }
                     let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
                     let todayComponents = gregorian.dateComponents(in: TimeZone.current, from: today)
                     let timePickedComponents = gregorian.dateComponents(in: TimeZone.current, from: timePicked)
@@ -137,7 +141,12 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
                 task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
             }
             task.timeSet = dateFormatType != .dateOnly
-            task.taskDateSubrange = range
+            
+            var combinedRange = range
+            if foundPredefined, let taskDateSubrange = task.taskDateSubrange {
+                 combinedRange = Range<String.Index>(uncheckedBounds: (lower: taskDateSubrange.lowerBound, upper: range.upperBound))
+            }
+            task.taskDateSubrange = combinedRange
             delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
                                         fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
                                         bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
