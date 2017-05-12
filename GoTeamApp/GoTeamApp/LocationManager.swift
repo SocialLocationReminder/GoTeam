@@ -25,8 +25,20 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
   
   // MARK: - Location Manager Delegate Methods
   
+  func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    print("Monitoring status: Did Enter \(region.identifier)")
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+    print("Monitoring status: Did Exit \(region.identifier)")
+  }
+  
+  func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+    print("Monitoring failed for region with identifier: \(region!.identifier)")
+  }
+  
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-    if status == .authorizedWhenInUse {
+    if status == .authorizedAlways {
       LocationManager.sharedInstance.requestLocation()
     }
   }
@@ -34,6 +46,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     print("Location Manager did update locations")
   }
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    print("error:: (error)")
+    print("Location Manager failed with the following error: \(error)")
   }
 }

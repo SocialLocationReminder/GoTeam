@@ -44,6 +44,8 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     tableView.dataSource = self
     locationSearchBar.delegate = self
     
+    mapView.showsUserLocation = true
+    
     // Setup search results table
     let locationSearchTable = storyboard?.instantiateViewController(withIdentifier: "LocationSearchTable") as? LocationSearchTable
     resultSearchController = UISearchController(searchResultsController: locationSearchTable)
