@@ -22,7 +22,7 @@ class MapAlertController: UIAlertController {
     view.addSubview(alertView!)
     alertView?.location = location
     updateUI()
-    alertView?.nameTextField.becomeFirstResponder()
+    //alertView?.nameTextField.becomeFirstResponder()
   }
   
   func updateUI() {

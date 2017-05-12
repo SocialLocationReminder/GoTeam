@@ -82,8 +82,7 @@ class MapAlertView: UIView, UITextFieldDelegate {
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    //textField.resignFirstResponder()
-    print("RETURN")
+    textField.resignFirstResponder()
     return true
   }
 }
