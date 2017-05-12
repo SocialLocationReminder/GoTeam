@@ -54,7 +54,9 @@ class TaskManager {
     
     // MARK: - static helpers
     internal static func addNotificationsIfDatePresent(task : Task) {
-        
+        if task.timeSet == nil || task.timeSet! == false {
+            return;
+        }
         if let taskFromDate = task.taskFromDate {
             if let dateMinusTen = offset(minutes: -10, from: taskFromDate),
                 let taskName = task.taskName {
