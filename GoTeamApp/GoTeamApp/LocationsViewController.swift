@@ -48,28 +48,48 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     LocationManager.sharedInstance.requestLocation()
     
     // Setup search results table
-    let locationSearchTable = storyboard?.instantiateViewController(withIdentifier: "LocationSearchTable") as? LocationSearchTable
-    resultSearchController = UISearchController(searchResultsController: locationSearchTable)
-    resultSearchController?.searchResultsUpdater = locationSearchTable
-    
-    // Add search bar to the top of map view
-    if let searchBar = resultSearchController?.searchBar {
-      searchBar.sizeToFit()
-      searchBar.placeholder = "Search for a place or address"
-      let searchBarView = UIView(frame: CGRect(x:0, y:0, width:searchBar.frame.size.width, height:44))
-      searchBarView.addSubview(searchBar)
-      mapView.addSubview(searchBarView)
-    }
-    resultSearchController?.hidesNavigationBarDuringPresentation = false
-    resultSearchController?.dimsBackgroundDuringPresentation = true
+    setupSearchBar()
     definesPresentationContext = true
+    
     setupAddButton()
-    locationSearchTable?.mapView = mapView
-    locationSearchTable?.mapSearchDelegate = self
+    setupTapGestureRecognizer()
+    
     
     // fetch locations
     fetchLocations()
   }
+    
+    func setupSearchBar() {
+        
+        let locationSearchTable = storyboard?.instantiateViewController(withIdentifier: "LocationSearchTable") as? LocationSearchTable
+        locationSearchTable?.mapView = mapView
+        locationSearchTable?.mapSearchDelegate = self
+
+        resultSearchController = UISearchController(searchResultsController: locationSearchTable)
+        resultSearchController?.searchResultsUpdater = locationSearchTable
+        
+        // Add search bar to the top of map view
+        if let searchBar = resultSearchController?.searchBar {
+            searchBar.sizeToFit()
+            searchBar.placeholder = "Search for a place or address"
+            let searchBarView = UIView(frame: CGRect(x:0, y:0, width:searchBar.frame.size.width, height:44))
+            searchBarView.addSubview(searchBar)
+            mapView.addSubview(searchBarView)
+        }
+        resultSearchController?.hidesNavigationBarDuringPresentation = false
+        resultSearchController?.dimsBackgroundDuringPresentation = true
+    }
+    
+    func setupTapGestureRecognizer() {
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        view.addGestureRecognizer(tapGR)
+    }
+    
+    func viewTapped() {
+        if let searchBar = resultSearchController?.searchBar {
+            searchBar.resignFirstResponder()
+        }
+    }
   
   func fetchLocations() {
     let hud = MBProgressHUD.showAdded(to: self.tableView, animated: true)

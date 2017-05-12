@@ -41,6 +41,23 @@ class Resources {
             static let kAddScreenTitle  = "Add Task"
             
             static let kSpeechPrompt = "Say Something, I'm Listerning"
+            
+            static let kFromDateAlert = "starts in 10 minutes"
+            static let kDueDateAlert = "ends in 10 minutes"
+        }
+        
+        class Task {
+            static let kTaskID   = "kTaskID"
+            static let kTaskName = "kTaskName"
+            static let kTaskNameWithAnnotation = "kTaskNameWithAnnotation"
+            static let kTaskDate = "kTaskDate"
+            static let kTaskFromDate = "kTaskFromDate"
+            static let kTaskPriority = "kTaskPriority"
+            static let kTaskReccurence = "kTaskReccurence"
+            static let kTaskList = "kTaskList"
+            static let kTaskContacts = "kTaskContacts"
+            static let kTaskLocation = "kTaskLocation"
+            static let kTaskTimeSet = "kTaskTimeSet"
         }
         
         class TasksViewController {
@@ -56,10 +73,13 @@ class Resources {
             static let kShowCalendarSegue = "showCalendarSegue"
         }
         
-        class AnnotationController {
+        class RegEx {
             static let kDateRegExPattern =  "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
-            static let kDateTimeRegExPattern = "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
-            
+            static let kFullTimeRegExPattern = "\\s*\\d{1,2}:\\d{2}\\s*(am|pm|AM|PM)"
+            static let kHourOnlyTimeRegExPattern = "\\s*\\d{1,2}\\s*(am|pm|AM|PM)"
+        }
+        
+        class AnnotationController {
             static let kRecurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
             static let kDateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
         }

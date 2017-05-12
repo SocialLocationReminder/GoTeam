@@ -64,67 +64,97 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
     
     // MARK: - button state
     func setButtonStateAndAnnotation() {
+        
+        // 1. preemptively enable the button
         button.isHighlighted = false
         button.isUserInteractionEnabled = true
-        for ix in 0..<dateArray.count {
-            let testString = TaskSpecialCharacter.dueDate.stringValue() + dateArray[ix]
-            if textView.text.contains(testString) {
-                button.isHighlighted = true
-                button.isUserInteractionEnabled = false
-                // if task.taskDate == nil {
-                    let today = Date()
-                    task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
-                    task.taskDateSubrange = textView.text.range(of: testString)
-                    delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
-                                                fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
-                                                bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
-                // }
-                
-                break
-            }
-        }
+
         
-        // date only pattern
-        let pattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + Resources.Strings.AnnotationController.kDateRegExPattern
-        let dateAndTimePattern = "\\" + TaskSpecialCharacter.dueDate.stringValue() + Resources.Strings.AnnotationController.kDateTimeRegExPattern
-        // date and time pattern
-        if let range = textView.text.range(of: dateAndTimePattern, options: .regularExpression, range: nil, locale: nil),
-            !range.isEmpty {
-            button.isHighlighted = true
-            button.isUserInteractionEnabled = false
-            //if task.taskDate == nil {
-                let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
-                let dateString = textView.text.substring(with: subRange)
-                AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy 'at' hh:mm a"
-                task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
-                task.timeSet = true
-                task.taskDateSubrange = range
-                delegate?.attributeTextView(sender: self, pattern: dateAndTimePattern, options: .regularExpression,
-                                            fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
-                                            bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
-                
-            //}
-        } else if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
-            !range.isEmpty {
-            button.isHighlighted = true
-            button.isUserInteractionEnabled = false
-            // if task.taskDate == nil {
-                let subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
-                let dateString = textView.text.substring(with: subRange)
-                AddTaskViewController.dateFormatter.dateFormat = "dd MMM yyyy"
-                task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
-                task.taskDateSubrange = range
-                delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
-                                            fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
-                                            bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
-            // }
-        }
+        // 2. look for predefined patterns
+        let foundPredefined = lookForPredefinedPatterns(specialChar: TaskSpecialCharacter.dueDate.stringValue())
         
+        // 3. look for date and/or time patterns
+        lookForDateTimePatterns(specialChar: TaskSpecialCharacter.dueDate.stringValue(),
+                                    foundPredefined:foundPredefined)
+
+        // 4. if button is still enabled that implies that no patterns were found nil out the dates
         if button.isUserInteractionEnabled == true {
             task.taskDate = nil
             task.taskDateSubrange = nil
         }
     }
+    
+    @discardableResult func lookForPredefinedPatterns(specialChar : String) -> Bool {
+        for ix in 0..<dateArray.count {
+            let testString = textView.text.contains(specialChar) ? (specialChar + dateArray[ix]) : dateArray[ix]
+            if let range = textView.text.range(of: testString, options: .caseInsensitive, range: nil, locale: nil),
+                !range.isEmpty {
+                button.isHighlighted = true
+                button.isUserInteractionEnabled = false
+                
+                let today = Date()
+                task.taskDate = Calendar.current.date(byAdding: .day, value: ix, to: today)
+                task.taskDateSubrange = range
+                delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
+                                            fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
+                                            bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
+                return true
+            }
+        }
+        return false
+    }
+    
+    @discardableResult func lookForDateTimePatterns(specialChar : String, foundPredefined: Bool) -> Bool {
+        
+        let result = DateTimeUtil.findDateOrTimePattern(specialChar: specialChar, text: textView.text)
+        
+        // apply attributes if found
+        if let range = result.rangeFound,
+            let pattern = result.patternFound,
+            let dateFormat = result.dateFormat,
+            let dateFormatType = result.dateFormatType,
+            !range.isEmpty {
+            
+            button.isHighlighted = true
+            button.isUserInteractionEnabled = false
+            
+            var subRange = range
+            if result.specialCharPresent == true {
+                subRange = Range(uncheckedBounds: (textView.text.index(after: range.lowerBound), range.upperBound))
+            }
+            
+            let dateString = textView.text.substring(with: subRange).replacingOccurrences(of: " ", with: "", options: .caseInsensitive, range: nil)
+            AddTaskViewController.dateFormatter.dateFormat = dateFormat
+            if dateFormatType == .timeOnly {
+                if let timePicked = AddTaskViewController.dateFormatter.date(from: dateString) {
+                    var today = Date()
+                    if foundPredefined, let taskDate = task.taskDate {
+                        today = taskDate
+                    }
+                    let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
+                    let todayComponents = gregorian.dateComponents(in: TimeZone.current, from: today)
+                    let timePickedComponents = gregorian.dateComponents(in: TimeZone.current, from: timePicked)
+                    let newComponents = DateComponents(calendar: gregorian, timeZone: .current, era: nil, year: todayComponents.year, month: todayComponents.month, day: todayComponents.day, hour: timePickedComponents.hour, minute: timePickedComponents.minute, second: timePickedComponents.second, nanosecond: nil, weekday: nil, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: nil, yearForWeekOfYear: nil)
+                    task.taskDate = gregorian.date(from: newComponents)
+                }
+            } else {
+                task.taskDate = AddTaskViewController.dateFormatter.date(from: dateString)
+            }
+            task.timeSet = dateFormatType != .dateOnly
+            
+            var combinedRange = range
+            if foundPredefined, let taskDateSubrange = task.taskDateSubrange {
+                 combinedRange = Range<String.Index>(uncheckedBounds: (lower: taskDateSubrange.lowerBound, upper: range.upperBound))
+            }
+            task.taskDateSubrange = combinedRange
+            delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
+                                        fgColor: Resources.Colors.Annotations.kDateTimeFGColor,
+                                        bgColor: Resources.Colors.Annotations.kDateTimeBGColor)
+            return true
+        }
+        return false
+    }
+    
     
     // MARK: - Table View data source related
     func numberOfSections() -> Int {
@@ -168,6 +198,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
         } else {
             delegate?.appendToTextView(sender: self, string: dateArray[indexPath.row])
         }
+        setButtonStateAndAnnotation()
     }
     
     // MARK: - unwind segue from CalendarViewController

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 class TaskManager {
     
@@ -19,12 +19,14 @@ class TaskManager {
     func add(task : Task) {
         queue.async {
             self.tasks.append(task)
+            TaskManager.addNotificationsIfDatePresent(task: task)
             self.dataStoreService.add(task: task)
         }
     }
 
     func update(task : Task) {
         queue.async {
+            TaskManager.updateNotificationsIfDatePresent(task: task)
             self.dataStoreService.update(task: task)
         }
     }
@@ -49,4 +51,54 @@ class TaskManager {
             }
         }
     }
+    
+    // MARK: - static helpers
+    internal static func addNotificationsIfDatePresent(task : Task) {
+        if task.timeSet == nil || task.timeSet! == false {
+            return;
+        }
+        if let taskFromDate = task.taskFromDate {
+            if let dateMinusTen = offset(minutes: -10, from: taskFromDate),
+                let taskName = task.taskName {
+                let localNotificaiton = UILocalNotification()
+                localNotificaiton.fireDate = dateMinusTen
+                localNotificaiton.userInfo
+                        = [
+                            Resources.Strings.Task.kTaskID : "\(task.taskID!.timeIntervalSince1970)",
+                            Resources.Strings.Task.kTaskFromDate : "\(taskFromDate.timeIntervalSince1970)"]
+                localNotificaiton.alertBody = "\(taskName) \(Resources.Strings.AddTasks.kFromDateAlert)"
+            }
+        }
+        
+        if let taskDueDate = task.taskDate {
+            if let dateMinusTen = offset(minutes: -10, from: taskDueDate),
+                let taskName = task.taskName {
+                let localNotificaiton = UILocalNotification()
+                localNotificaiton.fireDate = dateMinusTen
+                localNotificaiton.userInfo
+                    = [
+                        Resources.Strings.Task.kTaskID : "\(task.taskID!.timeIntervalSince1970)",
+                        Resources.Strings.Task.kTaskDate : "\(taskDueDate.timeIntervalSince1970)"]
+                localNotificaiton.alertBody = "\(taskName) \(Resources.Strings.AddTasks.kDueDateAlert)"
+            }
+        }
+    }
+    
+    internal static func cancelNotificationsIfDatePresent(task: Task) {
+        
+    }
+    
+    internal static func updateNotificationsIfDatePresent(task : Task) {
+        cancelNotificationsIfDatePresent(task: task)
+        addNotificationsIfDatePresent(task: task)
+    }
+    
+    static func offset(minutes : Int , from : Date) -> Date? {
+        let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
+        var components = DateComponents()
+        components.minute = minutes
+        let newDate = gregorian.date(byAdding: components, to: from)
+        return newDate
+    }
+    
 }
