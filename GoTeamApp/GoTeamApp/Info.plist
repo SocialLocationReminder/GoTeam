@@ -22,7 +22,7 @@
 	<true/>
 	<key>NSContactsUsageDescription</key>
 	<string>Send Task Reminders to Contacts</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>GoTeam App wants to use your location</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

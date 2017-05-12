@@ -20,6 +20,8 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     
 
     weak internal var delegate: AnnotationControllerDelegate?
+  
+    let clLocationManager = CLLocationManager()
     
     var tableFilter : String?
     var textView : UITextView!
@@ -128,82 +130,67 @@ class LocationAnnotationController : AnnotationControllerProtocol {
       }
     }
     
-    func populate(cell : AddTaskCell, indexPath : IndexPath)  {
-      switch(tableState)
-      { case .showLocations :
-          cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kLocationIcon)
-          cell.primayTextLabel.text = locations()[indexPath.row].title
-          cell.secondaryTextLabel.text = ""
-        case .showRegionRadiuses :
-          cell.primayTextLabel.text = regionRadiuses[indexPath.row]
-        case .showBoundaryCrossings :
-          cell.primayTextLabel.text = boundaryCrossings[indexPath.row]
+  func populate(cell : AddTaskCell, indexPath : IndexPath)  {
+    switch(tableState)
+    { case .showLocations :
+      cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kLocationIcon)
+      cell.primayTextLabel.text = locations()[indexPath.row].title
+      cell.secondaryTextLabel.text = ""
+    case .showRegionRadiuses :
+      cell.primayTextLabel.text = regionRadiuses[indexPath.row]
+    case .showBoundaryCrossings :
+      cell.primayTextLabel.text = boundaryCrossings[indexPath.row]
+    }
+  }
+  
+  // MARK: - table view delegate related
+  func didSelect(_ indexPath : IndexPath) {
+    switch(tableState)
+    { case .showLocations :
+      locationName = locations()[indexPath.row].title
+      tableState = .showRegionRadiuses
+      delegate?.reloadTable(sender: self, annotationType: .location)
+    case .showRegionRadiuses :
+      regionRadius = regionRadiuses[indexPath.row]
+      tableState = .showBoundaryCrossings
+      delegate?.reloadTable(sender: self, annotationType: .location)
+    case .showBoundaryCrossings :
+      boundaryCrossing = boundaryCrossings[indexPath.row]
+      if let locationName = locationName {
+        // Setup geofence region
+        print("Setting up geofence region")
+        let locationCoordinate = locations()[indexPath.row].coordinate
+        if let radius = Double(regionRadiuses[indexPath.row]) {
+          let identifier = "Region for: " + locationName
+          print("Region identifier = \(identifier)")
+          let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
+          if let boundaryCrossing = boundaryCrossing {
+            print("Region boundary crossing = \(boundaryCrossing)")
+            if boundaryCrossing.contains("Entry") {
+              region.notifyOnEntry = true
+            } else {
+              region.notifyOnEntry = false
+            }
+            if boundaryCrossing.contains("Exit") {
+              region.notifyOnExit = true
+            } else {
+              region.notifyOnExit = false
+            }
+            // Start region monitoring
+            clLocationManager.startMonitoring(for: region)
+          }
+        }
+        delegate?.appendToTextView(sender: self, string: locationName)
+        delegate?.appendToTextView(sender: self, string: " ")
+        setButtonStateAndAnnotation()
       }
     }
-    
-    // MARK: - table view delegate related
-    func didSelect(_ indexPath : IndexPath) {
-      
-      switch(tableState)
-      { case .showLocations :
-        
-          locationName = locations()[indexPath.row].title
-          tableState = .showRegionRadiuses
-          delegate?.reloadTable(sender: self, annotationType: .location)
-        
-        case .showRegionRadiuses :
-        
-          regionRadius = regionRadiuses[indexPath.row]
-          tableState = .showBoundaryCrossings
-          delegate?.reloadTable(sender: self, annotationType: .location)
-        
-        case .showBoundaryCrossings :
-        
-          boundaryCrossing = boundaryCrossings[indexPath.row]
-          if let locationName = locationName {
-            // Setup geofence region
-            print("Setting up geofence region")
-            let locationCoordinate = locations()[indexPath.row].coordinate
-            if let radius = Double(regionRadiuses[indexPath.row]) {
-              let identifier = "Region for: " + locationName
-              print("Region identifier = \(identifier)")
-              let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
-              if let boundaryCrossing = boundaryCrossing {
-                print("Region boundary crossing = \(boundaryCrossing)")
-                if boundaryCrossing.contains("Entry") {
-                  region.notifyOnEntry = true
-                } else {
-                  region.notifyOnEntry = false
-                }
-                if boundaryCrossing.contains("Exit") {
-                  region.notifyOnExit = true
-                } else {
-                  region.notifyOnExit = false
-                }
-              // Start region monitoring
-              LocationManager.sharedInstance.startMonitoring(for: region)
-              // List all monitored regions
-              print("List of all monitored regions")
-              for region in LocationManager.sharedInstance.monitoredRegions {
-                  print("Monitored region identifier = \(region.identifier)")
-                  print("Monitored region notify on Entry = \(region.notifyOnEntry)")
-                  print("Monitored region notify on Exit = \(region.notifyOnExit)")
-                  // stop monitoring
-                  LocationManager.sharedInstance.stopMonitoring(for: region)
-              }
-            }
-            delegate?.appendToTextView(sender: self, string: locationName)
-            delegate?.appendToTextView(sender: self, string: " ")
-            setButtonStateAndAnnotation()
-            }
-        }
-      }
   }
   
     // MARK: - fetch and filter locations
     func locations() -> [Location] {
         if let tableFilter = tableFilter {
-            
+          
             if tableFilter.characters.count == 0 {
                 return locationManager.locations;
             }
@@ -235,6 +222,4 @@ class LocationAnnotationController : AnnotationControllerProtocol {
             // self.locationsMsg = Resources.Strings.AddTasks.kFailedLoadingLabels
         }
     }
-
-    
 }
