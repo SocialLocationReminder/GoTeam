@@ -19,7 +19,7 @@ protocol MapSearch {
   func createNewLocation(location: Location)
 }
 
-class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate,UIPopoverPresentationControllerDelegate, CLLocationManagerDelegate, MapSearch {
+class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate,UIPopoverPresentationControllerDelegate, MapSearch {
   
   @IBOutlet weak var mapView: MKMapView!
   @IBOutlet weak var tableView: UITableView!
@@ -43,9 +43,6 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     tableView.delegate = self
     tableView.dataSource = self
     locationSearchBar.delegate = self
-    // Initialize Location Manager
-    LocationManager.sharedInstance.delegate = self
-    LocationManager.sharedInstance.requestLocation()
     
     // Setup search results table
     let locationSearchTable = storyboard?.instantiateViewController(withIdentifier: "LocationSearchTable") as? LocationSearchTable
@@ -142,24 +139,6 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
         { (success) in
           self.mapView.showAnnotations(self.filteredLocations, animated: true)})
     }
-  }
-
-  // MARK: - Location Manager Delegate Methods
-  
-  func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-    if status == .authorizedWhenInUse {
-      LocationManager.sharedInstance.requestLocation()
-    }
-  }
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    if let location = locations.first {
-      let span = MKCoordinateSpanMake(0.05, 0.05)
-      let region = MKCoordinateRegionMake(location.coordinate, span)
-      mapView.setRegion(region, animated: true)
-    }
-  }
-  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    print("error:: (error)")
   }
   
   // MARK: - Map Search Delegate Method
