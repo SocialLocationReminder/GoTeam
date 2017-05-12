@@ -1,35 +1,46 @@
 //
-//  ContactsViewController.swift
+//  GroupsViewController.swift
 //  GoTeamApp
 //
-//  Created by Akshay Bhandary on 5/6/17.
+//  Created by Akshay Bhandary on 5/12/17.
 //  Copyright © 2017 AkshayBhandary. All rights reserved.
 //
 
 import UIKit
 import KBContactsSelection
+import MetalKit
 
-class ContactsViewController: KBContactsSelectionViewController {
+class GroupsViewController: UIViewController {
 
-    var kbContactsController : KBContactsSelectionViewController!
-    
-    @IBOutlet weak var contactsView: UIView!
-    
+    @IBOutlet weak var addButton: UIButton!
     // application layer
     let contactManager = ContactManager.sharedInstance
+    
+    var kbContactsController : KBContactsSelectionViewController!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // self.delegate = self
+        
         setupKBContactsController()
+        setupButton()
+        // Do any additional setup after loading the view.
     }
+    
+    func setupButton() {
+        addButton.addTarget(self, action: #selector(buttonPressed), for: UIControlEvents.touchUpInside)
+    }
+    
+    func buttonPressed() {
+        present(kbContactsController, animated: true, completion: nil)
+    }
+    
     
     func setupKBContactsController() {
         
         kbContactsController = KBContactsSelectionViewController(configuration: { (config) in
-            config?.shouldShowNavigationBar = false
-           // config?.tintColor = UIColor.blue
+            config?.shouldShowNavigationBar = true
+            // config?.tintColor = UIColor.blue
             config?.title = Resources.Strings.Contacts.kNavigationBarTitle
             config?.selectButtonTitle = Resources.Strings.Contacts.kAddTaskNavItem
             
@@ -37,36 +48,23 @@ class ContactsViewController: KBContactsSelectionViewController {
             config?.skipUnnamedContacts = true
             config?.customSelectButtonHandler = { (contacts : Any!) in
                 print(contacts)
+                if let contacts = contacts as? [APContact] {
+                    self.contactsSelected(contacts:contacts)
+                }
             }
             config?.contactEnabledValidation = { (contact : Any) in
                 return true
             }
         })
-        kbContactsController.title = Resources.Strings.Contacts.kNavigationBarTitle
-        kbContactsController.delegate = self
-        navigationController?.pushViewController(kbContactsController, animated: false)
-
-        
-        
-        // self.view.addSubview(kbContactsController.view)
-        // self.addChildViewController(kbContactsController)
-        // kbContactsController.didMove(toParentViewController: self)
-      //  self.present(kbContactsController, animated: false, completion: nil)
-        // self.navigationController?.viewControllers = [self, kbContactsController]
-
-        // self.contactsView.addSubview(kbContactsController.view)
-        // self.addChildViewController(kbContactsController)
-        // kbContactsController.didMove(toParentViewController: self)
     }
     
-    func cancelTapped() {
-        print("cancel tapped")
-    }
-
     func contactsSelected(contacts : [APContact]) {
         
+        // 1. add contacts to parse
+        var contactsArray = [Contact]()
         for contact in contacts {
             let contactObj = Contact.contact(apContact: contact)
+            contactsArray.append(contactObj)
             contactManager.add(contact: contactObj, success: {
                 print("sucess in adding contact")
                 }, error: { (error) in
@@ -75,14 +73,27 @@ class ContactsViewController: KBContactsSelectionViewController {
             })
         }
         
-        // @todo: prompt for a new group name here
+        // 2. @todo: prompt for a new group name here
         
-        // @todo: create the group and pass it back in a delegate call to 
-        // GroupsViewController and add it to the table view as well as add it to 
-        // Parse as 'Group' entity.
+        // 3. create the group entity and add all the contacts above to the
+        // 'contacts' array filed
+        let group = Group()
+        group.groupName = "Test Group Name" // change this to the one received above
+        group.contacts = contactsArray
         
-        // @todo: dimiss this modal view
+        // 4. @todo: Add the newly created group entity to parse, create a new GroupManager and
+        // GropuDataStoreService similar to LabelManager and LabelDataStoreService
+        // have a look at TaskDataStoreService to see how I associated multiple contacts with a task,
+        // something similar thas to be done to associate multiple contact entities with a single
+        // group entity
+
+        
+        // 5. @todo: Append the newly created group to the table view.
+        
+        // 6. dimiss the kbContactsController
+        kbContactsController.dismiss(animated: true, completion: nil)
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -100,8 +111,4 @@ class ContactsViewController: KBContactsSelectionViewController {
     }
     */
 
-}
-
-extension ContactsViewController : KBContactsSelectionViewControllerDelegate {
-    
 }

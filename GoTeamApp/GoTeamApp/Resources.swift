@@ -65,7 +65,7 @@ class Resources {
         }
         
         class Contacts {
-            static let kAddTaskNavItem = "Add Task"
+            static let kAddTaskNavItem = "Add Contacts"
             static let kNavigationBarTitle = "Contacts"
         }
         
