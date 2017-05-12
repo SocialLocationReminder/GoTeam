@@ -27,7 +27,9 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // setup search bar
         labelSearchBar.delegate = self
-        labelSearchBar.becomeFirstResponder()
+        
+        // setup tap gesture recognizer
+        setupTapGestureRecognizer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +45,16 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBAction func unwindToLablesViewControllerSegue(_ segue : UIStoryboardSegue) {
         
     }
+    
+    func setupTapGestureRecognizer() {
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        view.addGestureRecognizer(tapGR)
+    }
+    
+    func viewTapped() {
+        labelSearchBar.resignFirstResponder()
+    }
+
     
     @IBAction func doneUnwindToLablesViewControllerSegue(_ segue : UIStoryboardSegue) {
         let addLabelVC = segue.source as! AddLabelViewController
