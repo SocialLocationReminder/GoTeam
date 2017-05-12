@@ -41,6 +41,23 @@ class Resources {
             static let kAddScreenTitle  = "Add Task"
             
             static let kSpeechPrompt = "Say Something, I'm Listerning"
+            
+            static let kFromDateAlert = "starts in 10 minutes"
+            static let kDueDateAlert = "ends in 10 minutes"
+        }
+        
+        class Task {
+            static let kTaskID   = "kTaskID"
+            static let kTaskName = "kTaskName"
+            static let kTaskNameWithAnnotation = "kTaskNameWithAnnotation"
+            static let kTaskDate = "kTaskDate"
+            static let kTaskFromDate = "kTaskFromDate"
+            static let kTaskPriority = "kTaskPriority"
+            static let kTaskReccurence = "kTaskReccurence"
+            static let kTaskList = "kTaskList"
+            static let kTaskContacts = "kTaskContacts"
+            static let kTaskLocation = "kTaskLocation"
+            static let kTaskTimeSet = "kTaskTimeSet"
         }
         
         class TasksViewController {

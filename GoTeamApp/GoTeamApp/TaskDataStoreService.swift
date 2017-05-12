@@ -25,15 +25,15 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     
     func update(parseTask: PFObject, task: Task) {
         parseTask[kTUserName] = userName
-        parseTask[Task.kTaskName] = task.taskName
-        parseTask[Task.kTaskID] = task.taskID
+        parseTask[Resources.Strings.Task.kTaskName] = task.taskName
+        parseTask[Resources.Strings.Task.kTaskID] = task.taskID
         
-        parseTask[Task.kTaskNameWithAnnotation] = task.taskNameWithAnnotations ?? NSNull()
-        parseTask[Task.kTaskDate] = task.taskDate ?? NSNull()
-        parseTask[Task.kTaskFromDate] = task.taskFromDate ?? NSNull()
-        parseTask[Task.kTaskPriority] = task.taskPriority ?? NSNull()
-        parseTask[Task.kTaskList] = task.taskLabel ?? NSNull()
-        parseTask[Task.kTaskReccurence] = task.taskRecurrence ?? NSNull()
+        parseTask[Resources.Strings.Task.kTaskNameWithAnnotation] = task.taskNameWithAnnotations ?? NSNull()
+        parseTask[Resources.Strings.Task.kTaskDate] = task.taskDate ?? NSNull()
+        parseTask[Resources.Strings.Task.kTaskFromDate] = task.taskFromDate ?? NSNull()
+        parseTask[Resources.Strings.Task.kTaskPriority] = task.taskPriority ?? NSNull()
+        parseTask[Resources.Strings.Task.kTaskList] = task.taskLabel ?? NSNull()
+        parseTask[Resources.Strings.Task.kTaskReccurence] = task.taskRecurrence ?? NSNull()
         
         if let taskLocation = task.taskLocation {
             if let pfObject = LocationDataStoreService.parseObject(location: taskLocation) {

@@ -71,19 +71,14 @@ class AddTaskViewController: UIViewController {
         infoLabel.text = ""
         
         // 1. setup text view
-        textView.delegate = self
-        textView.becomeFirstResponder()
-        textView.text = ""
-        textView.accessibilityHint = ""
+        setupTextView()
         
         // 2. setup mask view
         buttonView.isHidden = false
         
         // 3. setup table view
-        tableView.isHidden = true
-        tableView.dataSource = self
-        tableView.delegate = self
-
+        setupTableView()
+        
         // 4. new task
         task =  task ?? Task()
 
@@ -102,6 +97,22 @@ class AddTaskViewController: UIViewController {
             self.title = Resources.Strings.AddTasks.kAddScreenTitle
         }
     }
+    
+    func setupTextView() {
+        textView.delegate = self
+        textView.becomeFirstResponder()
+        textView.text = ""
+        textView.accessibilityHint = ""
+    }
+    
+    func setupTableView() {
+        tableView.isHidden = true
+        tableView.dataSource = self
+        tableView.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+    }
+    
+    
     
     func addAnnotatedTextToTextView() {
         guard task.taskNameWithAnnotations != nil else { return; }
@@ -135,6 +146,16 @@ class AddTaskViewController: UIViewController {
     
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
         
+    }
+
+    // MARK: - handle keyboard shown 
+    func keyboardWasShown (notification: NSNotification)
+    {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            tableView.contentInset = contentInsets
+            tableView.scrollIndicatorInsets = tableView.contentInset
+        }
     }
 
     
