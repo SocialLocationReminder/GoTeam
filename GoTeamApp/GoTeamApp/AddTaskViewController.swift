@@ -28,11 +28,12 @@ class AddTaskViewController: UIViewController {
     @IBOutlet weak var listButton: UIImageView!
     @IBOutlet weak var repeatButton: UIImageView!
     @IBOutlet weak var locationButton: UIImageView!
-    @IBOutlet weak var timeButton: UIImageView!
     @IBOutlet weak var contactButton: UIImageView!
+    @IBOutlet weak var microphoneButton: UIImageView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var infoLabel: UILabel!
     var task : Task!
     var viewControllerState = ViewControllerState.addMode
     
@@ -53,6 +54,7 @@ class AddTaskViewController: UIViewController {
             .recurrence : TaskSpecialCharacter.recurrence,
             .location : TaskSpecialCharacter.location,
             .contact : TaskSpecialCharacter.contact,
+            .microphone : TaskSpecialCharacter.microphone
 ]
     
     var specialHandlingAnnotationTypes : [AnnotationType]!
@@ -63,8 +65,11 @@ class AddTaskViewController: UIViewController {
     // MARK: - init/load related
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
+        // 0. info label
+        infoLabel.isHidden = false
+        infoLabel.text = ""
+        
         // 1. setup text view
         textView.delegate = self
         textView.becomeFirstResponder()
@@ -72,7 +77,7 @@ class AddTaskViewController: UIViewController {
         textView.accessibilityHint = ""
         
         // 2. setup mask view
-        buttonView.isHidden = true
+        buttonView.isHidden = false
         
         // 3. setup table view
         tableView.isHidden = true
@@ -85,7 +90,7 @@ class AddTaskViewController: UIViewController {
         // 5. setup annotation controllers
         setupAnnotationControllers()
 
-        // setup specialCharacterToTableStateMap
+        // 6. setup specialCharacterToTableStateMap
         annotationTypeToCharacterMap.forEach { (k, v) in
             specialCharacterToTableStateMap[v] = k
         }
@@ -109,15 +114,16 @@ class AddTaskViewController: UIViewController {
     }
     
     func setupAnnotationControllers() {
-        annotationTypes = [.priority, .label, .dueDate, .fromDate, .recurrence, .location, .contact]
+        annotationTypes = [.priority, .label, .dueDate, .fromDate, .recurrence, .location, .contact, .microphone]
         annotationControllers =
             [
                 PriorityAnnotationController(), LabelAnnotationController(), DateTimeAnnotationController(),
                 FromDateTimeAnnotationController(), RecurrenceAnnotationController(),
-                LocationAnnotationController(), ContactsAnnotationController()
+                LocationAnnotationController(), ContactsAnnotationController(), SpeechToTextAnnotationController()
         ]
-        let buttons : [UIImageView] = [priorityButton, listButton, dueDateButton, fromDateButton, repeatButton, locationButton, contactButton]
+        let buttons : [UIImageView] = [priorityButton, listButton, dueDateButton, fromDateButton, repeatButton, locationButton, contactButton, microphoneButton]
         for ix in 0..<annotationControllers.count {
+            annotationControllers[ix].set?(infoLabel: infoLabel)
             annotationControllers[ix].setup(button: buttons[ix], textView: textView, annotationType: annotationTypes[ix], task: task)
             annotationControllers[ix].delegate = self
         }

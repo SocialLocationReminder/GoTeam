@@ -13,8 +13,8 @@ class TaskManager {
     
     var tasks = [Task]()
     let dataStoreService : TaskDataStoreServiceProtocol = TaskDataStoreService()
-    
-    let queue = DispatchQueue(label: "TaskManagerQueue")
+
+    let queue = DispatchQueue(label: Resources.Strings.TaskManager.kTaskManagerQueue)
     
     func add(task : Task) {
         queue.async {

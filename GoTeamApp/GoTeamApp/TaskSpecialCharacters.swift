@@ -17,6 +17,7 @@ enum TaskSpecialCharacter : Character {
     case recurrence = "*"
     case location = "@"
     case contact = "+"
+    case microphone = "="
     func stringValue() -> String {
         return String(rawValue)
     }

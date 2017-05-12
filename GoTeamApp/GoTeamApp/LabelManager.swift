@@ -9,7 +9,7 @@ class LabelManager{
     
     static let sharedInstance = LabelManager()
     
-    let queue = DispatchQueue(label: "LabelManagerQueue")
+    let queue = DispatchQueue(label: Resources.Strings.LabelManager.kLabelManagerQueue)
     
     func add(label: Labels){
         queue.async {

@@ -39,6 +39,8 @@ class Resources {
             
             static let kEditScreenTitle = "Edit Task"
             static let kAddScreenTitle  = "Add Task"
+            
+            static let kSpeechPrompt = "Say Something, I'm Listerning"
         }
         
         class TasksViewController {
@@ -70,6 +72,18 @@ class Resources {
         
         class DataStoreService {
             static let kUnknownError = "Unknown Error"
+        }
+        
+        class TaskManager {
+            static let kTaskManagerQueue = "kTaskManagerQueue"
+        }
+        
+        class LabelManager {
+            static let kLabelManagerQueue = "kLabelManagerQueue"
+        }
+        
+        class ContactManager {
+            static let kContactManagerQueue = "kContactManagerQueue"
         }
     }
     

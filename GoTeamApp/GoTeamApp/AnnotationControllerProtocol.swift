@@ -18,6 +18,7 @@ import UIKit
     case recurrence
     case location
     case contact
+    case microphone
 }
 
 
@@ -42,6 +43,9 @@ import UIKit
 @objc protocol AnnotationControllerProtocol {
 
     weak var delegate : AnnotationControllerDelegate? {get set}
+    
+    // optional properties
+    @objc optional func set(infoLabel : UILabel!)
     
     // init
     func setup(button : UIImageView, textView : UITextView, annotationType : AnnotationType, task : Task);
