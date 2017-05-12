@@ -43,6 +43,10 @@ class CalendarViewController: UIViewController {
         self.timeLabel.text = ""
         setupTimePickerView()
         setupMaskView()
+        
+        // pick today by default
+        dateSelected = Date()
+        updateDateLabel()
     }
 
     func setupTimePickerView() {
@@ -61,6 +65,8 @@ class CalendarViewController: UIViewController {
     }
     
     func pickATimeTapped(sender : UITapGestureRecognizer) {
+        hourPicked = nil
+        minutesPicked = nil
         timePicker = ESTimePicker(delegate: self)
         timePickerView.addSubview(timePicker)
         timePicker.frame = timePickerView.bounds
@@ -157,6 +163,14 @@ extension CalendarViewController : ESTimePickerDelegate {
         updateTimeLabel()
     }
     func timePickerMinutesChanged(_ timePicker: ESTimePicker!, toMinutes minutes: Int32) {
+        if hourPicked == nil,
+            let dateSelected = dateSelected {
+            let gregorian = Calendar(identifier: Calendar.Identifier.gregorian)
+            let components = gregorian.dateComponents(in: TimeZone.current, from: dateSelected)
+            if let hour = components.hour {
+                hourPicked = Int32(hour)
+            }
+        }
         minutesPicked = minutes
         updateTimeLabel()
         timePicked = true
