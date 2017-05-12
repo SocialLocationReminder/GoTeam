@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 import MapKit
 
+enum TableState {
+  case showLocations
+  case showRegionRadiuses
+  case showBoundaryCrossings
+}
+
 class LocationAnnotationController : AnnotationControllerProtocol {
     
 
@@ -22,7 +28,17 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     
     static let kNumberOfSections = 1
     var annotationType : AnnotationType!
-    
+  
+    // user choices
+    var locationName: String?
+    var regionRadius: String?
+    var boundaryCrossing: String?
+  
+    // table state logic
+    var tableState = TableState.showLocations
+    let regionRadiuses = ["10","30","100"]
+    let boundaryCrossings = ["On Enter", "On Exit"]
+  
     // application layer
     let locationManager = SelectedLocationsManager.sharedInstance
     
@@ -91,46 +107,89 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     
     // MARK: - Table View data source related
     func numberOfSections() -> Int {
-        return LocationAnnotationController.kNumberOfSections
+        switch(tableState)
+        { case .showLocations :
+            return LocationAnnotationController.kNumberOfSections
+          case .showRegionRadiuses :
+            return 1
+          case .showBoundaryCrossings :
+            return 1
+        }
     }
     
     func numberOfRows(section: Int) -> Int {
-        return locations().count
+      switch(tableState)
+      { case .showLocations :
+          return locations().count
+        case .showRegionRadiuses :
+          return regionRadiuses.count
+        case .showBoundaryCrossings :
+          return boundaryCrossings.count
+      }
     }
     
     func populate(cell : AddTaskCell, indexPath : IndexPath)  {
-        cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kLocationIcon)
-        cell.primayTextLabel.text = locations()[indexPath.row].title
-        cell.secondaryTextLabel.text = ""
+      switch(tableState)
+      { case .showLocations :
+          cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kLocationIcon)
+          cell.primayTextLabel.text = locations()[indexPath.row].title
+          cell.secondaryTextLabel.text = ""
+        case .showRegionRadiuses :
+          cell.primayTextLabel.text = regionRadiuses[indexPath.row]
+        case .showBoundaryCrossings :
+          cell.primayTextLabel.text = boundaryCrossings[indexPath.row]
+      }
     }
     
     // MARK: - table view delegate related
     func didSelect(_ indexPath : IndexPath) {
-        if let locationName = locations()[indexPath.row].title {
-          
+      
+      switch(tableState)
+      { case .showLocations :
+        
+          locationName = locations()[indexPath.row].title
+          tableState = .showRegionRadiuses
+          delegate?.reloadTable(sender: self, annotationType: .location)
+        
+        case .showRegionRadiuses :
+        
+          regionRadius = regionRadiuses[indexPath.row]
+          tableState = .showBoundaryCrossings
+          delegate?.reloadTable(sender: self, annotationType: .location)
+        
+        case .showBoundaryCrossings :
+        
+          boundaryCrossing = boundaryCrossings[indexPath.row]
+          if let locationName = locationName {
             // Setup geofence region
             let locationCoordinate = locations()[indexPath.row].coordinate
-            let radius = 100.0
-            let identifier = "Region for: " + locations()[indexPath.row].title!
-            let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
-            region.notifyOnEntry = true
-            region.notifyOnExit = true
-            // Start region monitoring
-            LocationManager.sharedInstance.startMonitoring(for: region)
-          
-            // List all monitored regions
-            for region in LocationManager.sharedInstance.monitoredRegions {
-              print("Monitored region = \(region.identifier)")
-              // stop monitoring
-              //LocationManager.sharedInstance.stopMonitoring(for: region)
+            if let radius = Double(regionRadiuses[indexPath.row]) {
+              let identifier = "Region for: " + locationName
+              let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
+              if let boundaryCrossing = boundaryCrossing {
+                if boundaryCrossing == "On Enter" {
+                  region.notifyOnEntry = true
+                }
+                if boundaryCrossing == "On Exit" {
+                  region.notifyOnExit = true
+                }
+              // Start region monitoring
+              LocationManager.sharedInstance.startMonitoring(for: region)
+              // List all monitored regions
+              for region in LocationManager.sharedInstance.monitoredRegions {
+                  print("Monitored region = \(region.identifier)")
+                  // stop monitoring
+                  //LocationManager.sharedInstance.stopMonitoring(for: region)
+              }
             }
-          
             delegate?.appendToTextView(sender: self, string: locationName)
             delegate?.appendToTextView(sender: self, string: " ")
             setButtonStateAndAnnotation()
+            }
         }
-    }
-    
+      }
+  }
+  
     // MARK: - fetch and filter locations
     func locations() -> [Location] {
         if let tableFilter = tableFilter {
