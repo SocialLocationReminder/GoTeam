@@ -14,6 +14,7 @@
 		61C9BEFC1EBFEB500017C220 /* EditLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E27F528D1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27F528C1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift */; };
+		E27F528F1EC5A1E400D1C8E6 /* DateTimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27F528E1EC5A1E400D1C8E6 /* DateTimeUtil.swift */; };
 		E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */; };
 		E2C9E12F1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E12E1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift */; };
 		E2C9E1311EBF10D700BBD78C /* ContactDataStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1301EBF10D700BBD78C /* ContactDataStoreService.swift */; };
@@ -75,6 +76,7 @@
 		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
 		61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLabelViewController.swift; sourceTree = "<group>"; };
 		E27F528C1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechToTextAnnotationController.swift; sourceTree = "<group>"; };
+		E27F528E1EC5A1E400D1C8E6 /* DateTimeUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeUtil.swift; sourceTree = "<group>"; };
 		E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		E2C9E12E1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDataStoreServiceProtocol.swift; sourceTree = "<group>"; };
 		E2C9E1301EBF10D700BBD78C /* ContactDataStoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactDataStoreService.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				E2EE10A91EBAE15000D9835A /* Regex.swift */,
 				E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */,
 				E2F1C9B61EB522720034E0A7 /* TableCellUtil.swift */,
+				E27F528E1EC5A1E400D1C8E6 /* DateTimeUtil.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				E2C9E13F1EC030AE00BBD78C /* LocationAnnotationController.swift in Sources */,
 				E2F1C9BC1EB52AB30034E0A7 /* ListManagerProtocol.swift in Sources */,
 				E27F528D1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift in Sources */,
+				E27F528F1EC5A1E400D1C8E6 /* DateTimeUtil.swift in Sources */,
 				E2F1C9B71EB522720034E0A7 /* TableCellUtil.swift in Sources */,
 				E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */,
 				E2C9E1491EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift in Sources */,
