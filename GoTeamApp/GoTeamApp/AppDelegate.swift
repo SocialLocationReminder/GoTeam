@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import CoreLocation
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -17,6 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
   let locationManager = CLLocationManager()
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    
+    // Ask for permission to use notifications
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (success, error) in
+      if !success {
+        print("No permission to use notifications. Error = \(String(describing: error?.localizedDescription))")
+      }
+    }
     
     // Initialize Parse
     // clientKey is not used on Parse open source unless explicitly configured
@@ -27,20 +35,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         configuration.server = "https://social-location-reminder.herokuapp.com/parse"
       })
     )
-    
     // Initialize location manager
     locationManager.delegate = self
     locationManager.requestAlwaysAuthorization()
     locationManager.requestLocation()
-    
+    // Stop all regions monitoring
     for region in locationManager.monitoredRegions {
-      print("Monitored region identifier = \(region.identifier)")
-      print("Monitored region notify on Entry = \(region.notifyOnEntry)")
-      print("Monitored region notify on Exit = \(region.notifyOnExit)")
-      // stop monitoring
-      //LocationManager.sharedInstance.stopMonitoring(for: region)
+      locationManager.stopMonitoring(for: region)
     }
     return true
+  }
+  
+  func setupNotification(forRegion region: CLRegion, event: String) {
+    let notification = UNMutableNotificationContent()
+    notification.title = "GoTeam App"
+    notification.subtitle = "Monitoring status"
+    notification.body = "Did \(event) \(region.identifier)"
+    notification.sound = .default()
+    let notificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+    let request = UNNotificationRequest(identifier: "GeoRegion\(event)", content: notification, trigger: notificationTrigger)
+    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
   }
   
   // MARK: - Location Manager Delegate Methods
@@ -51,14 +65,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
   
   func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
     print("Monitoring status: Did Enter \(region.identifier)")
+    setupNotification(forRegion: region, event: "Enter")
   }
   
   func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
     print("Monitoring status: Did Exit \(region.identifier)\n")
+    setupNotification(forRegion: region, event: "Exit")
   }
   
   func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
-    print("AD Monitoring failed for region with identifier: \(region!.identifier)")
+    print("Monitoring failed for region with identifier: \(region!.identifier)")
   }
   
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -68,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
   }
 
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    print("AD Location Manager failed with the following error: \(error)")
+    print("Location Manager failed with the following error: \(error)")
   }
   
   func applicationWillResignActive(_ application: UIApplication) {
