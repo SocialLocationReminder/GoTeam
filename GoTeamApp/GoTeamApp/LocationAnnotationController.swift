@@ -145,6 +145,9 @@ class LocationAnnotationController : AnnotationControllerProtocol {
   
   // MARK: - table view delegate related
   func didSelect(_ indexPath : IndexPath) {
+    
+    var textToAppend = ""
+    
     switch(tableState)
     { case .showLocations :
       locationName = locations()[indexPath.row].title
@@ -157,10 +160,12 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     case .showBoundaryCrossings :
       boundaryCrossing = boundaryCrossings[indexPath.row]
       if let locationName = locationName {
+        textToAppend += locationName
         // Setup geofence region
         print("Setting up geofence region")
         let locationCoordinate = locations()[indexPath.row].coordinate
         if let radius = Double(regionRadiuses[indexPath.row]) {
+          textToAppend += " " + regionRadiuses[indexPath.row] + "m"
           let identifier = "Region for: " + locationName
           print("Region identifier = \(identifier)")
           let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
@@ -168,11 +173,13 @@ class LocationAnnotationController : AnnotationControllerProtocol {
             print("Region boundary crossing = \(boundaryCrossing)")
             if boundaryCrossing.contains("Entry") {
               region.notifyOnEntry = true
+              textToAppend += " on entry"
             } else {
               region.notifyOnEntry = false
             }
             if boundaryCrossing.contains("Exit") {
               region.notifyOnExit = true
+              textToAppend += " on exit"
             } else {
               region.notifyOnExit = false
             }
@@ -180,7 +187,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
             clLocationManager.startMonitoring(for: region)
           }
         }
-        delegate?.appendToTextView(sender: self, string: locationName)
+        delegate?.appendToTextView(sender: self, string: textToAppend)
         delegate?.appendToTextView(sender: self, string: " ")
         setButtonStateAndAnnotation()
       }
