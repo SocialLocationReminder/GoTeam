@@ -13,6 +13,9 @@
 		615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78121EB69EDC006F59D8 /* LabelManager.swift */; };
 		61C9BEFC1EBFEB500017C220 /* EditLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
+		E2256FDC1EC6DD2A005EF28A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2256FDB1EC6DD2A005EF28A /* Group.swift */; };
+		E2256FDE1EC6DD44005EF28A /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */; };
+		E2256FE01EC6DD9A005EF28A /* TestLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = E2256FDF1EC6DD9A005EF28A /* TestLocations.gpx */; };
 		E27F528D1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27F528C1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift */; };
 		E27F528F1EC5A1E400D1C8E6 /* DateTimeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27F528E1EC5A1E400D1C8E6 /* DateTimeUtil.swift */; };
 		E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */; };
@@ -75,6 +78,9 @@
 		615B78101EB68661006F59D8 /* AddLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLabelViewController.swift; sourceTree = "<group>"; };
 		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
 		61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLabelViewController.swift; sourceTree = "<group>"; };
+		E2256FDB1EC6DD2A005EF28A /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
+		E2256FDF1EC6DD9A005EF28A /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TestLocations.gpx; sourceTree = "<group>"; };
 		E27F528C1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechToTextAnnotationController.swift; sourceTree = "<group>"; };
 		E27F528E1EC5A1E400D1C8E6 /* DateTimeUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTimeUtil.swift; sourceTree = "<group>"; };
 		E2C9E12B1EBEDCBD00BBD78C /* Contact.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
@@ -305,6 +311,7 @@
 		E2F1C9A81EB1B84B0034E0A7 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				E2256FDB1EC6DD2A005EF28A /* Group.swift */,
 				E2F1C9BD1EB52AED0034E0A7 /* ListItemProtocol.swift */,
 				F4635EA71EB627C1008BDD0B /* Location.swift */,
 				E2F1C9A91EB1B85A0034E0A7 /* Task.swift */,
@@ -363,6 +370,7 @@
 		E2FEDA2A1EBD305E0020E3C0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E2256FDF1EC6DD9A005EF28A /* TestLocations.gpx */,
 				E2FEDA2B1EBD30840020E3C0 /* Resources.swift */,
 			);
 			name = Resources;
@@ -379,6 +387,7 @@
 		E2FEDA301EBEC26D0020E3C0 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
+				E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */,
 				E2FEDA311EBEC27C0020E3C0 /* ContactsViewController.swift */,
 			);
 			name = Contacts;
@@ -462,6 +471,7 @@
 				E2F1C9991EAF013A0034E0A7 /* LaunchScreen.storyboard in Resources */,
 				E2F1C9961EAF013A0034E0A7 /* Assets.xcassets in Resources */,
 				F44B85741EBC9F4800FF489A /* MapAlertView.xib in Resources */,
+				E2256FE01EC6DD9A005EF28A /* TestLocations.gpx in Resources */,
 				E2F1C9941EAF013A0034E0A7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -530,6 +540,7 @@
 				E2F1C9B01EB432DE0034E0A7 /* TaskManager.swift in Sources */,
 				E2F1C9AE1EB1D7AA0034E0A7 /* AddTaskCell.swift in Sources */,
 				F44B85721EBC9EDA00FF489A /* MapAlertController.swift in Sources */,
+				E2256FDC1EC6DD2A005EF28A /* Group.swift in Sources */,
 				F4635EA81EB627C1008BDD0B /* Location.swift in Sources */,
 				615B78111EB68661006F59D8 /* AddLabelViewController.swift in Sources */,
 				E2C9E1431EC0373000BBD78C /* RecurrenceAnnotationController.swift in Sources */,
@@ -569,6 +580,7 @@
 				F4635EA51EB62776008BDD0B /* LocationCell.swift in Sources */,
 				E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */,
 				E2C9E13B1EBF943C00BBD78C /* DateTimeAnnotationController.swift in Sources */,
+				E2256FDE1EC6DD44005EF28A /* GroupsViewController.swift in Sources */,
 				F4635EA31EB62776008BDD0B /* LocationSearchTable.swift in Sources */,
 				E2FEDA271EBD09460020E3C0 /* LocationDataStoreProtocol.swift in Sources */,
 				E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */,
