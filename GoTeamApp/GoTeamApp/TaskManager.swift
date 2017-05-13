@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import UserNotifications
 
-class TaskManager {
+class TaskManager : NSObject {
     
     var tasks = [Task]()
     let dataStoreService : TaskDataStoreServiceProtocol = TaskDataStoreService()
@@ -19,14 +20,14 @@ class TaskManager {
     func add(task : Task) {
         queue.async {
             self.tasks.append(task)
-            TaskManager.addNotificationsIfDatePresent(task: task)
+            self.addNotificationsIfDatePresent(task: task)
             self.dataStoreService.add(task: task)
         }
     }
 
     func update(task : Task) {
         queue.async {
-            TaskManager.updateNotificationsIfDatePresent(task: task)
+            self.updateNotificationsIfDatePresent(task: task)
             self.dataStoreService.update(task: task)
         }
     }
@@ -35,6 +36,7 @@ class TaskManager {
     func delete(task : Task) {
         queue.async {
             self.tasks = self.tasks.filter() { $0 !== task }
+            self.cancelNotificationsIfDatePresent(task: task)
             self.dataStoreService.delete(task: task)
         }
     }
@@ -53,42 +55,59 @@ class TaskManager {
     }
     
     // MARK: - static helpers
-    internal static func addNotificationsIfDatePresent(task : Task) {
+    internal func addNotificationsIfDatePresent(task : Task) {
+        if let date = task.taskFromDate {
+            addNotifications(task: task, date: date, minutes: -10, message: Resources.Strings.AddTasks.kFromDateSoonAlert)
+            addNotifications(task: task, date: date, minutes: 0, message: Resources.Strings.AddTasks.kFromDateAlert)
+        }
+        if let date = task.taskDate {
+            addNotifications(task: task, date: date, minutes: -10, message: Resources.Strings.AddTasks.kDueDateSoonAlert)
+            addNotifications(task: task, date: date, minutes: 0, message: Resources.Strings.AddTasks.kDueDateAlert)
+        }
+    }
+    
+    internal func addNotifications(task : Task, date : Date, minutes : Int, message : String) {
         if task.timeSet == nil || task.timeSet! == false {
             return;
         }
-        if let taskFromDate = task.taskFromDate {
-            if let dateMinusTen = offset(minutes: -10, from: taskFromDate),
-                let taskName = task.taskName {
-                let localNotificaiton = UILocalNotification()
-                localNotificaiton.fireDate = dateMinusTen
-                localNotificaiton.userInfo
-                        = [
-                            Resources.Strings.Task.kTaskID : "\(task.taskID!.timeIntervalSince1970)",
-                            Resources.Strings.Task.kTaskFromDate : "\(taskFromDate.timeIntervalSince1970)"]
-                localNotificaiton.alertBody = "\(taskName) \(Resources.Strings.AddTasks.kFromDateAlert)"
-            }
-        }
         
-        if let taskDueDate = task.taskDate {
-            if let dateMinusTen = offset(minutes: -10, from: taskDueDate),
-                let taskName = task.taskName {
-                let localNotificaiton = UILocalNotification()
-                localNotificaiton.fireDate = dateMinusTen
-                localNotificaiton.userInfo
-                    = [
-                        Resources.Strings.Task.kTaskID : "\(task.taskID!.timeIntervalSince1970)",
-                        Resources.Strings.Task.kTaskDate : "\(taskDueDate.timeIntervalSince1970)"]
-                localNotificaiton.alertBody = "\(taskName) \(Resources.Strings.AddTasks.kDueDateAlert)"
-            }
+        if let fireDate = TaskManager.offset(minutes: minutes, from: date),
+            let taskName = task.taskName,
+            let taskID = task.taskID {
+
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound], completionHandler: { (returnedBool, error) in
+                if returnedBool == true && error == nil {
+                    let content = UNMutableNotificationContent()
+                    content.body = "\(taskName) \(message)"
+                    content.sound = UNNotificationSound.default()
+                    UNUserNotificationCenter.current().delegate = self
+                    let interval = fireDate.timeIntervalSince(Date())
+                    if interval > 0 {
+                        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+                        let request = UNNotificationRequest(identifier: taskID.description, content: content, trigger: trigger)
+                        center.add(request) { (error) in
+                            if error != nil {
+                                // @todo: show an error dialog
+                            }
+                        }
+                    }
+                }
+            })
         }
     }
     
-    internal static func cancelNotificationsIfDatePresent(task: Task) {
+    internal func cancelNotificationsIfDatePresent(task: Task) {
+        if let taskID = task.taskID {
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound], completionHandler: { (returnedBool, error) in
+                center.removePendingNotificationRequests(withIdentifiers: [taskID.description])
+            })
+        }
         
     }
     
-    internal static func updateNotificationsIfDatePresent(task : Task) {
+    internal func updateNotificationsIfDatePresent(task : Task) {
         cancelNotificationsIfDatePresent(task: task)
         addNotificationsIfDatePresent(task: task)
     }
@@ -101,4 +120,19 @@ class TaskManager {
         return newDate
     }
     
+}
+
+extension TaskManager : UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        print("Tapped in notification")
+    }
+    
+    //This is key callback to present notification while the app is in foreground
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        //You can either present alert ,sound or increase badge while the app is in foreground too with ios 10
+        //to distinguish between notifications
+        completionHandler( [.alert,.sound,.badge])
+    }
 }
