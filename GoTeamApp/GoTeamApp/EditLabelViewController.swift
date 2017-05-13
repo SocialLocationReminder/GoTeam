@@ -7,7 +7,7 @@ class EditLabelViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        labelNameField.text = label?.labelName!
+        labelNameField.text = label?.labelName
         labelNameField.becomeFirstResponder()
     }
     

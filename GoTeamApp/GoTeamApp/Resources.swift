@@ -63,6 +63,12 @@ class Resources {
             static let kTaskTimeSet = "kTaskTimeSet"
         }
         
+        class Label {
+            static let kEditLabelSegue = "editLabelSegue"
+            static let kFilterTaskSegue = "filterTasksSegue"
+            static let kLabelTableViewCell = "LabelTableViewCell"
+            
+        }
         class TasksViewController {
             static let kTaskCell = "TaskCell"
             static let kTaskWithAnnotationsCell = "TaskWithAnnotationsCell"
