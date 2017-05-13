@@ -42,8 +42,11 @@ class Resources {
             
             static let kSpeechPrompt = "Say Something, I'm Listerning"
             
-            static let kFromDateAlert = "starts in 10 minutes"
-            static let kDueDateAlert = "ends in 10 minutes"
+            static let kFromDateSoonAlert = "starts in 10 minutes"
+            static let kFromDateAlert = "starts now"
+            static let kDueDateSoonAlert = "is due in 10 minutes"
+            static let kDueDateAlert = "is due now"
+            static let kDateAlertIdentifier = "kDateAlertIdentifier"
         }
         
         class Task {
