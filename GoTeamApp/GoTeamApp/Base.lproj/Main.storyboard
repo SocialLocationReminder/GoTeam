@@ -822,6 +822,8 @@
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" red="0.1764705926" green="0.49803921579999999" blue="0.75686275960000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="74d-Gk-jfj" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
@@ -1131,7 +1133,7 @@
         <scene sceneID="I7L-nu-uoN">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PHa-Qr-C0R" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Labels" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="Labels" image="labels" id="cPa-gy-q4n"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="nON-yO-Uks">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -1552,7 +1554,7 @@
         <scene sceneID="YOD-CY-mYo">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="w2s-7t-R21" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Circles" image="second" id="kJv-0P-UhJ"/>
+                    <tabBarItem key="tabBarItem" title="Circles" image="circles" id="kJv-0P-UhJ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="w4U-ww-KFA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -1583,7 +1585,9 @@
         <image name="PriorityButtonHighlighted" width="54" height="50"/>
         <image name="RepeatButton" width="54" height="50"/>
         <image name="RepeatButtonHighlighted" width="54" height="50"/>
+        <image name="circles" width="25" height="25"/>
         <image name="first" width="30" height="30"/>
+        <image name="labels" width="25" height="25"/>
         <image name="pin" width="10" height="10"/>
         <image name="red_add_icon" width="113" height="112"/>
         <image name="second" width="30" height="30"/>
