@@ -13,7 +13,7 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var currentCellIndexPath: IndexPath?
     
     // application layer
-    let labelManager = LabelManager()
+    let labelManager = LabelManager.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,23 +86,21 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "editLabelSegue" {
+        if segue.identifier == Resources.Strings.Label.kEditLabelSegue {
             let navigationController = segue.destination as! UINavigationController
             let editLabelViewController = navigationController.viewControllers[0] as! EditLabelViewController
             let label = self.labels?[(self.currentCellIndexPath?.row)!]
             editLabelViewController.label = label
         }
-        else if segue.identifier == "filterTasksSegue" {
+        else if segue.identifier == Resources.Strings.Label.kFilterTaskSegue {
             let tabBarController = segue.destination as! UITabBarController
             let navigationController = tabBarController.customizableViewControllers?[0] as! UINavigationController
             let tasksViewController = navigationController.viewControllers[0] as! TasksViewController
             if self.currentCellIndexPath != nil{
                 let label = self.labels?[(self.currentCellIndexPath?.row)!]
-                var selectedLabelName = label?.labelName
-                print (selectedLabelName!)
+                let selectedLabelName = label?.labelName
                 tasksViewController.searchBar?.text = selectedLabelName!
-                tasksViewController.searchKey = selectedLabelName!
-                print (tasksViewController.searchBar?.text)
+                tasksViewController.searchKey = "#" + selectedLabelName!
             }
         }
     }
@@ -115,14 +113,6 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func filterTasksForSelectedLabelAction(cell: LabelTableViewCell){
         let indexPath = self.labelsTableView.indexPath(for: cell)
         self.currentCellIndexPath = indexPath!
-        
-//        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-//        let tabBarController = storyBoard.instantiateViewController(withIdentifier: "tabBarController") as! UITabBarController
-//        tabBarController.selectedIndex = 0
-//        let tasksViewController = storyBoard.instantiateViewController(withIdentifier: "TasksViewController") as! TasksViewController
-//        let label = self.labels?[(self.currentCellIndexPath?.row)!]
-//        labelManager.selectedLabel = label
-//        self.present(tabBarController, animated: true, completion: nil)
     }
     
     func deleteLabelCell(sender: LabelTableViewCell) {
@@ -156,7 +146,7 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = labelsTableView.dequeueReusableCell(withIdentifier: "LabelTableViewCell", for: indexPath) as! LabelTableViewCell
+        let cell = labelsTableView.dequeueReusableCell(withIdentifier: Resources.Strings.Label.kLabelTableViewCell, for: indexPath) as! LabelTableViewCell
         if((self.filteredLabels?.count)! > 0){
             cell.labelName.text = filteredLabels?[indexPath.row].labelName
             cell.label = filteredLabels?[indexPath.row]

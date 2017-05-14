@@ -17,12 +17,7 @@ class TasksViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIButton!
     
-    
     var searchKey = ""
-
-    // cells
-    let kTaskCell = "TaskCell"
-    let kTaskWithAnnotationsCell = "TaskWithAnnotationsCell"
     
     // tasks and filtered tasks
     var tasks : [Task]?
@@ -88,7 +83,7 @@ class TasksViewController: UIViewController {
     
     func searchIfLabelIsAvailableForFilter() {
         if !self.searchKey.isEmpty {
-            self.searchBar.text = "#"+self.searchKey
+            self.searchBar.text = self.searchKey
             self.applyFilterPerSearchText()
         }
     }
@@ -285,12 +280,23 @@ extension TasksViewController : UISearchBarDelegate {
         filteredTasks = [Task]();
         
         for task in tasks! {
-            
-            if let taskName = task.taskName {
-                let taskNameRange = taskName.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil)
-                if let taskNameRange = taskNameRange,
-                    taskNameRange.isEmpty == false {
-                    filteredTasks!.append(task);
+            if( searchText[searchText.startIndex] == "#"){
+                let startIndex = searchText.index(searchText.startIndex, offsetBy: 1)
+                let searchLabel = searchText.substring(from: startIndex)
+
+                if let labelName = task.taskLabel {
+                    if labelName == searchLabel{
+                        filteredTasks!.append(task);
+                    }
+                }
+            }
+            else {
+                if let taskName = task.taskName {
+                    let taskNameRange = taskName.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil)
+                    if let taskNameRange = taskNameRange,
+                        taskNameRange.isEmpty == false {
+                        filteredTasks!.append(task);
+                    }
                 }
             }
         }

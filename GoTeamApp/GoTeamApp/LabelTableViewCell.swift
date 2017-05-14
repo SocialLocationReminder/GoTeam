@@ -31,15 +31,11 @@ class LabelTableViewCell: UITableViewCell {
     @IBOutlet weak var cellFGViewLeadingSpaceConstraint: NSLayoutConstraint!
     
     @IBAction func editButtonAction(_ sender: Any) {
-        if let _ = delegate {
             delegate?.editButtonAction(cell: self)
-        }
     }
     
     @IBAction func filterTasksForSelectedLabelAction(_ sender: Any) {
-        if let _ = delegate {
             delegate?.filterTasksForSelectedLabelAction(cell: self)
-        }
     }
     
     override func awakeFromNib() {
