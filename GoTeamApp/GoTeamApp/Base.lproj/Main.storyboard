@@ -996,7 +996,7 @@
         <scene sceneID="zqF-uj-yNu">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="74d-Gk-jfj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tasks" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="Tasks" image="tasks" id="acW-dT-cKf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="cHo-k4-fK5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -1586,11 +1586,11 @@
         <image name="RepeatButton" width="54" height="50"/>
         <image name="RepeatButtonHighlighted" width="54" height="50"/>
         <image name="circles" width="25" height="25"/>
-        <image name="first" width="30" height="30"/>
         <image name="labels" width="25" height="25"/>
         <image name="locations" width="25" height="25"/>
         <image name="pin" width="10" height="10"/>
         <image name="red_add_icon" width="113" height="112"/>
+        <image name="tasks" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="MSY-eV-Tla"/>
