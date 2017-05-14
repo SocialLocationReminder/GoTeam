@@ -108,7 +108,10 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   
   func setupAddButton() {
     addButton.layer.cornerRadius = 48.0 / 2.0
-    addButton.clipsToBounds = true
+    addButton.layer.shadowColor = UIColor.black.cgColor
+    addButton.layer.shadowOpacity = 1.0;
+    addButton.layer.shadowRadius = 2.0
+    addButton.layer.shadowOffset = CGSize(width: 0, height: 2)
   }
   
   @IBAction func addLocationOnMap(_ sender: UILongPressGestureRecognizer) {

@@ -777,10 +777,10 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qop-n2-LNq" customClass="MKButton" customModule="MaterialKit">
-                                <rect key="frame" x="300" y="479" width="50" height="50"/>
+                                <rect key="frame" x="302" y="481" width="48" height="48"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="EX2-Ms-xAd"/>
-                                    <constraint firstAttribute="width" constant="50" id="F1X-td-Mne"/>
+                                    <constraint firstAttribute="height" constant="48" id="EX2-Ms-xAd"/>
+                                    <constraint firstAttribute="width" constant="48" id="F1X-td-Mne"/>
                                 </constraints>
                                 <state key="normal" image="red_add_icon"/>
                                 <userDefinedRuntimeAttributes>
@@ -932,10 +932,10 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7qR-R5-3lc">
-                                <rect key="frame" x="300" y="543" width="50" height="50"/>
+                                <rect key="frame" x="302" y="545" width="48" height="48"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="dlq-sw-dkK"/>
-                                    <constraint firstAttribute="height" constant="50" id="eOF-iK-BSF"/>
+                                    <constraint firstAttribute="width" constant="48" id="dlq-sw-dkK"/>
+                                    <constraint firstAttribute="height" constant="48" id="eOF-iK-BSF"/>
                                 </constraints>
                                 <state key="normal" image="red_add_icon"/>
                                 <userDefinedRuntimeAttributes>
@@ -1517,10 +1517,10 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6uW-s8-6Fm" customClass="MKButton" customModule="MaterialKit">
-                                <rect key="frame" x="300" y="479" width="50" height="50"/>
+                                <rect key="frame" x="302" y="481" width="48" height="48"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="2ch-6N-ZFT"/>
-                                    <constraint firstAttribute="width" constant="50" id="sc7-MR-Dit"/>
+                                    <constraint firstAttribute="height" constant="48" id="2ch-6N-ZFT"/>
+                                    <constraint firstAttribute="width" constant="48" id="sc7-MR-Dit"/>
                                 </constraints>
                                 <state key="normal" image="red_add_icon"/>
                                 <userDefinedRuntimeAttributes>
