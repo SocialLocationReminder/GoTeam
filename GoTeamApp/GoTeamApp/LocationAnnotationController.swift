@@ -145,7 +145,6 @@ class LocationAnnotationController : AnnotationControllerProtocol {
   
   // MARK: - table view delegate related
   func didSelect(_ indexPath : IndexPath) {
-    var textToAppend = ""
     switch(tableState) {
     case .showLocations :
       choosenLocation = locations()[indexPath.row]
@@ -161,29 +160,10 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         let locationName = choosenLocation.title,
         let choosenRadius = choosenRadius,
         let choosenBoundary = choosenBoundary {
-        textToAppend += locationName
-        // Setup geofence region
-        let locationCoordinate = choosenLocation.coordinate
-        if let radius = Double(choosenRadius) {
-          textToAppend += " " + choosenRadius + "m"
-          let identifier = "Region for: " + locationName
-          let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
-          if choosenBoundary.contains("Entry") {
-            region.notifyOnEntry = true
-            textToAppend += " on entry"
-          } else {
-            region.notifyOnEntry = false
-          }
-          if choosenBoundary.contains("Exit") {
-            region.notifyOnExit = true
-            textToAppend += " on exit"
-          } else {
-            region.notifyOnExit = false
-          }
-          // Start region monitoring
-          clLocationManager.startMonitoring(for: region)
-        }
-        delegate?.appendToTextView(sender: self, string: textToAppend)
+        let region = Region(locationName: locationName, coordinate: choosenLocation.coordinate, radius: choosenRadius, boundary: choosenBoundary)
+        RegionManager.sharedInstance.add(region: region)
+        RegionManager.sharedInstance.startMonitoring(region: region)
+        delegate?.appendToTextView(sender: self, string: region.description)
         delegate?.appendToTextView(sender: self, string: " ")
         setButtonStateAndAnnotation()
       }

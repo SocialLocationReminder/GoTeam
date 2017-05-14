@@ -109,7 +109,11 @@ class Resources {
         class LabelManager {
             static let kLabelManagerQueue = "kLabelManagerQueue"
         }
-        
+      
+        class RegionManager {
+          static let kRegionManagerQueue = "kRegionManagerQueue"
+        }
+      
         class ContactManager {
             static let kContactManagerQueue = "kContactManagerQueue"
         }
