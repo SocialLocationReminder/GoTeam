@@ -282,10 +282,10 @@ extension TasksViewController : UISearchBarDelegate {
         for task in tasks! {
             if( searchText[searchText.startIndex] == "#"){
                 let startIndex = searchText.index(searchText.startIndex, offsetBy: 1)
-                let searchLabel = searchText.substring(from: startIndex)
-
+                let searchLabel = searchText.substring(from: startIndex).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                
                 if let labelName = task.taskLabel {
-                    if labelName == searchLabel{
+                    if labelName.contains(searchLabel) {
                         filteredTasks!.append(task);
                     }
                 }

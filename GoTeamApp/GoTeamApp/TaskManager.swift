@@ -124,8 +124,7 @@ class TaskManager : NSObject {
 
 extension TaskManager : UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        print("Tapped in notification")
+        // print("Tapped in notification")
     }
     
     //This is key callback to present notification while the app is in foreground
