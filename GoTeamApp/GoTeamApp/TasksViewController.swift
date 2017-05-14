@@ -17,7 +17,6 @@ class TasksViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addButton: UIButton!
     
-    var searchKey = ""
     
     // tasks and filtered tasks
     var tasks : [Task]?
@@ -70,7 +69,6 @@ class TasksViewController: UIViewController {
             DispatchQueue.main.async {
                 hud.hide(animated: true)
                 self.tasks = receivedTasks
-                self.searchIfLabelIsAvailableForFilter()
                 self.tableView.reloadData()
             }
         }) { (error) in
@@ -81,13 +79,6 @@ class TasksViewController: UIViewController {
         }
     }
     
-    func searchIfLabelIsAvailableForFilter() {
-        if !self.searchKey.isEmpty {
-            self.searchBar.text = self.searchKey
-            self.applyFilterPerSearchText()
-        }
-    }
-
     func setupAddButton() {
         
         addButton.layer.cornerRadius = 48.0 / 2.0

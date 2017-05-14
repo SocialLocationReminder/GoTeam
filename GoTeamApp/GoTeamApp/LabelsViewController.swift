@@ -108,17 +108,6 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let label = self.labels?[(self.currentCellIndexPath?.row)!]
             editLabelViewController.label = label
         }
-        else if segue.identifier == Resources.Strings.Label.kFilterTaskSegue {
-            let tabBarController = segue.destination as! UITabBarController
-            let navigationController = tabBarController.customizableViewControllers?[0] as! UINavigationController
-            let tasksViewController = navigationController.viewControllers[0] as! TasksViewController
-            if self.currentCellIndexPath != nil{
-                let label = self.labels?[(self.currentCellIndexPath?.row)!]
-                let selectedLabelName = label?.labelName
-                tasksViewController.searchBar?.text = selectedLabelName!
-                tasksViewController.searchKey = "#" + selectedLabelName!
-            }
-        }
     }
     
     func editButtonAction(cell: LabelTableViewCell) {
@@ -129,6 +118,18 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func filterTasksForSelectedLabelAction(cell: LabelTableViewCell){
         let indexPath = self.labelsTableView.indexPath(for: cell)
         self.currentCellIndexPath = indexPath!
+        
+        if let tabBarController = self.tabBarController {
+            let navigationController = tabBarController.customizableViewControllers?[0] as! UINavigationController
+            let tasksViewController = navigationController.viewControllers[0] as! TasksViewController
+            if let indexPath = indexPath {
+                let label = self.labels?[indexPath.row]
+                let selectedLabelName = label?.labelName
+                tasksViewController.searchBar?.text = "#"  + selectedLabelName!
+                tasksViewController.applyFilterPerSearchText()
+                tabBarController.selectedIndex = 0
+            }
+        }
     }
     
     func deleteLabelCell(sender: LabelTableViewCell) {

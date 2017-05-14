@@ -65,7 +65,6 @@ class Resources {
         
         class Label {
             static let kEditLabelSegue = "editLabelSegue"
-            static let kFilterTaskSegue = "filterTasksSegue"
             static let kLabelTableViewCell = "LabelTableViewCell"
             
         }

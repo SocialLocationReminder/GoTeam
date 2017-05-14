@@ -732,7 +732,6 @@
                                                             <state key="normal" title="Tasks"/>
                                                             <connections>
                                                                 <action selector="filterTasksForSelectedLabelAction:" destination="Uop-bw-4JB" eventType="touchUpInside" id="taY-UI-Ksd"/>
-                                                                <segue destination="49e-Tb-3d3" kind="showDetail" identifier="filterTasksSegue" id="jis-nI-faY"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
