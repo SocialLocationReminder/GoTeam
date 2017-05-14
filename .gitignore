@@ -7,6 +7,8 @@ build/
 DerivedDatat
 GoTeamApp/.DS_Store
 GoTeamApp/GoTeamApp/.DS_Store
+GoTeamApp/GoTeamApp/Assets.xcassets/red_add_icon.imageset/.DS_Store
+GoTeamApp/GoTeamApp/Assets.xcassets/.DS_Store
 
 ## Various settings
 *.pbxuser

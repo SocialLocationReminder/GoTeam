@@ -7,6 +7,8 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var labelSearchBar: UISearchBar!
     @IBOutlet weak var labelsTableView: UITableView!
 
+    @IBOutlet weak var addButton: UIButton!
+    
     // labels and filtered labels
     var labels : [Labels]?
     var filteredLabels : [Labels]?
@@ -30,10 +32,24 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // setup tap gesture recognizer
         setupTapGestureRecognizer()
+        
+        // fetch labels
+        fetchLabels()
+        
+        setupAddButton()
+    }
+    
+    func setupAddButton() {
+        addButton.layer.cornerRadius = 48.0 / 2.0
+        // addButton.clipsToBounds = true
+        addButton.layer.shadowColor = UIColor.black.cgColor
+        addButton.layer.shadowOpacity = 1.0;
+        addButton.layer.shadowRadius = 2.0
+        addButton.layer.shadowOffset = CGSize(width: 0, height: 2)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        fetchLabels()
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -92,17 +108,6 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let label = self.labels?[(self.currentCellIndexPath?.row)!]
             editLabelViewController.label = label
         }
-        else if segue.identifier == Resources.Strings.Label.kFilterTaskSegue {
-            let tabBarController = segue.destination as! UITabBarController
-            let navigationController = tabBarController.customizableViewControllers?[0] as! UINavigationController
-            let tasksViewController = navigationController.viewControllers[0] as! TasksViewController
-            if self.currentCellIndexPath != nil{
-                let label = self.labels?[(self.currentCellIndexPath?.row)!]
-                let selectedLabelName = label?.labelName
-                tasksViewController.searchBar?.text = selectedLabelName!
-                tasksViewController.searchKey = "#" + selectedLabelName!
-            }
-        }
     }
     
     func editButtonAction(cell: LabelTableViewCell) {
@@ -113,6 +118,18 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func filterTasksForSelectedLabelAction(cell: LabelTableViewCell){
         let indexPath = self.labelsTableView.indexPath(for: cell)
         self.currentCellIndexPath = indexPath!
+        
+        if let tabBarController = self.tabBarController {
+            let navigationController = tabBarController.customizableViewControllers?[0] as! UINavigationController
+            let tasksViewController = navigationController.viewControllers[0] as! TasksViewController
+            if let indexPath = indexPath {
+                let label = self.labels?[indexPath.row]
+                let selectedLabelName = label?.labelName
+                tasksViewController.searchBar?.text = "#"  + selectedLabelName!
+                tasksViewController.applyFilterPerSearchText()
+                tabBarController.selectedIndex = 0
+            }
+        }
     }
     
     func deleteLabelCell(sender: LabelTableViewCell) {
