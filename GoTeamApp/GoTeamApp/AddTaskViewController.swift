@@ -39,6 +39,7 @@ class AddTaskViewController: UIViewController {
     
     // --- table view related ---
     var tableState : AnnotationType = .none
+    var locationTableState: TableState = .showLocations
 
 
     // annotations
@@ -232,17 +233,29 @@ extension AddTaskViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    // MARK: - selected row in table view
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if let annotationTypeIx = indexFor(annotationType: tableState) {
-            annotationControllers[annotationTypeIx].didSelect(indexPath)
-        }
-
+  // MARK: - selected row in table view
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    if let annotationTypeIx = indexFor(annotationType: tableState) {
+      annotationControllers[annotationTypeIx].didSelect(indexPath)
+    }
+    if tableState == .location {
+      switch(locationTableState) {
+      case .showLocations :
+        locationTableState = .showRegionRadiuses
+      case .showRegionRadiuses :
+        locationTableState = .showBoundaryCrossings
+      case .showBoundaryCrossings :
         tableState = .none
         tableView.isHidden = true
         maskView.isHidden = false
+      }
+    } else {
+      tableState = .none
+      tableView.isHidden = true
+      maskView.isHidden = false
     }
+  }
 }
 
 // MARK: - UITextViewDelegate

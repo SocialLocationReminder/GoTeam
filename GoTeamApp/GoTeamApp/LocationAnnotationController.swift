@@ -32,9 +32,9 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     var annotationType : AnnotationType!
   
     // user choices
-    var locationName: String?
-    var regionRadius: String?
-    var boundaryCrossing: String?
+    var choosenLocation: Location?
+    var choosenRadius: String?
+    var choosenBoundary: String?
   
     // table state logic
     var tableState = TableState.showLocations
@@ -145,42 +145,45 @@ class LocationAnnotationController : AnnotationControllerProtocol {
   
   // MARK: - table view delegate related
   func didSelect(_ indexPath : IndexPath) {
-    switch(tableState)
-    { case .showLocations :
-      locationName = locations()[indexPath.row].title
+    var textToAppend = ""
+    switch(tableState) {
+    case .showLocations :
+      choosenLocation = locations()[indexPath.row]
       tableState = .showRegionRadiuses
       delegate?.reloadTable(sender: self, annotationType: .location)
     case .showRegionRadiuses :
-      regionRadius = regionRadiuses[indexPath.row]
+      choosenRadius = regionRadiuses[indexPath.row]
       tableState = .showBoundaryCrossings
       delegate?.reloadTable(sender: self, annotationType: .location)
     case .showBoundaryCrossings :
-      boundaryCrossing = boundaryCrossings[indexPath.row]
-      if let locationName = locationName {
+      choosenBoundary = boundaryCrossings[indexPath.row]
+      if let choosenLocation = choosenLocation,
+        let locationName = choosenLocation.title,
+        let choosenRadius = choosenRadius,
+        let choosenBoundary = choosenBoundary {
+        textToAppend += locationName
         // Setup geofence region
-        print("Setting up geofence region")
-        let locationCoordinate = locations()[indexPath.row].coordinate
-        if let radius = Double(regionRadiuses[indexPath.row]) {
+        let locationCoordinate = choosenLocation.coordinate
+        if let radius = Double(choosenRadius) {
+          textToAppend += " " + choosenRadius + "m"
           let identifier = "Region for: " + locationName
-          print("Region identifier = \(identifier)")
           let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
-          if let boundaryCrossing = boundaryCrossing {
-            print("Region boundary crossing = \(boundaryCrossing)")
-            if boundaryCrossing.contains("Entry") {
-              region.notifyOnEntry = true
-            } else {
-              region.notifyOnEntry = false
-            }
-            if boundaryCrossing.contains("Exit") {
-              region.notifyOnExit = true
-            } else {
-              region.notifyOnExit = false
-            }
-            // Start region monitoring
-            clLocationManager.startMonitoring(for: region)
+          if choosenBoundary.contains("Entry") {
+            region.notifyOnEntry = true
+            textToAppend += " on entry"
+          } else {
+            region.notifyOnEntry = false
           }
+          if choosenBoundary.contains("Exit") {
+            region.notifyOnExit = true
+            textToAppend += " on exit"
+          } else {
+            region.notifyOnExit = false
+          }
+          // Start region monitoring
+          clLocationManager.startMonitoring(for: region)
         }
-        delegate?.appendToTextView(sender: self, string: locationName)
+        delegate?.appendToTextView(sender: self, string: textToAppend)
         delegate?.appendToTextView(sender: self, string: " ")
         setButtonStateAndAnnotation()
       }

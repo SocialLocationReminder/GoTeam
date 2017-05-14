@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <gpx version="1.1" creator="Xcode">
-  <wpt lat="37.8069456400568" lon="-122.421313569296">
+  <wpt lat="37.793758" lon="-122.392641">
     <name>Walk09</name>
   </wpt>
-  <wpt lat="37.8080589320387" lon="-122.409336244347">
+  <wpt lat="37.792062" lon="-122.394658">
     <name>Walk08</name>
   </wpt>
-  <wpt lat="37.7997645035263" lon="-122.402995307609">
+  <wpt lat="37.790604" lon="-122.396632">
     <name>Walk07</name>
   </wpt>
-  <wpt lat="37.7926940203916" lon="-122.400599842619">
+  <wpt lat="37.788738" lon="-122.398864">
     <name>Walk06</name>
   </wpt>
   <wpt lat="37.7858643633401" lon="-122.400862941018">
@@ -32,5 +32,32 @@
   </wpt>
   <wpt lat="37.762008" lon="-122.434766270975">
     <name>The Castro Theatre</name>
+  </wpt>
+  <wpt lat="37.7684710957932" lon="-122.427584051181">
+    <name>Walk01</name>
+  </wpt>
+  <wpt lat="37.7742630457703" lon="-122.420679475622">
+    <name>Walk02</name>
+  </wpt>
+  <wpt lat="37.7781055314507" lon="-122.415677181084">
+    <name>Walk03</name>
+  </wpt>
+  <wpt lat="37.7813352924528" lon="-122.411520344779">
+    <name>Walk04</name>
+  </wpt>
+  <wpt lat="37.7843421844595" lon="-122.407363508473">
+    <name>Walk05</name>
+  </wpt>
+  <wpt lat="37.7858643633401" lon="-122.400862941018">
+    <name>MOMA</name>
+  </wpt>
+  <wpt lat="37.788738" lon="-122.398864">
+    <name>Walk06</name>
+  </wpt>
+  <wpt lat="37.790604" lon="-122.396632">
+    <name>Walk07</name>
+  </wpt>
+  <wpt lat="37.792062" lon="-122.394658">
+    <name>Walk08</name>
   </wpt>
 </gpx>
