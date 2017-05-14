@@ -11,9 +11,26 @@ import UIKit
 import CoreLocation
 
 class Region {
+  
+  static let kRegionsClass = "RegionsClassV2"
+  static let kRegionID = "regionID"
+  static let kRegionName = "regionName"
+  static let kRegionLocationName = "regionLocationName"
+  static let kRegionRadius = "regionRadius"
+  static let kRegionLatitude = "regionLatitude"
+  static let kRegionLongitude = "regionLongitude"
+  static let kRegionNotifyOnEntry = "regionNotifyOnEntry"
+  static let kRegionNotifyOnExit = "regionNotifyOnExit"
+  
+  init() {
+    self.regionID = Date()
+  }
+  
   init(locationName: String, coordinate: CLLocationCoordinate2D, radius: String, boundary: String) {
-    self.identifier = "Region for: " + locationName
-    self.locationName = locationName
+    
+    self.regionID = Date()
+    self.regionName = "Region for: " + locationName
+    self.regionLocationName = locationName
     self.latitude = coordinate.latitude
     self.longitude = coordinate.longitude
     self.radius = Double(radius) ?? 0
@@ -30,22 +47,24 @@ class Region {
     }
   }
   
-  var identifier: String
-  var locationName: String
-  var radius: Double
-  var latitude: Double
-  var longitude: Double
-  var notifyOnEntry: Bool
-  var notifyOnExit: Bool
+  var regionID: Date
+  var regionName: String?
+  var regionLocationName: String?
+  var radius: Double?
+  var latitude: Double?
+  var longitude: Double?
+  var notifyOnEntry: Bool?
+  var notifyOnExit: Bool?
   
   var description: String {
     get {
-      var text = " \(String(Int(radius)))m"
-      if notifyOnEntry {
-        text += " on entry"
+      var text = regionLocationName!
+      text += "\(String(Int(radius!)))m"
+      if notifyOnEntry! {
+        text += "OnEntry"
       }
-      if notifyOnExit {
-        text += " on exit"
+      if notifyOnExit! {
+        text += "OnExit"
       }
       return text
     }
@@ -53,7 +72,7 @@ class Region {
   
   var coordinate: CLLocationCoordinate2D {
     get {
-      return CLLocationCoordinate2DMake(latitude, longitude)
+      return CLLocationCoordinate2DMake(latitude!, longitude!)
     }
     set {
       latitude = newValue.latitude
