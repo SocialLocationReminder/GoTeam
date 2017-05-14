@@ -86,7 +86,7 @@ class LabelAnnotationController : AnnotationControllerProtocol {
 //                    }
                     
                     // @todo: need to support multiple labels
-                    task.taskLabel = labelName
+                    task.taskLabel = labelName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                     task.taskLabelSubrange = textView.text.range(of: testString)
                     delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
                                                 fgColor: Resources.Colors.Annotations.kLabelFGColor,
