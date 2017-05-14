@@ -30,10 +30,13 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // setup tap gesture recognizer
         setupTapGestureRecognizer()
+        
+        // fetch labels
+        fetchLabels()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        fetchLabels()
+
     }
     
     override func didReceiveMemoryWarning() {
