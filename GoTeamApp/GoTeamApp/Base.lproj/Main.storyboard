@@ -300,7 +300,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" id="8HT-Kc-GKp"/>
+                    <navigationItem key="navigationItem" title="Tasks" id="8HT-Kc-GKp"/>
                     <connections>
                         <outlet property="addButton" destination="tvD-ym-YS5" id="E5Y-MJ-JZF"/>
                         <outlet property="searchBar" destination="8M6-S1-tzc" id="1bd-ai-4oC"/>
@@ -1034,7 +1034,7 @@
         <scene sceneID="ZbJ-IP-OIs">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pwh-s9-zno" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Locations" image="second" id="4uQ-ST-TZT"/>
+                    <tabBarItem key="tabBarItem" title="Locations" image="locations" id="4uQ-ST-TZT"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zdf-qN-RWx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -1588,9 +1588,9 @@
         <image name="circles" width="25" height="25"/>
         <image name="first" width="30" height="30"/>
         <image name="labels" width="25" height="25"/>
+        <image name="locations" width="25" height="25"/>
         <image name="pin" width="10" height="10"/>
         <image name="red_add_icon" width="113" height="112"/>
-        <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="MSY-eV-Tla"/>
