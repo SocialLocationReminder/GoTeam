@@ -27,24 +27,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     // Initialize Parse
-    // clientKey is not used on Parse open source unless explicitly configured
-    Parse.initialize(
-      with: ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
-        configuration.applicationId = "location_reminders"
-        configuration.clientKey = nil  // set to nil assuming you have not set clientKey
-        configuration.server = "https://social-location-reminder.herokuapp.com/parse"
-      })
-    )
+    initParse()
+    
     // Initialize location manager
-    locationManager.delegate = self
-    locationManager.requestAlwaysAuthorization()
-    locationManager.requestLocation()
-    // Stop all regions monitoring
-    for region in locationManager.monitoredRegions {
-      locationManager.stopMonitoring(for: region)
-    }
+    initLocationManager()
+    
+    initNavBar()
+    
     return true
   }
+    
+    func initParse() {
+        // clientKey is not used on Parse open source unless explicitly configured
+        Parse.initialize(
+            with: ParseClientConfiguration(block: { (configuration: ParseMutableClientConfiguration) -> Void in
+                configuration.applicationId = "location_reminders"
+                configuration.clientKey = nil  // set to nil assuming you have not set clientKey
+                configuration.server = "https://social-location-reminder.herokuapp.com/parse"
+            })
+        )
+    }
+    
+    func initLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestLocation()
+        // Stop all regions monitoring
+        for region in locationManager.monitoredRegions {
+            locationManager.stopMonitoring(for: region)
+        }
+    }
+    
+    func initNavBar() {
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
+    }
   
   func setupNotification(forRegion region: CLRegion, event: String) {
     let notification = UNMutableNotificationContent()
