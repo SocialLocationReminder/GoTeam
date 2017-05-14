@@ -14,7 +14,7 @@
         <!--TasksViewController-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController restorationIdentifier="TasksViewController" storyboardIdentifier="TasksViewController" title="TasksViewController" automaticallyAdjustsScrollViewInsets="NO" id="9pv-A4-QxB" customClass="TasksViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="TasksViewController" storyboardIdentifier="TasksViewController" title="TasksViewController" automaticallyAdjustsScrollViewInsets="NO" id="9pv-A4-QxB" customClass="TasksViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="Vvh-vc-VP0" customClass="TaskCell" customModule="GoTeamApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="Vvh-vc-VP0" customClass="TaskCell" customModule="Go_List" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vvh-vc-VP0" id="9s8-Tl-Dcx">
@@ -105,7 +105,7 @@
                                             <segue destination="3dm-wV-afP" kind="showDetail" identifier="showEditTasksScreen" action="showViewController:sender:" id="yYI-S9-l9G"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskWithAnnotationsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskWithAnnotationsCell" rowHeight="70" id="3Yr-n1-mjs" customClass="TaskWithAnnotationsCell" customModule="GoTeamApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TaskWithAnnotationsCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskWithAnnotationsCell" rowHeight="70" id="3Yr-n1-mjs" customClass="TaskWithAnnotationsCell" customModule="Go_List" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="72" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Yr-n1-mjs" id="cx5-Bs-a69">
@@ -139,6 +139,7 @@
                                                         </label>
                                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="huf-x5-eMi">
                                                             <rect key="frame" x="20" y="41.5" width="10" height="10"/>
+                                                            <color key="tintColor" red="0.27450981740000002" green="0.48627451059999999" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="10" id="Gha-3c-3CI"/>
                                                                 <constraint firstAttribute="width" constant="10" id="kN0-M2-f1H"/>
@@ -314,7 +315,7 @@
         <!--Add Contacts-->
         <scene sceneID="Nsq-hK-8hN">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="uf5-qz-NCB" customClass="AddTaskViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="uf5-qz-NCB" customClass="AddTaskViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vq1-UP-GB4"/>
                         <viewControllerLayoutGuide type="bottom" id="N3b-nm-KMi"/>
@@ -632,7 +633,7 @@
         <!--Add Label-->
         <scene sceneID="EJs-ia-XyK">
             <objects>
-                <viewController id="Cmh-f5-LwY" customClass="AddLabelViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Cmh-f5-LwY" customClass="AddLabelViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="AWM-ae-w6F"/>
                         <viewControllerLayoutGuide type="bottom" id="9Us-t6-Hgv"/>
@@ -675,7 +676,7 @@
         <!--Labels-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="LabelsViewController" customModule="GoTeamApp" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" customClass="LabelsViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
                         <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
@@ -693,7 +694,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="LabelTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelTableViewCell" rowHeight="90" id="Uop-bw-4JB" customClass="LabelTableViewCell" customModule="GoTeamApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="LabelTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelTableViewCell" rowHeight="90" id="Uop-bw-4JB" customClass="LabelTableViewCell" customModule="Go_List" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uop-bw-4JB" id="8E6-pI-Igo">
@@ -839,7 +840,7 @@
         <!--Locations-->
         <scene sceneID="L4c-BS-UIR">
             <objects>
-                <viewController id="z6D-xg-EVY" customClass="LocationsViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="z6D-xg-EVY" customClass="LocationsViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Tx7-JW-sxy"/>
                         <viewControllerLayoutGuide type="bottom" id="gCf-cv-Zqa"/>
@@ -863,7 +864,7 @@
                                 <rect key="frame" x="0.0" y="108" width="375" height="510"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" id="mZI-co-1AW" customClass="LocationCell" customModule="GoTeamApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationCell" id="mZI-co-1AW" customClass="LocationCell" customModule="Go_List" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mZI-co-1AW" id="ePn-3N-L6T">
@@ -1021,7 +1022,7 @@
         <!--Location Search Table-->
         <scene sceneID="28d-ce-uvd">
             <objects>
-                <tableViewController storyboardIdentifier="LocationSearchTable" id="PFd-gn-6LD" customClass="LocationSearchTable" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="LocationSearchTable" id="PFd-gn-6LD" customClass="LocationSearchTable" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="bdW-Ii-L4o">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1065,7 +1066,7 @@
         <!--Contacts View Controller-->
         <scene sceneID="pKN-Ft-7Zh">
             <objects>
-                <viewController id="JC4-4d-cRB" customClass="ContactsViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="JC4-4d-cRB" customClass="ContactsViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xut-5d-cQb"/>
                         <viewControllerLayoutGuide type="bottom" id="pAf-T0-55S"/>
@@ -1138,7 +1139,7 @@
         <!--Calendar View Controller-->
         <scene sceneID="Ylg-Kb-DPL">
             <objects>
-                <viewController id="NXD-NW-tUG" customClass="CalendarViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="NXD-NW-tUG" customClass="CalendarViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="i9W-XN-HZJ"/>
                         <viewControllerLayoutGuide type="bottom" id="GIZ-gc-Ha9"/>
@@ -1304,7 +1305,7 @@
         <!--Edit Label-->
         <scene sceneID="4aM-KD-Tfg">
             <objects>
-                <viewController id="bGv-WK-P3p" customClass="EditLabelViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bGv-WK-P3p" customClass="EditLabelViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rzg-HP-Nah"/>
                         <viewControllerLayoutGuide type="bottom" id="ICO-N2-DCl"/>
@@ -1386,7 +1387,7 @@
         <!--Circles-->
         <scene sceneID="1Be-kW-VOC">
             <objects>
-                <viewController id="pMl-bN-KKt" customClass="GroupsViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pMl-bN-KKt" customClass="GroupsViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dCT-MW-W8l"/>
                         <viewControllerLayoutGuide type="bottom" id="h33-q6-HH0"/>
@@ -1404,7 +1405,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="LabelTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelTableViewCell" rowHeight="90" id="MsX-SQ-fxG" customClass="LabelTableViewCell" customModule="GoTeamApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="LabelTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LabelTableViewCell" rowHeight="90" id="MsX-SQ-fxG" customClass="LabelTableViewCell" customModule="Go_List" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="359" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MsX-SQ-fxG" id="Fxi-sI-HyX">
