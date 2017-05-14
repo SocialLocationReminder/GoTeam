@@ -43,8 +43,12 @@ class LocationSearchTable: UITableViewController, UISearchResultsUpdating {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
     let selectedItem = matchingItems[indexPath.row].placemark
+    if let lines = selectedItem.addressDictionary?["FormattedAddressLines"] as? [String] {
+        let address = lines.reduce("", { $0 == "" ? $1 : $0 + " " + $1 })
+        cell.detailTextLabel?.text = address
+    }
     cell.textLabel?.text = selectedItem.name
-    cell.detailTextLabel?.text = ""
+
     return cell
   }
   
