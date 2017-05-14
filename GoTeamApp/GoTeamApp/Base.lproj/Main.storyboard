@@ -328,7 +328,7 @@
                                 <rect key="frame" x="0.0" y="114" width="375" height="553"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddTaskCell" id="C7R-aw-IzE" customClass="AddTaskCell" customModule="GoTeamApp">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AddTaskCell" id="C7R-aw-IzE" customClass="AddTaskCell" customModule="Go_List" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C7R-aw-IzE" id="huW-RB-R3Y">
@@ -1562,7 +1562,7 @@
         <image name="tasks" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="MSY-eV-Tla"/>
+        <segue reference="Qoh-cV-2w8"/>
         <segue reference="2MQ-gb-Vt5"/>
     </inferredMetricsTieBreakers>
 </document>
