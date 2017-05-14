@@ -7,6 +7,8 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var labelSearchBar: UISearchBar!
     @IBOutlet weak var labelsTableView: UITableView!
 
+    @IBOutlet weak var addButton: UIButton!
+    
     // labels and filtered labels
     var labels : [Labels]?
     var filteredLabels : [Labels]?
@@ -33,6 +35,13 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // fetch labels
         fetchLabels()
+        
+        setupAddButton()
+    }
+    
+    func setupAddButton() {
+        addButton.layer.cornerRadius = 48.0 / 2.0
+        addButton.clipsToBounds = true
     }
     
     override func viewDidAppear(_ animated: Bool) {

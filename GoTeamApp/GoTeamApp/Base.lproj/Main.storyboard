@@ -348,7 +348,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="May 4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OkV-Oe-FHH">
-                                                    <rect key="frame" x="935" y="13" width="42" height="18"/>
+                                                    <rect key="frame" x="310" y="13" width="42" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -675,7 +675,7 @@
         <!--Labels-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="LabelsViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="8rJ-Kc-sve" customClass="LabelsViewController" customModule="GoTeamApp" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
                         <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
@@ -805,6 +805,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Labels" id="7UT-P5-8JX"/>
                     <connections>
+                        <outlet property="addButton" destination="Qop-n2-LNq" id="1Eu-4l-rVS"/>
                         <outlet property="labelSearchBar" destination="i9Z-6O-fSl" id="mo0-hj-7YZ"/>
                         <outlet property="labelsTableView" destination="2Pw-3l-gQB" id="AIH-gR-al2"/>
                     </connections>

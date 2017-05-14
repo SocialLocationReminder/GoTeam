@@ -28,6 +28,8 @@ class GroupsViewController: UIViewController {
     }
     
     func setupButton() {
+        addButton.layer.cornerRadius = 48.0 / 2.0
+        addButton.clipsToBounds = true
         addButton.addTarget(self, action: #selector(buttonPressed), for: UIControlEvents.touchUpInside)
     }
     
