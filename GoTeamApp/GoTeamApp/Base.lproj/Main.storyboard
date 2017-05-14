@@ -139,6 +139,7 @@
                                                         </label>
                                                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin" translatesAutoresizingMaskIntoConstraints="NO" id="huf-x5-eMi">
                                                             <rect key="frame" x="20" y="41.5" width="10" height="10"/>
+                                                            <color key="tintColor" red="0.27450981740000002" green="0.48627451059999999" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="10" id="Gha-3c-3CI"/>
                                                                 <constraint firstAttribute="width" constant="10" id="kN0-M2-f1H"/>

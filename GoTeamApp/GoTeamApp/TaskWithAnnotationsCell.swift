@@ -99,27 +99,48 @@ class TaskWithAnnotationsCell: UITableViewCell {
         if firstAnnotationLabel.isHidden {
             firstAnnotationLabel.text = text
             firstAnnotationLabel.isHidden = false
-            firstAnnotationImage.image = image
+            firstAnnotationImage.image = TaskWithAnnotationsCell.fillColor(image)
             firstAnnotationImage.isHidden = false
         } else if secondAnnotationLabel.isHidden {
             secondAnnotationLabel.text = text
             secondAnnotationLabel.isHidden = false
-            secondAnnotationImage.image = image
+            secondAnnotationImage.image = TaskWithAnnotationsCell.fillColor(image)
             secondAnnotationImage.isHidden = false
         } else if thirdAnnotationLabel.isHidden {
             thirdAnnotationLabel.text = text
             thirdAnnotationLabel.isHidden = false
-            thirdAnnotationImage.image = image
+            thirdAnnotationImage.image = TaskWithAnnotationsCell.fillColor(image)
             thirdAnnotationImage.isHidden = false
         } else if fourthAnnotationLabel.isHidden {
             fourthAnnotationLabel.text = text
             fourthAnnotationLabel.isHidden = false
-            fourthAnnotationImage.image = image
+            fourthAnnotationImage.image = TaskWithAnnotationsCell.fillColor(image)
             fourthAnnotationImage.isHidden = false
         }
 
     }
     
+    static func fillColor(_ image : UIImage?) -> UIImage? {
+        
+        var result : UIImage?
+        if let image = image {
+            let rect = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+            
+            UIGraphicsBeginImageContext(rect.size)
+            if let context = UIGraphicsGetCurrentContext() {
+                context.clip(to: rect, mask: image.cgImage!);
+                context.setFillColor(#colorLiteral(red: 0.5, green: 0.5, blue: 0.5, alpha: 1).cgColor)
+                context.fill(rect)
+                let img = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext()
+                if let img = img,
+                    let cgImage = img.cgImage {
+                    result = UIImage(cgImage: cgImage, scale: 1.0, orientation: UIImageOrientation.downMirrored)
+                }
+            }
+        }
+        return result
+    }
 
     
     override func awakeFromNib() {
