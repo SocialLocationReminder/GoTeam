@@ -17,6 +17,7 @@
 		61FF5CAE1EC92FEA0058CDA3 /* GroupDataStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CAD1EC92FEA0058CDA3 /* GroupDataStoreService.swift */; };
 		61FF5CB01EC955D60058CDA3 /* CircleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CAF1EC955D60058CDA3 /* CircleTableViewCell.swift */; };
 		61FF5CB21EC966EA0058CDA3 /* CircleMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CB11EC966EA0058CDA3 /* CircleMembersViewController.swift */; };
+		61FF5CB41EC9869D0058CDA3 /* CircleContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CB31EC9869D0058CDA3 /* CircleContactTableViewCell.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E2256FDC1EC6DD2A005EF28A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2256FDB1EC6DD2A005EF28A /* Group.swift */; };
 		E2256FDE1EC6DD44005EF28A /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */; };
@@ -87,6 +88,7 @@
 		61FF5CAD1EC92FEA0058CDA3 /* GroupDataStoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDataStoreService.swift; sourceTree = "<group>"; };
 		61FF5CAF1EC955D60058CDA3 /* CircleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleTableViewCell.swift; sourceTree = "<group>"; };
 		61FF5CB11EC966EA0058CDA3 /* CircleMembersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMembersViewController.swift; sourceTree = "<group>"; };
+		61FF5CB31EC9869D0058CDA3 /* CircleContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleContactTableViewCell.swift; sourceTree = "<group>"; };
 		E2256FDB1EC6DD2A005EF28A /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		E2256FDF1EC6DD9A005EF28A /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TestLocations.gpx; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 				E2FEDA311EBEC27C0020E3C0 /* ContactsViewController.swift */,
 				61FF5CAF1EC955D60058CDA3 /* CircleTableViewCell.swift */,
 				61FF5CB11EC966EA0058CDA3 /* CircleMembersViewController.swift */,
+				61FF5CB31EC9869D0058CDA3 /* CircleContactTableViewCell.swift */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -587,6 +590,7 @@
 				E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */,
 				E2FEDA321EBEC27C0020E3C0 /* ContactsViewController.swift in Sources */,
 				E2FEDA251EBD08A10020E3C0 /* LabelDataStore.swift in Sources */,
+				61FF5CB41EC9869D0058CDA3 /* CircleContactTableViewCell.swift in Sources */,
 				61FF5CB01EC955D60058CDA3 /* CircleTableViewCell.swift in Sources */,
 				E2C9E1451EC0383700BBD78C /* LabelAnnotationController.swift in Sources */,
 				E2FEDA231EBD08950020E3C0 /* LabelDataStoreProtocol.swift in Sources */,

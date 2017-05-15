@@ -12,7 +12,7 @@ class Group : ListItem {
     static let kGroupClass = "GroupClassV1"
     static let kgroupID = "kgroupID"
     static let kgroupName  = "kgroupName"
-    static let kcontacts = "kcontacts"
+    static let kcontactIDs = "kcontactIDs"
     
     var groupID : Date?
     var groupName : String?

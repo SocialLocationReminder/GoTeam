@@ -8,11 +8,11 @@
 
 import UIKit
 import Parse
+import Foundation
 
 class GroupDataStoreService : GroupDataStoreServiceProtocol {
 
     // user related
-    let kTUserName = "UserName"
     var userName = "akshay"
     
     // application layer
@@ -20,7 +20,7 @@ class GroupDataStoreService : GroupDataStoreServiceProtocol {
     
     func add(group : Group, success:@escaping () -> (), error: @escaping ((Error) -> ())) {
         let pfGroup = newParseObject(group: group)
-        pfGroup[kTUserName] = userName
+        pfGroup[User.kUserName] = userName
         pfGroup.saveInBackground { (successStatus, errorStatus) in
             if successStatus {
                 success()
@@ -38,7 +38,7 @@ class GroupDataStoreService : GroupDataStoreServiceProtocol {
     func allGroups(success:@escaping ([Group]) -> (), error: @escaping ((Error) -> ())) {
         
         let query = PFQuery(className:Group.kGroupClass)
-        query.whereKey(kTUserName, equalTo: userName)
+        query.whereKey(User.kUserName, equalTo: userName)
         query.includeKey(userName)
         
         query.findObjectsInBackground(block: { (pfGroups, returnedError) in
@@ -59,7 +59,7 @@ class GroupDataStoreService : GroupDataStoreServiceProtocol {
     func deleteGroups(groups : [Group]) {
         for group in groups {
             let query = PFQuery(className:Group.kGroupClass)
-            query.whereKey(kTUserName, equalTo: userName)
+            query.whereKey(User.kUserName, equalTo: userName)
             query.whereKey(Group.kgroupID, equalTo: group.groupID!)
             query.includeKey(Group.kgroupID)
             query.findObjectsInBackground(block: { (group, error) in
@@ -78,13 +78,20 @@ class GroupDataStoreService : GroupDataStoreServiceProtocol {
             do {
                 group.groupID = pfGroup[Group.kgroupID] as? Date
                 group.groupName = pfGroup[Group.kgroupName] as? String
+                group.contacts = [Contact]()
                 
-                if let parseObjectsArray = pfGroup[Group.kcontacts] as? [PFObject] {
-                    group.contacts = [Contact]()
-//                    for parseObject in parseObjectsArray {
-//                        var contact = ContactDataStoreService.contact(pfObject: parseObject)
-//                        group.contacts?.append(contact)
-//                    }
+                let commaSeperatedContactIDs = pfGroup[Group.kcontactIDs] as? String
+                let contactIDs = commaSeperatedContactIDs?.components(separatedBy: ",")
+                var parseObjectsArray = [PFObject]()
+                for contactID in contactIDs! {
+                    if contactID.characters.count > 0 {
+                        if let parseObject = ContactDataStoreService.pfObjectFor(contactID: contactID) {
+                            parseObjectsArray.append(parseObject)
+                        }
+                    }
+                }
+                if parseObjectsArray.count > 0 {
+                    group.contacts = ContactDataStoreService.convertToContacts(pfContacts: parseObjectsArray)
                 }
             } catch _  {
                 print("exception while attempting to convert pfobjects to tasks")
@@ -102,21 +109,15 @@ class GroupDataStoreService : GroupDataStoreServiceProtocol {
         if let groupName = group.groupName {
             pfObject[Group.kgroupName] = groupName
         }
+        var commaSeperatedContactIDs : String = ""
         
-        if let groupContacts = group.contacts {
-            var parseObjectsArray = [PFObject]()
-            for contact in groupContacts {
-                if let parseObject = ContactDataStoreService.pfObjectFor(contact: contact) {
-                    parseObjectsArray.append(parseObject)
-                }
+        if let contacts = group.contacts {
+            for contact in contacts {
+                let contactID = contact.contactID as String!
+                commaSeperatedContactIDs = commaSeperatedContactIDs + contactID! + ","
             }
-            if parseObjectsArray.count > 0 {
-                pfObject[Group.kcontacts] = parseObjectsArray
-            }
-        } else {
-            pfObject[Group.kcontacts] = NSNull()
+            pfObject[Group.kcontactIDs] = commaSeperatedContactIDs
         }
         return pfObject
     }
-
 }

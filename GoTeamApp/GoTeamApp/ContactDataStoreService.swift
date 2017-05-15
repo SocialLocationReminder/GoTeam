@@ -39,7 +39,7 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
         query.includeKey(User.kUserName)
         query.findObjectsInBackground(block: { (pfContacts, returnedError) in
             if let pfContacts = pfContacts {
-                let contacts = self.convertToContacts(pfContacts : pfContacts)
+                let contacts = ContactDataStoreService.convertToContacts(pfContacts : pfContacts)
                 success(contacts)
             } else {
                 if let returnedError = returnedError {
@@ -62,11 +62,14 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
         return contact
     }
     
-    static func pfObjectFor(contact: Contact) -> PFObject? {
+    static func pfObjectFor(contactID: String) -> PFObject? {
         
+    
         let query = PFQuery(className:Contact.kContactClass)
         query.whereKey(User.kUserName, equalTo: "akshay")
-        query.whereKey(Contact.kContactID, equalTo: contact.contactID!)
+        query.whereKey(Contact.kContactID, equalTo: contactID)
+        query.includeKey(User.kUserName)
+        query.includeKey(Contact.kContactID)
         
         var objects : [PFObject]?
         do {
@@ -77,7 +80,7 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
         return objects?.first
     }
     
-    func convertToContacts(pfContacts : [PFObject]) -> [Contact] {
+    static func convertToContacts(pfContacts : [PFObject]) -> [Contact] {
         var contacts = [Contact]()
         for pfContact in pfContacts {
             let contact = Contact()

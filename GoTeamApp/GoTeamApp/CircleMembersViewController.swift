@@ -8,14 +8,21 @@
 
 import UIKit
 
-class CircleMembersViewController: UIViewController {
+class CircleMembersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var group : Group?
+    var contacts : [Contact]?
+    
+    @IBOutlet weak var circleMembersTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.title = group?.groupName
-        // Do any additional setup after loading the view.
+        contacts = group?.contacts
+        
+        circleMembersTableView.delegate = self
+        circleMembersTableView.dataSource = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,15 +30,24 @@ class CircleMembersViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        if let contacts = contacts {
+            return contacts.count;
+        }
+        else{
+            return 0;
+        }
     }
-    */
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let circleContactTableViewCell = circleMembersTableView.dequeueReusableCell(withIdentifier: "CircleContactTableViewCell", for: indexPath) as! CircleContactTableViewCell;
+        let contact = contacts?[indexPath.row];
+        let phone = contact?.phone
+        let fullName = contact?.fullName
+        circleContactTableViewCell.contactNameLabel.text  = fullName;
+        circleContactTableViewCell.contactPhoneLabel.text  = phone;
+        
+        return circleContactTableViewCell
+    }
 
 }

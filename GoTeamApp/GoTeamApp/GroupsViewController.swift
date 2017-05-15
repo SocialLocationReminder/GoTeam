@@ -37,7 +37,6 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
         circlesTableView.delegate = self
         circleSearchBar.delegate = self
         fetchGroups()
-        fetchContacts()
         setupKBContactsController()
         setupButton()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
@@ -71,22 +70,6 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
                 self.groups = groups
                 self.filteredGroups = groups
                 self.circlesTableView.reloadData()
-            }
-        }) { (error) in
-            DispatchQueue.main.async {
-                // @todo: show network error
-                hud.hide(animated: true)
-            }
-        }
-    }
-    
-    func fetchContacts() {
-        self.contacts = [Contact]()
-        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-        contactManager.fetchAllContacts(success: { (contacts) in
-            DispatchQueue.main.async {
-                hud.hide(animated: true)
-                self.contacts = contacts
             }
         }) { (error) in
             DispatchQueue.main.async {
