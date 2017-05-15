@@ -88,13 +88,10 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
             config?.mode = KBContactsSelectionMode.messages
             config?.skipUnnamedContacts = true
             config?.customSelectButtonHandler = { (contacts : Any!) in
-                print(contacts)
-                
                 if let contacts = contacts as? [APContact] {
                     self.contactsSelected(contacts:contacts)
                 }
             }
-            
             config?.contactEnabledValidation = { (contact : Any) in
                 return true
             }
@@ -176,7 +173,6 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
         let group = filteredGroups?[indexPath.row];
         let groupName = group?.groupName!;
         circleTableViewCell.groupNameLabel.text  = groupName;
-        let numberOfMembers = group?.contacts?.count
         if let numberOfMembers = group?.contacts?.count {
             circleTableViewCell.numberOfMembers.text = String(describing: numberOfMembers)
         }
