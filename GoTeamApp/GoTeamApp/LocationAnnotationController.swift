@@ -31,15 +31,13 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     static let kNumberOfSections = 1
     var annotationType : AnnotationType!
   
-    // user choices
-    var choosenLocation: Location?
-    var choosenRadius: String?
-    var choosenBoundary: String?
+    // user choices for region monitoring
+    var regionLocation: Location?
+    var regionRadius: String?
+    var regionBoundary: String?
   
     // table state logic
     var tableState = TableState.showLocations
-    let regionRadiuses = ["10","30","100"]
-    let boundaryCrossings = ["Notify on Entry", "Notify on Exit", "Notify on Entry & Exit"]
   
     // application layer
     let locationManager = SelectedLocationsManager.sharedInstance
@@ -124,9 +122,9 @@ class LocationAnnotationController : AnnotationControllerProtocol {
       { case .showLocations :
           return locations().count
         case .showRegionRadiuses :
-          return regionRadiuses.count
+          return RegionManager.regionRadiuses.count
         case .showBoundaryCrossings :
-          return boundaryCrossings.count
+          return RegionManager.boundaryCrossings.count
       }
     }
     
@@ -137,53 +135,33 @@ class LocationAnnotationController : AnnotationControllerProtocol {
       cell.primayTextLabel.text = locations()[indexPath.row].title
       cell.secondaryTextLabel.text = ""
     case .showRegionRadiuses :
-      cell.primayTextLabel.text = regionRadiuses[indexPath.row]
+      cell.primayTextLabel.text = RegionManager.regionRadiuses[indexPath.row]
     case .showBoundaryCrossings :
-      cell.primayTextLabel.text = boundaryCrossings[indexPath.row]
+      cell.primayTextLabel.text = RegionManager.boundaryCrossings[indexPath.row]
     }
   }
   
   // MARK: - table view delegate related
   func didSelect(_ indexPath : IndexPath) {
-    var textToAppend = ""
     switch(tableState) {
     case .showLocations :
-      choosenLocation = locations()[indexPath.row]
+      regionLocation = locations()[indexPath.row]
       tableState = .showRegionRadiuses
       delegate?.reloadTable(sender: self, annotationType: .location)
     case .showRegionRadiuses :
-      choosenRadius = regionRadiuses[indexPath.row]
+      regionRadius = RegionManager.regionRadiuses[indexPath.row]
       tableState = .showBoundaryCrossings
       delegate?.reloadTable(sender: self, annotationType: .location)
     case .showBoundaryCrossings :
-      choosenBoundary = boundaryCrossings[indexPath.row]
-      if let choosenLocation = choosenLocation,
-        let locationName = choosenLocation.title,
-        let choosenRadius = choosenRadius,
-        let choosenBoundary = choosenBoundary {
-        textToAppend += locationName
-        // Setup geofence region
-        let locationCoordinate = choosenLocation.coordinate
-        if let radius = Double(choosenRadius) {
-          textToAppend += " " + choosenRadius + "m"
-          let identifier = "Region for: " + locationName
-          let region = CLCircularRegion(center: locationCoordinate, radius: radius, identifier: identifier)
-          if choosenBoundary.contains("Entry") {
-            region.notifyOnEntry = true
-            textToAppend += " on entry"
-          } else {
-            region.notifyOnEntry = false
-          }
-          if choosenBoundary.contains("Exit") {
-            region.notifyOnExit = true
-            textToAppend += " on exit"
-          } else {
-            region.notifyOnExit = false
-          }
-          // Start region monitoring
-          clLocationManager.startMonitoring(for: region)
-        }
-        delegate?.appendToTextView(sender: self, string: textToAppend)
+      regionBoundary = RegionManager.boundaryCrossings[indexPath.row]
+      if let regionLocation = regionLocation,
+        let locationName = regionLocation.title,
+        let regionRadius = regionRadius,
+        let regionBoundary = regionBoundary {
+        let region = Region(locationName: locationName, coordinate: regionLocation.coordinate, radius: regionRadius, boundary: regionBoundary)
+        RegionManager.sharedInstance.add(region: region)
+        RegionManager.sharedInstance.startMonitoring(region: region)
+        delegate?.appendToTextView(sender: self, string: region.description)
         delegate?.appendToTextView(sender: self, string: " ")
         setButtonStateAndAnnotation()
       }

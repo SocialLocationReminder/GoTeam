@@ -19,13 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
-    // Ask for permission to use notifications
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (success, error) in
-      if !success {
-        print("No permission to use notifications. Error = \(String(describing: error?.localizedDescription))")
-      }
-    }
-    
     // Initialize Parse
     initParse()
     
@@ -62,17 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.white]
     }
   
-  func setupNotification(forRegion region: CLRegion, event: String) {
-    let notification = UNMutableNotificationContent()
-    notification.title = "GoTeam App"
-    notification.subtitle = "Monitoring status"
-    notification.body = "Did \(event) \(region.identifier)"
-    notification.sound = .default()
-    let notificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-    let request = UNNotificationRequest(identifier: "GeoRegion\(event)", content: notification, trigger: notificationTrigger)
-    UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-  }
-  
   // MARK: - Location Manager Delegate Methods
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -81,12 +63,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
   
   func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
     print("Monitoring status: Did Enter \(region.identifier)")
-    setupNotification(forRegion: region, event: "Enter")
+    RegionManager.sharedInstance.showNotification(withMessage: "Did Enter \(region.identifier)")
   }
   
   func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
     print("Monitoring status: Did Exit \(region.identifier)\n")
-    setupNotification(forRegion: region, event: "Exit")
+    RegionManager.sharedInstance.showNotification(withMessage: "Did Exit \(region.identifier)")
   }
   
   func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
