@@ -40,6 +40,8 @@ class RegionManager : NSObject {
   
   func startMonitoring(region : Region) {
       let circularRegion = CLCircularRegion(center: region.coordinate, radius: region.radius!, identifier: region.regionName!)
+      circularRegion.notifyOnEntry = region.notifyOnEntry!
+      circularRegion.notifyOnExit = region.notifyOnExit!
       locationManager.startMonitoring(for: circularRegion)
   }
   
@@ -55,5 +57,45 @@ class RegionManager : NSObject {
         }
       }
     }
+  
+  func showNotification(withMessage message: String) {
+    let notification = UNMutableNotificationContent()
+    notification.title = "GoTeam App"
+    notification.subtitle = "Monitoring status"
+    notification.body = message
+    notification.sound = .default()
+    let center = UNUserNotificationCenter.current()
+    center.requestAuthorization(options: [.alert, .sound], completionHandler: { (returnedBool, error) in
+      if returnedBool == true && error == nil {
+        let content = UNMutableNotificationContent()
+        content.title = "GoTeam App"
+        content.subtitle = "Monitoring status"
+        content.body = message
+        content.sound = .default()
+        UNUserNotificationCenter.current().delegate = self
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: message, content: content, trigger: trigger)
+        center.add(request) { (error) in
+            if error != nil {
+              // @todo: show an error dialog
+          }
+        }
+      }
+    })
+  }
+}
+
+extension RegionManager : UNUserNotificationCenterDelegate {
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    // print("Tapped in notification")
+  }
+  
+  //This is key callback to present notification while the app is in foreground
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    
+    //You can either present alert ,sound or increase badge while the app is in foreground too with ios 10
+    //to distinguish between notifications
+    completionHandler( [.alert,.sound,.badge])
+  }
 }
 
