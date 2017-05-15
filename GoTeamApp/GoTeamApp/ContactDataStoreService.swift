@@ -7,16 +7,15 @@
 //
 
 import Foundation
-
 import Parse
 
 class ContactDataStoreService : ContactDataStoreServiceProtocol {
 
     
     func add(contact : Contact, success:@escaping () -> (), error: @escaping ((Error) -> ())) {
-        
-        let parseTask = ContactDataStoreService.newParseObject(contact: contact)
-        parseTask.saveInBackground { (successStatus, errorStatus) in
+        let parseContact = ContactDataStoreService.newParseObject(contact: contact)
+        parseContact[User.kUserName] = "akshay"
+        parseContact.saveInBackground { (successStatus, errorStatus) in
             if successStatus {
                 success()
             } else {
@@ -35,7 +34,21 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
     }
 
     func fetchAllContacts(success:@escaping ([Contact]) -> (), error: @escaping ((Error) -> ())) {
-        
+        let query = PFQuery(className:Contact.kContactClass)
+        query.whereKey(User.kUserName, equalTo: "akshay")
+        query.includeKey(User.kUserName)
+        query.findObjectsInBackground(block: { (pfContacts, returnedError) in
+            if let pfContacts = pfContacts {
+                let contacts = self.convertToContacts(pfContacts : pfContacts)
+                success(contacts)
+            } else {
+                if let returnedError = returnedError {
+                    error(returnedError)
+                } else {
+                    error(NSError(domain: "failed to get groups, unknown error", code: 0, userInfo: nil))
+                }
+            }
+        })
     }
 
     static func contact(pfObject: PFObject) -> Contact {
@@ -53,7 +66,7 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
         
         let query = PFQuery(className:Contact.kContactClass)
         query.whereKey(User.kUserName, equalTo: "akshay")
-        query.whereKey(Location.kLocationID, equalTo: contact.contactID!)
+        query.whereKey(Contact.kContactID, equalTo: contact.contactID!)
         
         var objects : [PFObject]?
         do {
@@ -64,6 +77,20 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
         return objects?.first
     }
     
+    func convertToContacts(pfContacts : [PFObject]) -> [Contact] {
+        var contacts = [Contact]()
+        for pfContact in pfContacts {
+            let contact = Contact()
+            contact.contactID = pfContact[Contact.kContactID] as? String
+            contact.email  = pfContact[Contact.kEmail] as? String
+            contact.firstName = pfContact[Contact.kFirstName] as? String
+            contact.lastName = pfContact[Contact.kLastName] as? String
+            contact.fullName = pfContact[Contact.kFullName] as? String
+            contact.phone = pfContact[Contact.kPhone] as? String
+            contacts.append(contact)
+        }
+        return contacts
+    }
     
     internal static func newParseObject(contact: Contact) -> PFObject {
         let pfObject = PFObject(className:Contact.kContactClass)

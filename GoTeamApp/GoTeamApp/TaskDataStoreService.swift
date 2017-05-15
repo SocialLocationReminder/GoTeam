@@ -11,11 +11,9 @@ import Parse
 
 class TaskDataStoreService : TaskDataStoreServiceProtocol {
     
-    
     // user related
     let kTUserName = "UserName"
     var userName = "akshay"
-    
     
     func add(task : Task) {
         

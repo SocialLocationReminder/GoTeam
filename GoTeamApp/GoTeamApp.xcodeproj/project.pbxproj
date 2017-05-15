@@ -12,6 +12,11 @@
 		615B78111EB68661006F59D8 /* AddLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78101EB68661006F59D8 /* AddLabelViewController.swift */; };
 		615B78131EB69EDC006F59D8 /* LabelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B78121EB69EDC006F59D8 /* LabelManager.swift */; };
 		61C9BEFC1EBFEB500017C220 /* EditLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */; };
+		61FF5CA91EC92EE30058CDA3 /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CA81EC92EE30058CDA3 /* GroupManager.swift */; };
+		61FF5CAC1EC92FAC0058CDA3 /* GroupDataStoreServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CAB1EC92FAC0058CDA3 /* GroupDataStoreServiceProtocol.swift */; };
+		61FF5CAE1EC92FEA0058CDA3 /* GroupDataStoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CAD1EC92FEA0058CDA3 /* GroupDataStoreService.swift */; };
+		61FF5CB01EC955D60058CDA3 /* CircleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CAF1EC955D60058CDA3 /* CircleTableViewCell.swift */; };
+		61FF5CB21EC966EA0058CDA3 /* CircleMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CB11EC966EA0058CDA3 /* CircleMembersViewController.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
 		E2256FDC1EC6DD2A005EF28A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2256FDB1EC6DD2A005EF28A /* Group.swift */; };
 		E2256FDE1EC6DD44005EF28A /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */; };
@@ -77,6 +82,11 @@
 		615B78101EB68661006F59D8 /* AddLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLabelViewController.swift; sourceTree = "<group>"; };
 		615B78121EB69EDC006F59D8 /* LabelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelManager.swift; sourceTree = "<group>"; };
 		61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLabelViewController.swift; sourceTree = "<group>"; };
+		61FF5CA81EC92EE30058CDA3 /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
+		61FF5CAB1EC92FAC0058CDA3 /* GroupDataStoreServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDataStoreServiceProtocol.swift; sourceTree = "<group>"; };
+		61FF5CAD1EC92FEA0058CDA3 /* GroupDataStoreService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDataStoreService.swift; sourceTree = "<group>"; };
+		61FF5CAF1EC955D60058CDA3 /* CircleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleTableViewCell.swift; sourceTree = "<group>"; };
+		61FF5CB11EC966EA0058CDA3 /* CircleMembersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMembersViewController.swift; sourceTree = "<group>"; };
 		E2256FDB1EC6DD2A005EF28A /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		E2256FDF1EC6DD9A005EF28A /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TestLocations.gpx; sourceTree = "<group>"; };
@@ -165,6 +175,15 @@
 				61C9BEFB1EBFEB500017C220 /* EditLabelViewController.swift */,
 			);
 			name = Labels;
+			sourceTree = "<group>";
+		};
+		61FF5CAA1EC92F9B0058CDA3 /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				61FF5CAB1EC92FAC0058CDA3 /* GroupDataStoreServiceProtocol.swift */,
+				61FF5CAD1EC92FEA0058CDA3 /* GroupDataStoreService.swift */,
+			);
+			name = Group;
 			sourceTree = "<group>";
 		};
 		8B1B5B6C4D3A371C66FB3034 /* Pods */ = {
@@ -275,6 +294,7 @@
 				615B78121EB69EDC006F59D8 /* LabelManager.swift */,
 				F44B856F1EBC92B200FF489A /* SelectedLocationsManager.swift */,
 				E2C9E1371EBF19FD00BBD78C /* ContactManager.swift */,
+				61FF5CA81EC92EE30058CDA3 /* GroupManager.swift */,
 			);
 			name = "Application Layer";
 			sourceTree = "<group>";
@@ -282,6 +302,7 @@
 		E2F1C9A21EB1B4C30034E0A7 /* Service Layer */ = {
 			isa = PBXGroup;
 			children = (
+				61FF5CAA1EC92F9B0058CDA3 /* Group */,
 				E2C9E1341EBF165000BBD78C /* Common */,
 				E2C9E12D1EBF0F8D00BBD78C /* Contact */,
 				E2FEDA2D1EBD55870020E3C0 /* User */,
@@ -386,6 +407,8 @@
 			children = (
 				E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */,
 				E2FEDA311EBEC27C0020E3C0 /* ContactsViewController.swift */,
+				61FF5CAF1EC955D60058CDA3 /* CircleTableViewCell.swift */,
+				61FF5CB11EC966EA0058CDA3 /* CircleMembersViewController.swift */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -547,8 +570,10 @@
 				E2F1C9BC1EB52AB30034E0A7 /* ListManagerProtocol.swift in Sources */,
 				E27F528D1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift in Sources */,
 				E27F528F1EC5A1E400D1C8E6 /* DateTimeUtil.swift in Sources */,
+				61FF5CA91EC92EE30058CDA3 /* GroupManager.swift in Sources */,
 				E2F1C9B71EB522720034E0A7 /* TableCellUtil.swift in Sources */,
 				E2F1C9A51EB1B6790034E0A7 /* TaskCell.swift in Sources */,
+				61FF5CAE1EC92FEA0058CDA3 /* GroupDataStoreService.swift in Sources */,
 				E2C9E1491EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift in Sources */,
 				615B780F1EB65418006F59D8 /* Labels.swift in Sources */,
 				E2F1C9BA1EB5297D0034E0A7 /* TableViewGenericDataSource.swift in Sources */,
@@ -556,10 +581,13 @@
 				E2F1C9911EAF013A0034E0A7 /* LabelsViewController.swift in Sources */,
 				E2F1C98D1EAF013A0034E0A7 /* AppDelegate.swift in Sources */,
 				E2C9E1471EC03A7C00BBD78C /* ContactsAnnotationController.swift in Sources */,
+				61FF5CAC1EC92FAC0058CDA3 /* GroupDataStoreServiceProtocol.swift in Sources */,
 				E2C9E12F1EBF10B900BBD78C /* ContactDataStoreServiceProtocol.swift in Sources */,
+				61FF5CB21EC966EA0058CDA3 /* CircleMembersViewController.swift in Sources */,
 				E2C9E12C1EBEDCBD00BBD78C /* Contact.swift in Sources */,
 				E2FEDA321EBEC27C0020E3C0 /* ContactsViewController.swift in Sources */,
 				E2FEDA251EBD08A10020E3C0 /* LabelDataStore.swift in Sources */,
+				61FF5CB01EC955D60058CDA3 /* CircleTableViewCell.swift in Sources */,
 				E2C9E1451EC0383700BBD78C /* LabelAnnotationController.swift in Sources */,
 				E2FEDA231EBD08950020E3C0 /* LabelDataStoreProtocol.swift in Sources */,
 				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,

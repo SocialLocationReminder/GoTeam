@@ -113,6 +113,10 @@ class Resources {
         class ContactManager {
             static let kContactManagerQueue = "kContactManagerQueue"
         }
+        
+        class GroupManager {
+            static let kGroupManagerQueue = "kGroupManagerQueue"
+        }
     }
     
     class Colors {
