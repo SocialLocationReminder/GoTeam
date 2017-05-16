@@ -39,8 +39,8 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
         fetchGroups()
         setupKBContactsController()
         setupButton()
-        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
-        circlesTableView.insertSubview(refreshControl, at: 0)
+        // refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        // circlesTableView.insertSubview(refreshControl, at: 0)
     }
     
     @objc private func refreshControlAction(_ refreshControl: UIRefreshControl) {
