@@ -17,6 +17,7 @@ class LabelDataStoreService : LabelDataStoreServiceProtocol {
     // user related
     let kTUserName = "UserName"
     
+    let queue = DispatchQueue(label: Resources.Strings.LabelDataStoreService.kLabelDataStoreServiceQueue)
     
     // label related
     let kLabelsClass = "LabelsClassV2"
@@ -71,13 +72,15 @@ class LabelDataStoreService : LabelDataStoreServiceProtocol {
         query.whereKey(kTUserName, equalTo: userName)
         query.includeKey(userName)
         query.findObjectsInBackground(block: { (labels, returnedError) in
-            if let labels = labels {
-                success(self.convertToLabels(pfLabels: labels))
-            } else {
-                if let returnedError = returnedError {
-                    error(returnedError)
+            self.queue.async {
+                if let labels = labels {
+                    success(self.convertToLabels(pfLabels: labels))
                 } else {
-                    error(NSError(domain: "failed to get labels, unknown error", code: 0, userInfo: nil))
+                    if let returnedError = returnedError {
+                        error(returnedError)
+                    } else {
+                        error(NSError(domain: "failed to get labels, unknown error", code: 0, userInfo: nil))
+                    }
                 }
             }
         })

@@ -15,6 +15,8 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     let kTUserName = "UserName"
     var userName = "akshay"
     
+    let queue = DispatchQueue(label: Resources.Strings.TaskDataStoreService.kTaskDataStoreServiceQueue)
+    
     func add(task : Task) {
         
         let parseTask = PFObject(className:Task.kTaskClass)
@@ -106,13 +108,15 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         query.includeKey(userName)
         
         query.findObjectsInBackground(block: { (tasks, returnedError) in
-            if let tasks = tasks {
-                success(self.convertTotask(pfTasks: tasks))
-            } else {
-                if let returnedError = returnedError {
-                    error(returnedError)
+            self.queue.async {
+                if let tasks = tasks {
+                    success(self.convertTotask(pfTasks: tasks))
                 } else {
-                    error(NSError(domain: "failed to get tasks, unknown error", code: 0, userInfo: nil))
+                    if let returnedError = returnedError {
+                        error(returnedError)
+                    } else {
+                        error(NSError(domain: "failed to get tasks, unknown error", code: 0, userInfo: nil))
+                    }
                 }
             }
         })

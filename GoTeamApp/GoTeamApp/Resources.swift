@@ -116,11 +116,25 @@ class Resources {
         class TaskManager {
             static let kTaskManagerQueue = "kTaskManagerQueue"
         }
+
+        class TaskDataStoreService {
+            static let kTaskDataStoreServiceQueue = "kTaskDataStoreServiceQueue"
+        }
+
+        class CirclesDataStoreService {
+            static let kCirclesDataStoreServiceQueue = "kCirclesDataStoreServiceQueue"
+        }
+
         
         class LabelManager {
             static let kLabelManagerQueue = "kLabelManagerQueue"
         }
-      
+
+        class LabelDataStoreService {
+            static let kLabelDataStoreServiceQueue = "kLabelDataStoreServiceQueue"
+        }
+
+        
         class RegionManager {
           static let kRegionManagerQueue = "kRegionManagerQueue"
         }
@@ -132,6 +146,12 @@ class Resources {
         class GroupManager {
             static let kGroupManagerQueue = "kGroupManagerQueue"
         }
+        
+        class LocationDataStoreService {
+            static let kLocationDataStoreServiceQueue = "kLocationDataStoreServiceQueue"
+        }
+        
+
     }
     
     class Colors {
