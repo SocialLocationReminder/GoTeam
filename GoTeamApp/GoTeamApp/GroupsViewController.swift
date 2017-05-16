@@ -164,6 +164,19 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
         return circleTableViewCell;
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let group = filteredGroups?[indexPath.row]
+            filteredGroups = filteredGroups?.filter() { $0.groupID != group?.groupID }
+            // selectedLocationsManager.delete(location: location)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
     @IBAction func unwindToGroupsViewControllerSegue(_ segue : UIStoryboardSegue) {
         
     }
