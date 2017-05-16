@@ -81,8 +81,8 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         button.isUserInteractionEnabled = true
         for ix in 0..<locations().count {
             let location = locations()[ix]
-            let testString = TaskSpecialCharacter.location.stringValue() + location.title!
-            if textView.text.contains(testString) {
+            let locationString = TaskSpecialCharacter.location.stringValue() + location.title!
+            if textView.text.contains(locationString) {
                 button.isHighlighted = true
                 button.isUserInteractionEnabled = false
 //                if let _ = task.taskLocation {
@@ -90,8 +90,9 @@ class LocationAnnotationController : AnnotationControllerProtocol {
 //                }
                 
                 task.taskLocation = location
-                task.taskLocationSubrange = textView.text.range(of: testString)
-                delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
+                task.taskLocationSubrange = textView.text.range(of: locationString)
+                let pattern = locationString + Resources.Strings.RegEx.kGeoFencingRegExPattern
+                delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
                                             fgColor: Resources.Colors.Annotations.kLocationFGColor,
                                             bgColor: Resources.Colors.Annotations.kLocationBGColor)
                 
