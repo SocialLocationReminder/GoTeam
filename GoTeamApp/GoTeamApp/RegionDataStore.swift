@@ -64,21 +64,40 @@ class RegionDataStoreService : RegionDataStoreServiceProtocol {
     })
   }
   
-  func convertToRegions(pfRegions : [PFObject]) -> [Region] {
-    var regions = [Region]()
-    for pfRegion in pfRegions {
-      let region = Region()
-      region.regionID = pfRegion[Region.kRegionID] as! Date
-      region.regionName = pfRegion[Region.kRegionName] as? String
-      region.regionLocationName = pfRegion[Region.kRegionLocationName] as? String
-      region.radius = pfRegion[Region.kRegionRadius] as? Double
-      region.latitude = pfRegion[Region.kRegionLatitude] as? Double
-      region.longitude = pfRegion[Region.kRegionLongitude] as? Double
-      region.notifyOnEntry = pfRegion[Region.kRegionNotifyOnEntry] as? Bool
-      region.notifyOnExit = pfRegion[Region.kRegionNotifyOnExit] as? Bool
-      regions.append(region)
+    func convertToRegions(pfRegions : [PFObject]) -> [Region] {
+        var regions = [Region]()
+        for pfRegion in pfRegions {
+            let region = RegionDataStoreService.region(pfRegion: pfRegion)
+            regions.append(region)
+        }
+        return regions
     }
-    return regions
-  }
-}
+    
+    static func region(pfRegion : PFObject) -> Region {
+        let region = Region()
+        region.regionID = pfRegion[Region.kRegionID] as! Date
+        region.regionName = pfRegion[Region.kRegionName] as? String
+        region.regionLocationName = pfRegion[Region.kRegionLocationName] as? String
+        region.radius = pfRegion[Region.kRegionRadius] as? Double
+        region.latitude = pfRegion[Region.kRegionLatitude] as? Double
+        region.longitude = pfRegion[Region.kRegionLongitude] as? Double
+        region.notifyOnEntry = pfRegion[Region.kRegionNotifyOnEntry] as? Bool
+        region.notifyOnExit = pfRegion[Region.kRegionNotifyOnExit] as? Bool
+        return region
+    }
+    
+    static func parseObject(region : Region) -> PFObject? {
+        
+        let query = PFQuery(className:Region.kRegionsClass)
+        query.whereKey(User.kUserName, equalTo: "akshay")
+        query.whereKey(Region.kRegionID, equalTo: region.regionID)
+        
+        var objects : [PFObject]?
+        do {
+            objects = try query.findObjects()
+        } catch _ {
+            return nil
+        }
+        return objects?.first
+    }}
 

@@ -61,6 +61,7 @@ class Resources {
             static let kTaskList = "kTaskList"
             static let kTaskContacts = "kTaskContacts"
             static let kTaskLocation = "kTaskLocation"
+            static let kTaskRegion = "kTaskRegion"
             static let kTaskTimeSet = "kTaskTimeSet"
         }
         
@@ -94,6 +95,10 @@ class Resources {
         class AnnotationController {
             static let kRecurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
             static let kDateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
+        }
+        
+        class LocationAnnotationController {
+            static let kChoiceNone = "None"
         }
         
         class Contacts {

@@ -190,6 +190,7 @@ class FromDateTimeAnnotationController : AnnotationControllerProtocol {
         } else {
             delegate?.appendToTextView(sender: self, string: dateArray[indexPath.row])
         }
+        delegate?.hideTable(sender: self, annotationType: annotationType)
     }
     
     // MARK: - unwind segue from CalendarViewController

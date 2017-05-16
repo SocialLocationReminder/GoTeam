@@ -115,6 +115,7 @@ class PriorityAnnotationController : AnnotationControllerProtocol {
             delegate?.appendToTextView(sender: self, string: " ")
             setButtonStateAndAnnotation()
         }
+        delegate?.hideTable(sender: self, annotationType: annotationType)
     }
     
     // MARK: attribute text

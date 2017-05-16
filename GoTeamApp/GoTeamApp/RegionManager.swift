@@ -16,6 +16,7 @@ class RegionManager : NSObject {
   static let sharedInstance = RegionManager()
   static let regionRadiuses = ["10","30","100"]
   static let boundaryCrossings = ["Notify on Entry", "Notify on Exit", "Notify on Entry & Exit"]
+  static let boundaryCrossingsSimpleText = ["On Entry", "On Exit", "On Entry & Exit"]
   
   let locationManager = CLLocationManager()
   
@@ -44,7 +45,15 @@ class RegionManager : NSObject {
       circularRegion.notifyOnExit = region.notifyOnExit!
       locationManager.startMonitoring(for: circularRegion)
   }
-  
+
+    func stopMonitoring(region : Region) {
+        let circularRegion = CLCircularRegion(center: region.coordinate, radius: region.radius!, identifier: region.regionName!)
+        circularRegion.notifyOnEntry = region.notifyOnEntry!
+        circularRegion.notifyOnExit = region.notifyOnExit!
+        locationManager.stopMonitoring(for: circularRegion)
+    }
+
+    
     func allRegions(fetch: Bool, success:@escaping (([Region]) -> ()), error: @escaping (Error) -> ()) {
       queue.async {
         if fetch == false {

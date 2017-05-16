@@ -53,9 +53,11 @@ class LabelAnnotationController : AnnotationControllerProtocol {
     
     func fetchLabels() {
         labelManager.allLabels(fetch: true, success: { (labels) in
-            self.labels = labels
-            self.setButtonStateAndAnnotation()
-            self.delegate?.reloadTable(sender: self, annotationType: self.annotationType)
+            DispatchQueue.main.async {
+                self.labels = labels
+                self.setButtonStateAndAnnotation()
+                self.delegate?.reloadTable(sender: self, annotationType: self.annotationType)
+            }
         }) { (error) in
             
         }
@@ -152,7 +154,7 @@ class LabelAnnotationController : AnnotationControllerProtocol {
             delegate?.appendToTextView(sender: self, string: " ")
             setButtonStateAndAnnotation()
         }
-
+        delegate?.hideTable(sender: self, annotationType: annotationType)
     }
     
     
