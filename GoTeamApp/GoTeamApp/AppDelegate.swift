@@ -63,12 +63,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
   
   func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
     print("Monitoring status: Did Enter \(region.identifier)")
-    RegionManager.sharedInstance.showNotification(withMessage: "Did Enter \(region.identifier)")
+    RegionManager.sharedInstance.showNotification(withMessage: "Now Entering \(region.identifier)")
   }
   
   func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
     print("Monitoring status: Did Exit \(region.identifier)\n")
-    RegionManager.sharedInstance.showNotification(withMessage: "Did Exit \(region.identifier)")
+    RegionManager.sharedInstance.showNotification(withMessage: "Now Exiting \(region.identifier)")
   }
   
   func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {

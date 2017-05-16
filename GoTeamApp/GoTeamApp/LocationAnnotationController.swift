@@ -82,13 +82,16 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         let kGeoFencingMetersRegExPattern = Resources.Strings.RegEx.kGeoFencingMetersRegExPattern;
         let kGeoFencingEntryRegExPattern = Resources.Strings.RegEx.kGeoFencingEntryRegExPattern;
         let kGeoFencingExitRegExPattern = Resources.Strings.RegEx.kGeoFencingExitRegExPattern;
+        let kGeoFencingEntryExitRegExPattern = Resources.Strings.RegEx.kGeoFencingEntryAndExitRegExPattern
         for ix in 0..<locations().count {
             let location = locations()[ix]
             let locationString = TaskSpecialCharacter.location.stringValue() + location.title!
             
             let patterns = [locationString,
                             locationString + kGeoFencingMetersRegExPattern + kGeoFencingEntryRegExPattern,
-                            locationString + kGeoFencingMetersRegExPattern + kGeoFencingExitRegExPattern]
+                            locationString + kGeoFencingMetersRegExPattern + kGeoFencingExitRegExPattern,
+                            locationString + kGeoFencingMetersRegExPattern + kGeoFencingEntryExitRegExPattern
+                            ]
             
             for pattern in patterns {
                 if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
@@ -96,7 +99,7 @@ class LocationAnnotationController : AnnotationControllerProtocol {
                     button.isHighlighted = true
                     button.isUserInteractionEnabled = false
                     task.taskLocation = location
-                    task.taskLocationSubrange = textView.text.range(of: locationString)
+                    task.taskLocationSubrange = range
                     delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
                                                 fgColor: Resources.Colors.Annotations.kLocationFGColor,
                                                 bgColor: Resources.Colors.Annotations.kLocationBGColor)

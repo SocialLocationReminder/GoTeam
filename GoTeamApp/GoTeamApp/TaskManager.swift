@@ -21,6 +21,7 @@ class TaskManager : NSObject {
         queue.async {
             self.tasks.append(task)
             self.addNotificationsIfDatePresent(task: task)
+            self.addGeoFenceAlertsIfPresent(task: task)
             self.dataStoreService.add(task: task)
         }
     }

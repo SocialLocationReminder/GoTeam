@@ -90,6 +90,7 @@ class Resources {
             static let kGeoFencingMetersRegExPattern = "\\s*\\d{2,3}\\s*m"
             static let kGeoFencingEntryRegExPattern  = "\\s*((On|on)\\s*(Entry|entry))"
             static let kGeoFencingExitRegExPattern   = "\\s*((On|on)\\s*(Exit|exit))"
+            static let kGeoFencingEntryAndExitRegExPattern   = "\\s*((On|on)\\s*(Entry|entry)\\s*(&|and|And|AND)\\s*(Exit|exit))"
         }
         
         class AnnotationController {
