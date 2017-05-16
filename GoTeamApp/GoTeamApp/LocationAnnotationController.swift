@@ -79,24 +79,28 @@ class LocationAnnotationController : AnnotationControllerProtocol {
     func setButtonStateAndAnnotation() {
         button.isHighlighted = false
         button.isUserInteractionEnabled = true
+        let kGeoFencingMetersRegExPattern = Resources.Strings.RegEx.kGeoFencingMetersRegExPattern;
+        let kGeoFencingEntryRegExPattern = Resources.Strings.RegEx.kGeoFencingEntryRegExPattern;
+        let kGeoFencingExitRegExPattern = Resources.Strings.RegEx.kGeoFencingExitRegExPattern;
         for ix in 0..<locations().count {
             let location = locations()[ix]
             let locationString = TaskSpecialCharacter.location.stringValue() + location.title!
-            if textView.text.contains(locationString) {
-                button.isHighlighted = true
-                button.isUserInteractionEnabled = false
-//                if let _ = task.taskLocation {
-//                    break;
-//                }
-                
-                task.taskLocation = location
-                task.taskLocationSubrange = textView.text.range(of: locationString)
-                let pattern = locationString + Resources.Strings.RegEx.kGeoFencingRegExPattern
-                delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
-                                            fgColor: Resources.Colors.Annotations.kLocationFGColor,
-                                            bgColor: Resources.Colors.Annotations.kLocationBGColor)
-                
-                break
+            
+            let patterns = [locationString,
+                            locationString + kGeoFencingMetersRegExPattern + kGeoFencingEntryRegExPattern,
+                            locationString + kGeoFencingMetersRegExPattern + kGeoFencingExitRegExPattern]
+            
+            for pattern in patterns {
+                if let range = textView.text.range(of: pattern, options: .regularExpression, range: nil, locale: nil),
+                    !range.isEmpty {
+                    button.isHighlighted = true
+                    button.isUserInteractionEnabled = false
+                    task.taskLocation = location
+                    task.taskLocationSubrange = textView.text.range(of: locationString)
+                    delegate?.attributeTextView(sender: self, pattern: pattern, options: .regularExpression,
+                                                fgColor: Resources.Colors.Annotations.kLocationFGColor,
+                                                bgColor: Resources.Colors.Annotations.kLocationBGColor)
+                }
             }
         }
         

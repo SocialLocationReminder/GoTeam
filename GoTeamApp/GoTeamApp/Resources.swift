@@ -86,7 +86,9 @@ class Resources {
             static let kDateRegExPattern =  "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
             static let kFullTimeRegExPattern = "\\s*\\d{1,2}:\\d{2}\\s*(am|pm|AM|PM)"
             static let kHourOnlyTimeRegExPattern = "\\s*\\d{1,2}\\s*(am|pm|AM|PM)"
-            static let kGeoFencingRegExPattern = "\\d{2,3}m(OnEntry)?(OnExit)?"
+            static let kGeoFencingMetersRegExPattern = "\\s*\\d{2,3}\\s*m"
+            static let kGeoFencingEntryRegExPattern  = "\\s*((On|on)\\s*(Entry|entry))"
+            static let kGeoFencingExitRegExPattern   = "\\s*((On|on)\\s*(Exit|exit))"
         }
         
         class AnnotationController {
