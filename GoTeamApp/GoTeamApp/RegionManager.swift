@@ -85,16 +85,16 @@ class RegionManager : NSObject {
   
   func showNotification(withMessage message: String) {
     let notification = UNMutableNotificationContent()
-    notification.title = "GoTeam App"
-    notification.subtitle = "Monitoring status"
+    notification.title = "On the Go"
+    notification.subtitle = "Location Update"
     notification.body = message
     notification.sound = .default()
     let center = UNUserNotificationCenter.current()
     center.requestAuthorization(options: [.alert, .sound], completionHandler: { (returnedBool, error) in
       if returnedBool == true && error == nil {
         let content = UNMutableNotificationContent()
-        content.title = "GoTeam App"
-        content.subtitle = "Monitoring status"
+        content.title = "On the Go"
+        content.subtitle = "Location Update"
         content.body = message
         content.sound = .default()
         UNUserNotificationCenter.current().delegate = self

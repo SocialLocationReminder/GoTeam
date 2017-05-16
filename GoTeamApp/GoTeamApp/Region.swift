@@ -29,7 +29,7 @@ class Region {
   init(locationName: String, coordinate: CLLocationCoordinate2D, radius: String, boundary: String) {
     
     self.regionID = Date()
-    self.regionName = "Region for: " + locationName
+    self.regionName = "" + locationName
     self.regionLocationName = locationName
     self.latitude = coordinate.latitude
     self.longitude = coordinate.longitude

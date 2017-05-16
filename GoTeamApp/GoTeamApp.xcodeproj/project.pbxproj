@@ -115,7 +115,7 @@
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		E2F1C9891EAF013A0034E0A7 /* Go List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Go List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2F1C9891EAF013A0034E0A7 /* On the Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the Go.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F1C98C1EAF013A0034E0A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2F1C98E1EAF013A0034E0A7 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
 		E2F1C9901EAF013A0034E0A7 /* LabelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelsViewController.swift; sourceTree = "<group>"; };
@@ -259,7 +259,7 @@
 		E2F1C98A1EAF013A0034E0A7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E2F1C9891EAF013A0034E0A7 /* Go List.app */,
+				E2F1C9891EAF013A0034E0A7 /* On the Go.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -468,7 +468,7 @@
 			);
 			name = GoTeamApp;
 			productName = GoTeamApp;
-			productReference = E2F1C9891EAF013A0034E0A7 /* Go List.app */;
+			productReference = E2F1C9891EAF013A0034E0A7 /* On the Go.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -765,7 +765,7 @@
 				INFOPLIST_FILE = GoTeamApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AkshayBhandary.GoTeamApp;
-				PRODUCT_NAME = "Go List";
+				PRODUCT_NAME = "On the Go";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -779,7 +779,7 @@
 				INFOPLIST_FILE = GoTeamApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AkshayBhandary.GoTeamApp;
-				PRODUCT_NAME = "Go List";
+				PRODUCT_NAME = "On the Go";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

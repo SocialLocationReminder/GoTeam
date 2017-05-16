@@ -51,6 +51,7 @@ class TaskManager : NSObject {
             } else {
                 self.dataStoreService.allTasks(success: { (tasks) in
                     self.tasks = tasks
+                    self.startMonitoringAlerts(tasks: tasks)
                     success(tasks)
                     }, error: error)
             }
@@ -58,6 +59,14 @@ class TaskManager : NSObject {
     }
     
     // MARK: - add geo fence alerts if required
+    internal func startMonitoringAlerts(tasks : [Task]) {
+        for task in tasks {
+            if let taskRegion = task.taskRegion {
+                RegionManager.sharedInstance.startMonitoring(region: taskRegion)
+            }
+        }
+    }
+    
     internal func addGeoFenceAlertsIfPresent(task : Task) {
         if let region = task.taskRegion {
             RegionManager.sharedInstance.add(region: region)
