@@ -11,11 +11,9 @@ import Parse
 
 class TaskDataStoreService : TaskDataStoreServiceProtocol {
     
-    
     // user related
     let kTUserName = "UserName"
     var userName = "akshay"
-    
     
     func add(task : Task) {
         
@@ -46,7 +44,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         if let taskContacts = task.taskContacts {
             var parseObjectsArray = [PFObject]()
             for contact in taskContacts {
-                if let parseObject = ContactDataStoreService.pfObjectFor(contact: contact) {
+                if let parseObject = ContactDataStoreService.pfObjectFor(contactID: contact.contactID!) {
                     parseObjectsArray.append(parseObject)
                 }
             }

@@ -99,6 +99,13 @@ class Resources {
             static let kNavigationBarTitle = "Contacts"
         }
         
+        class Groups {
+            static let kNewCircleName = "new circle name"
+            static let kCircle = "Circle"
+            static let kCreate = "Create"
+            static let kCircleTableViewCell = "CircleTableViewCell"
+            static let kNewCircleUserMessage = "Enter circle name"
+        }
         
         class DataStoreService {
             static let kUnknownError = "Unknown Error"
@@ -118,6 +125,10 @@ class Resources {
       
         class ContactManager {
             static let kContactManagerQueue = "kContactManagerQueue"
+        }
+        
+        class GroupManager {
+            static let kGroupManagerQueue = "kGroupManagerQueue"
         }
     }
     

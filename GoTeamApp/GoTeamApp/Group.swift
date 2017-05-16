@@ -9,6 +9,11 @@
 import Foundation
 
 class Group : ListItem {
+    static let kGroupClass = "GroupClassV1"
+    static let kgroupID = "kgroupID"
+    static let kgroupName  = "kgroupName"
+    static let kcontactIDs = "kcontactIDs"
+    
     var groupID : Date?
     var groupName : String?
     var contacts  : [Contact]?

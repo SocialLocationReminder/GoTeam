@@ -8,10 +8,12 @@
 
 import UIKit
 import KBContactsSelection
+import MBProgressHUD
 
 class ContactsViewController: KBContactsSelectionViewController {
 
     var kbContactsController : KBContactsSelectionViewController!
+    var contacts : [Contact]?
     
     @IBOutlet weak var contactsView: UIView!
     
@@ -25,8 +27,24 @@ class ContactsViewController: KBContactsSelectionViewController {
         setupKBContactsController()
     }
     
+    func fetchContacts() {
+        self.contacts = [Contact]()
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        contactManager.fetchAllContacts(success: { (contacts) in
+            DispatchQueue.main.async {
+                hud.hide(animated: true)
+                self.contacts = contacts
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                // @todo: show network error
+                hud.hide(animated: true)
+            }
+        }
+    }
+    
     func setupKBContactsController() {
-        
+        fetchContacts()
         kbContactsController = KBContactsSelectionViewController(configuration: { (config) in
             config?.shouldShowNavigationBar = false
            // config?.tintColor = UIColor.blue
@@ -45,18 +63,6 @@ class ContactsViewController: KBContactsSelectionViewController {
         kbContactsController.title = Resources.Strings.Contacts.kNavigationBarTitle
         kbContactsController.delegate = self
         navigationController?.pushViewController(kbContactsController, animated: false)
-
-        
-        
-        // self.view.addSubview(kbContactsController.view)
-        // self.addChildViewController(kbContactsController)
-        // kbContactsController.didMove(toParentViewController: self)
-      //  self.present(kbContactsController, animated: false, completion: nil)
-        // self.navigationController?.viewControllers = [self, kbContactsController]
-
-        // self.contactsView.addSubview(kbContactsController.view)
-        // self.addChildViewController(kbContactsController)
-        // kbContactsController.didMove(toParentViewController: self)
     }
     
     func cancelTapped() {

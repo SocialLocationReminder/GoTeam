@@ -9,12 +9,23 @@
 import UIKit
 import KBContactsSelection
 import MetalKit
+import MBProgressHUD
 
-class GroupsViewController: UIViewController {
+class GroupsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var circlesTableView: UITableView!
+    @IBOutlet weak var circleSearchBar: UISearchBar!
+    
+    // labels and filtered labels
+    var groups : [Group]?
+    var filteredGroups : [Group]?
+    var contacts : [Contact]?
+    let refreshControl = UIRefreshControl();
+    
     // application layer
     let contactManager = ContactManager.sharedInstance
+    let groupManager = GroupManager.sharedInstance
     
     var kbContactsController : KBContactsSelectionViewController!
 
@@ -22,9 +33,18 @@ class GroupsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        circlesTableView.dataSource = self
+        circlesTableView.delegate = self
+        circleSearchBar.delegate = self
+        fetchGroups()
         setupKBContactsController()
         setupButton()
-        // Do any additional setup after loading the view.
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        circlesTableView.insertSubview(refreshControl, at: 0)
+    }
+    
+    @objc private func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        fetchGroups()
     }
     
     func setupButton() {
@@ -37,22 +57,36 @@ class GroupsViewController: UIViewController {
     }
     
     func buttonPressed() {
-        present(kbContactsController, animated: true, completion: nil)
+        self.createGroupName()
     }
     
+    func fetchGroups() {
+        self.groups = [Group]()
+        circleSearchBar.text = ""
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        groupManager.allGroups(fetch: true, success: { (groups) in
+            DispatchQueue.main.async {
+                hud.hide(animated: true)
+                self.groups = groups
+                self.filteredGroups = groups
+                self.circlesTableView.reloadData()
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                // @todo: show network error
+                hud.hide(animated: true)
+            }
+        }
+    }
     
     func setupKBContactsController() {
-        
         kbContactsController = KBContactsSelectionViewController(configuration: { (config) in
             config?.shouldShowNavigationBar = true
-            // config?.tintColor = UIColor.blue
             config?.title = Resources.Strings.Contacts.kNavigationBarTitle
             config?.selectButtonTitle = Resources.Strings.Contacts.kAddTaskNavItem
-            
             config?.mode = KBContactsSelectionMode.messages
             config?.skipUnnamedContacts = true
             config?.customSelectButtonHandler = { (contacts : Any!) in
-                print(contacts)
                 if let contacts = contacts as? [APContact] {
                     self.contactsSelected(contacts:contacts)
                 }
@@ -63,9 +97,28 @@ class GroupsViewController: UIViewController {
         })
     }
     
-    func contactsSelected(contacts : [APContact]) {
+    func createGroupName(){
+        UserDefaults.standard.removeObject(forKey: Resources.Strings.Groups.kNewCircleName)
+        let alert = UIAlertController(title: Resources.Strings.Groups.kCircle, message: Resources.Strings.Groups.kNewCircleUserMessage, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addTextField(configurationHandler: {(textField: UITextField!) in
+            textField.placeholder = ""
+            textField.isSecureTextEntry = false
+        })
+        let saveAction = UIAlertAction(title: Resources.Strings.Groups.kCreate, style: UIAlertActionStyle.default) { action in
+            if let textField = alert.textFields?[0], let text = textField.text {
+                var groupName = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                if groupName.characters.count > 0 {
+                    UserDefaults.standard.set(groupName, forKey: Resources.Strings.Groups.kNewCircleName)
+                    self.present(self.kbContactsController, animated: true, completion: nil)
+                }
+            }
+        }
         
-        // 1. add contacts to parse
+        alert.addAction(saveAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func contactsSelected(contacts : [APContact]) {
         var contactsArray = [Contact]()
         for contact in contacts {
             let contactObj = Contact.contact(apContact: contact)
@@ -77,43 +130,81 @@ class GroupsViewController: UIViewController {
                     print("error in saving contact")
             })
         }
-        
-        // 2. @todo: prompt for a new group name here
-        
-        // 3. create the group entity and add all the contacts above to the
-        // 'contacts' array filed
         let group = Group()
-        group.groupName = "Test Group Name" // change this to the one received above
+        group.groupName = UserDefaults.standard.string(forKey: Resources.Strings.Groups.kNewCircleName) // change this to the one received above
         group.contacts = contactsArray
         
-        // 4. @todo: Add the newly created group entity to parse, create a new GroupManager and
-        // GropuDataStoreService similar to LabelManager and LabelDataStoreService
-        // have a look at TaskDataStoreService to see how I associated multiple contacts with a task,
-        // something similar thas to be done to associate multiple contact entities with a single
-        // group entity
-
+        groupManager.add(group: group, success: {
+            self.fetchGroups()
+        }) { (Error) in
+            
+        }
         
-        // 5. @todo: Append the newly created group to the table view.
-        
-        // 6. dimiss the kbContactsController
         kbContactsController.dismiss(animated: true, completion: nil)
     }
     
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        if let filteredGroups = filteredGroups {
+            return filteredGroups.count;
+        }
+        else{
+            return 0;
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let circleTableViewCell = circlesTableView.dequeueReusableCell(withIdentifier: Resources.Strings.Groups.kCircleTableViewCell, for: indexPath) as! CircleTableViewCell;
+        let group = filteredGroups?[indexPath.row];
+        let groupName = group?.groupName!;
+        circleTableViewCell.groupNameLabel.text  = groupName;
+        if let numberOfMembers = group?.contacts?.count {
+            circleTableViewCell.numberOfMembers.text = String(describing: numberOfMembers)
+        }
+        
+        return circleTableViewCell;
+    }
+    
+    @IBAction func unwindToGroupsViewControllerSegue(_ segue : UIStoryboardSegue) {
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let navigationController = segue.destination as! UINavigationController
+        let circleMembersViewController = navigationController.viewControllers[0] as! CircleMembersViewController
+        let indexPath = circlesTableView.indexPath(for: sender as! CircleTableViewCell)!
+        circlesTableView.deselectRow(at: indexPath, animated:true)
+        let group = self.groups![indexPath.row]
+        circleMembersViewController.group = group;
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        applyLabelFilter()
     }
-    */
+    
+    func applyLabelFilter() {
+        guard var searchText = circleSearchBar.text else { return; }
+        searchText = searchText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        
+        if searchText.characters.count == 0 {
+            filteredGroups = groups
+            circlesTableView.reloadData()
+            return;
+        }
+        
+        filteredGroups = [Group]()
+        for group in self.groups!
+        {
+            if (group.groupName?.lowercased().contains(searchText.lowercased()))!
+            {
+                self.filteredGroups?.append(group)
+            }
+        }
+        circlesTableView.reloadData()
+    }
 
 }
