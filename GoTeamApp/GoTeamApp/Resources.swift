@@ -15,6 +15,7 @@ class Resources {
         class Tasks {
             static let kExclamation = "exclamation.png"
             static let kListIcon = "list_icon.png"
+            static let kTagIcon = "labels.png"
             static let kRecurringIcon = "recurring_icon.png"
             static let kLocationIcon = "pin.png"
             static let kCalendarIcon = "calendar_icon.png"
@@ -85,6 +86,7 @@ class Resources {
             static let kDateRegExPattern =  "\\d{1,2}\\s+(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\\s+\\d{4}"
             static let kFullTimeRegExPattern = "\\s*\\d{1,2}:\\d{2}\\s*(am|pm|AM|PM)"
             static let kHourOnlyTimeRegExPattern = "\\s*\\d{1,2}\\s*(am|pm|AM|PM)"
+            static let kGeoFencingRegExPattern = "\\d{2,3}m(OnEntry)?(OnExit)?"
         }
         
         class AnnotationController {
@@ -97,6 +99,13 @@ class Resources {
             static let kNavigationBarTitle = "Contacts"
         }
         
+        class Groups {
+            static let kNewCircleName = "new circle name"
+            static let kCircle = "Circle"
+            static let kCreate = "Create"
+            static let kCircleTableViewCell = "CircleTableViewCell"
+            static let kNewCircleUserMessage = "Enter circle name"
+        }
         
         class DataStoreService {
             static let kUnknownError = "Unknown Error"
@@ -109,7 +118,11 @@ class Resources {
         class LabelManager {
             static let kLabelManagerQueue = "kLabelManagerQueue"
         }
-        
+      
+        class RegionManager {
+          static let kRegionManagerQueue = "kRegionManagerQueue"
+        }
+      
         class ContactManager {
             static let kContactManagerQueue = "kContactManagerQueue"
         }

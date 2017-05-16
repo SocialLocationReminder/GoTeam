@@ -82,7 +82,6 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
     func setupKBContactsController() {
         kbContactsController = KBContactsSelectionViewController(configuration: { (config) in
             config?.shouldShowNavigationBar = true
-            // config?.tintColor = UIColor.blue
             config?.title = Resources.Strings.Contacts.kNavigationBarTitle
             config?.selectButtonTitle = Resources.Strings.Contacts.kAddTaskNavItem
             config?.mode = KBContactsSelectionMode.messages
@@ -99,17 +98,17 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func createGroupName(){
-        UserDefaults.standard.removeObject(forKey: "new circle name")
-        let alert = UIAlertController(title: "Circle", message: "Enter circle name", preferredStyle: UIAlertControllerStyle.alert)
+        UserDefaults.standard.removeObject(forKey: Resources.Strings.Groups.kNewCircleName)
+        let alert = UIAlertController(title: Resources.Strings.Groups.kCircle, message: Resources.Strings.Groups.kNewCircleUserMessage, preferredStyle: UIAlertControllerStyle.alert)
         alert.addTextField(configurationHandler: {(textField: UITextField!) in
             textField.placeholder = ""
-            textField.isSecureTextEntry = false // for password input
+            textField.isSecureTextEntry = false
         })
-        let saveAction = UIAlertAction(title: "Create", style: UIAlertActionStyle.default) { action in
+        let saveAction = UIAlertAction(title: Resources.Strings.Groups.kCreate, style: UIAlertActionStyle.default) { action in
             if let textField = alert.textFields?[0], let text = textField.text {
                 var groupName = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 if groupName.characters.count > 0 {
-                    UserDefaults.standard.set(groupName, forKey: "new circle name")
+                    UserDefaults.standard.set(groupName, forKey: Resources.Strings.Groups.kNewCircleName)
                     self.present(self.kbContactsController, animated: true, completion: nil)
                 }
             }
@@ -120,8 +119,6 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func contactsSelected(contacts : [APContact]) {
-        
-        // 1. add contacts to parse
         var contactsArray = [Contact]()
         for contact in contacts {
             let contactObj = Contact.contact(apContact: contact)
@@ -133,29 +130,16 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
                     print("error in saving contact")
             })
         }
-        
-        // 2. @todo: prompt for a new group name here
-        
-        // 3. create the group entity and add all the contacts above to the
-        // 'contacts' array filed
         let group = Group()
-        group.groupName = UserDefaults.standard.string(forKey: "new circle name") // change this to the one received above
+        group.groupName = UserDefaults.standard.string(forKey: Resources.Strings.Groups.kNewCircleName) // change this to the one received above
         group.contacts = contactsArray
         
-        // 4. @todo: Add the newly created group entity to parse, create a new GroupManager and
-        // GropuDataStoreService similar to LabelManager and LabelDataStoreService
-        // have a look at TaskDataStoreService to see how I associated multiple contacts with a task,
-        // something similar thas to be done to associate multiple contact entities with a single
-        // group entity
         groupManager.add(group: group, success: {
             self.fetchGroups()
         }) { (Error) in
             
         }
         
-        // 5. @todo: Append the newly created group to the table view.
-        
-        // 6. dimiss the kbContactsController
         kbContactsController.dismiss(animated: true, completion: nil)
     }
     
@@ -169,7 +153,7 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        let circleTableViewCell = circlesTableView.dequeueReusableCell(withIdentifier: "CircleTableViewCell", for: indexPath) as! CircleTableViewCell;
+        let circleTableViewCell = circlesTableView.dequeueReusableCell(withIdentifier: Resources.Strings.Groups.kCircleTableViewCell, for: indexPath) as! CircleTableViewCell;
         let group = filteredGroups?[indexPath.row];
         let groupName = group?.groupName!;
         circleTableViewCell.groupNameLabel.text  = groupName;

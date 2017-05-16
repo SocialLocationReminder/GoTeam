@@ -44,7 +44,6 @@ class GroupDataStoreService : GroupDataStoreServiceProtocol {
         query.findObjectsInBackground(block: { (pfGroups, returnedError) in
             if let pfGroups = pfGroups {
                 let groups = self.convertToGroups(pfGroups : pfGroups)
-//                self.deleteGroups(groups: groups)
                 success(groups)
             } else {
                 if let returnedError = returnedError {

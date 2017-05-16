@@ -63,18 +63,6 @@ class ContactsViewController: KBContactsSelectionViewController {
         kbContactsController.title = Resources.Strings.Contacts.kNavigationBarTitle
         kbContactsController.delegate = self
         navigationController?.pushViewController(kbContactsController, animated: false)
-
-        
-        
-        // self.view.addSubview(kbContactsController.view)
-        // self.addChildViewController(kbContactsController)
-        // kbContactsController.didMove(toParentViewController: self)
-      //  self.present(kbContactsController, animated: false, completion: nil)
-        // self.navigationController?.viewControllers = [self, kbContactsController]
-
-        // self.contactsView.addSubview(kbContactsController.view)
-        // self.addChildViewController(kbContactsController)
-        // kbContactsController.didMove(toParentViewController: self)
     }
     
     func cancelTapped() {

@@ -121,7 +121,7 @@ class LabelAnnotationController : AnnotationControllerProtocol {
         if indexPath.section == 0 {
             if let labels = labels {
                 cell.primayTextLabel.text = labels[indexPath.row].labelName
-                cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kListIcon)
+                cell.addTaskImageView.image = UIImage(named: Resources.Images.Tasks.kTagIcon)
             }
             
             /* @todo: revisit
