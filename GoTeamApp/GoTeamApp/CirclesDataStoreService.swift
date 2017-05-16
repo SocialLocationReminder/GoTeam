@@ -1,5 +1,5 @@
 //
-//  GroupDataStoreService.swift
+//  CirclesDataStoreService.swift
 //  GoTeamApp
 //
 //  Created by Patchirajan, Karpaga Ganesh on 5/14/17.
@@ -10,8 +10,10 @@ import UIKit
 import Parse
 import Foundation
 
-class GroupDataStoreService : GroupDataStoreServiceProtocol {
+class CirclesDataStoreService : CirclesDataStoreServiceProtocol {
 
+    let queue = DispatchQueue(label: Resources.Strings.CirclesDataStoreService.kCirclesDataStoreServiceQueue)
+    
     // user related
     var userName = "akshay"
     
@@ -35,21 +37,23 @@ class GroupDataStoreService : GroupDataStoreServiceProtocol {
         }
     }
     
-    func allGroups(success:@escaping ([Group]) -> (), error: @escaping ((Error) -> ())) {
+    func allCircles(success:@escaping ([Group]) -> (), error: @escaping ((Error) -> ())) {
         
         let query = PFQuery(className:Group.kGroupClass)
         query.whereKey(User.kUserName, equalTo: userName)
         query.includeKey(userName)
         
         query.findObjectsInBackground(block: { (pfGroups, returnedError) in
-            if let pfGroups = pfGroups {
-                let groups = self.convertToGroups(pfGroups : pfGroups)
-                success(groups)
-            } else {
-                if let returnedError = returnedError {
-                    error(returnedError)
+            self.queue.async {
+                if let pfGroups = pfGroups {
+                    let groups = self.convertToGroups(pfGroups : pfGroups)
+                    success(groups)
                 } else {
-                    error(NSError(domain: "failed to get groups, unknown error", code: 0, userInfo: nil))
+                    if let returnedError = returnedError {
+                        error(returnedError)
+                    } else {
+                        error(NSError(domain: "failed to get groups, unknown error", code: 0, userInfo: nil))
+                    }
                 }
             }
         })

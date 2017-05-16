@@ -39,8 +39,8 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
         fetchGroups()
         setupKBContactsController()
         setupButton()
-        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
-        circlesTableView.insertSubview(refreshControl, at: 0)
+        // refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        // circlesTableView.insertSubview(refreshControl, at: 0)
     }
     
     @objc private func refreshControlAction(_ refreshControl: UIRefreshControl) {
@@ -162,6 +162,19 @@ class GroupsViewController: UIViewController, UITableViewDataSource, UITableView
         }
         
         return circleTableViewCell;
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let group = filteredGroups?[indexPath.row]
+            filteredGroups = filteredGroups?.filter() { $0.groupID != group?.groupID }
+            // selectedLocationsManager.delete(location: location)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
     
     @IBAction func unwindToGroupsViewControllerSegue(_ segue : UIStoryboardSegue) {

@@ -81,31 +81,36 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func setupTapGestureRecognizer() {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        tapGR.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGR)
     }
     
     func viewTapped() {
-        if let searchBar = resultSearchController?.searchBar {
+        if let searchBar = locationSearchBar {
             searchBar.resignFirstResponder()
         }
     }
   
-  func fetchLocations() {
-    let hud = MBProgressHUD.showAdded(to: self.tableView, animated: true)
-    selectedLocationsManager.allLocations(fetch: true, success: { (locations) in
-      hud.hide(animated: true)
-      // refresh the locations list and show location on the Map
-      self.filteredLocations = self.selectedLocationsManager.locations
-      self.tableView.reloadData()
-      self.mapView.addAnnotations(self.filteredLocations)
-      self.mapView.showAnnotations(self.filteredLocations, animated: true)
-    }) { (error) in
-      hud.hide(animated: true)
-      print(error)
-      // @todo: show error alert
+    func fetchLocations() {
+        let hud = MBProgressHUD.showAdded(to: self.tableView, animated: true)
+        selectedLocationsManager.allLocations(fetch: true, success: { (locations) in
+            DispatchQueue.main.async {
+                hud.hide(animated: true)
+                // refresh the locations list and show location on the Map
+                self.filteredLocations = self.selectedLocationsManager.locations
+                self.tableView.reloadData()
+                self.mapView.addAnnotations(self.filteredLocations)
+                self.mapView.showAnnotations(self.filteredLocations, animated: true)
+            }
+        }) { (error) in
+            DispatchQueue.main.async {
+                hud.hide(animated: true)
+                print(error)
+            }
+            // @todo: show error alert
+        }
     }
-  }
-  
+    
   func setupAddButton() {
     addButton.layer.cornerRadius = 48.0 / 2.0
     addButton.layer.shadowColor = UIColor.black.cgColor
@@ -283,6 +288,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    viewTapped()
     let location = filteredLocations[indexPath.row]
     selectedLocationIndex = indexPath.row
     

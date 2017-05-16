@@ -117,8 +117,8 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                                                     <color key="backgroundColor" red="0.2588235438" green="0.75686275960000005" blue="0.96862745289999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WEv-CE-Yi6">
-                                                    <rect key="frame" x="20" y="24.5" width="49.5" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Done" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WEv-CE-Yi6">
+                                                    <rect key="frame" x="20" y="24.5" width="40.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -968,7 +968,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="74d-Gk-jfj" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Tasks" image="tasks" id="acW-dT-cKf"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="cHo-k4-fK5">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="cHo-k4-fK5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.093833528459072113" green="0.44062730669975281" blue="0.40481257438659668" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1009,7 +1009,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pwh-s9-zno" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Locations" image="locations" id="4uQ-ST-TZT"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Zdf-qN-RWx">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zdf-qN-RWx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.093833528459999996" green="0.4406273067" blue="0.40481257440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1111,7 +1111,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PHa-Qr-C0R" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Labels" image="labels" id="cPa-gy-q4n"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="nON-yO-Uks">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="nON-yO-Uks">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.093833528459072113" green="0.44062730669975281" blue="0.40481257438659668" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1525,7 +1525,7 @@
         <!--Members-->
         <scene sceneID="21A-V9-3ke">
             <objects>
-                <viewController id="jY6-wx-Bi6" customClass="CircleMembersViewController" customModule="GoTeamApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="jY6-wx-Bi6" customClass="CircleMembersViewController" customModule="Go_List" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HaN-C3-ULl"/>
                         <viewControllerLayoutGuide type="bottom" id="iFV-kz-J4a"/>
@@ -1539,7 +1539,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="CircleContactTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="CircleContactTableViewCell" rowHeight="66" id="wax-ms-kwk" customClass="CircleContactTableViewCell" customModule="GoTeamApp" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="CircleContactTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="CircleContactTableViewCell" rowHeight="66" id="wax-ms-kwk" customClass="CircleContactTableViewCell" customModule="Go_List" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wax-ms-kwk" id="Wu4-eZ-YXK">
@@ -1594,7 +1594,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="w2s-7t-R21" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Circles" image="circles" id="kJv-0P-UhJ"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="w4U-ww-KFA">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="w4U-ww-KFA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.093833528459999996" green="0.4406273067" blue="0.40481257440000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1614,6 +1614,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Ofl-Kj-dUe">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b0K-b7-bSH" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mET-8s-Bc2" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5jj-EF-wrR">
@@ -1626,7 +1627,6 @@
                         <segue destination="jY6-wx-Bi6" kind="relationship" relationship="rootViewController" id="Kch-Sq-VGZ"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="b0K-b7-bSH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-612" y="1030"/>
         </scene>

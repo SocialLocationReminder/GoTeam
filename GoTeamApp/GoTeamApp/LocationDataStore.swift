@@ -12,6 +12,7 @@ import Parse
 
 class LocationDataStoreService : LocationDataStoreServiceProtocol {
     
+    let queue = DispatchQueue(label: Resources.Strings.LocationDataStoreService.kLocationDataStoreServiceQueue)
     
     // user related
 
@@ -78,13 +79,15 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
         query.whereKey(User.kUserName, equalTo: userName)
         query.includeKey(userName)
         query.findObjectsInBackground(block: { (locations, returnedError) in
-            if let locations = locations {
-                success(self.convertToLocations(pfLocations: locations))
-            } else {
-                if let returnedError = returnedError {
-                    error(returnedError)
+            self.queue.async {
+                if let locations = locations {
+                    success(self.convertToLocations(pfLocations: locations))
                 } else {
-                    error(NSError(domain: "failed to get locations, unknown error", code: 0, userInfo: nil))
+                    if let returnedError = returnedError {
+                        error(returnedError)
+                    } else {
+                        error(NSError(domain: "failed to get locations, unknown error", code: 0, userInfo: nil))
+                    }
                 }
             }
         })

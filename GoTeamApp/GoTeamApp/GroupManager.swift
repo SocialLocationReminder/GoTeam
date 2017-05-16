@@ -11,7 +11,7 @@ import UIKit
 class GroupManager {
 
     var groups = [Group]()
-    let dataStoreService : GroupDataStoreServiceProtocol = GroupDataStoreService()
+    let dataStoreService : CirclesDataStoreServiceProtocol = CirclesDataStoreService()
     
     let queue = DispatchQueue(label: Resources.Strings.GroupManager.kGroupManagerQueue)
     
@@ -28,7 +28,7 @@ class GroupManager {
             if fetch == false {
                 success(self.groups)
             } else {
-                self.dataStoreService.allGroups(success: success, error: error)
+                self.dataStoreService.allCircles(success: success, error: error)
             }
         }
     }
