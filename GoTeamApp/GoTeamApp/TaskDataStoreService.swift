@@ -35,12 +35,18 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         parseTask[Resources.Strings.Task.kTaskList] = task.taskLabel ?? NSNull()
         parseTask[Resources.Strings.Task.kTaskReccurence] = task.taskRecurrence ?? NSNull()
         
+        parseTask[Resources.Strings.Task.kTaskRegion] = NSNull()
+        if let taskRegion = task.taskRegion {
+            if let pfObject = RegionDataStoreService.parseObject(region: taskRegion) {
+                parseTask[Resources.Strings.Task.kTaskRegion] = pfObject
+            }
+        }
+        
+        parseTask[Task.kTaskLocation] =  NSNull()
         if let taskLocation = task.taskLocation {
             if let pfObject = LocationDataStoreService.parseObject(location: taskLocation) {
-                parseTask[Task.kTaskLocation] =  pfObject
+                parseTask[Resources.Strings.Task.kTaskLocation] =  pfObject
             }
-        } else {
-            parseTask[Task.kTaskLocation] =  NSNull()
         }
         
         if let taskContacts = task.taskContacts {
@@ -139,6 +145,12 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
                     try pfLocation.fetchIfNeeded()
                     task.taskLocation = LocationDataStoreService.location(pfLocation: pfLocation)
                 }
+                
+                if let pfRegion = pfTask[Task.kTaskRegion]  as? PFObject {
+                    try pfRegion.fetchIfNeeded()
+                    task.taskRegion = RegionDataStoreService.region(pfRegion: pfRegion)
+                }
+                
                 
                 task.taskLabel = pfTask[Task.kTaskList] as? String
                 task.taskRecurrence = pfTask[Task.kTaskReccurence] as? Int

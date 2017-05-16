@@ -61,6 +61,7 @@ class Resources {
             static let kTaskList = "kTaskList"
             static let kTaskContacts = "kTaskContacts"
             static let kTaskLocation = "kTaskLocation"
+            static let kTaskRegion = "kTaskRegion"
             static let kTaskTimeSet = "kTaskTimeSet"
         }
         
@@ -89,11 +90,16 @@ class Resources {
             static let kGeoFencingMetersRegExPattern = "\\s*\\d{2,3}\\s*m"
             static let kGeoFencingEntryRegExPattern  = "\\s*((On|on)\\s*(Entry|entry))"
             static let kGeoFencingExitRegExPattern   = "\\s*((On|on)\\s*(Exit|exit))"
+            static let kGeoFencingEntryAndExitRegExPattern   = "\\s*((On|on)\\s*(Entry|entry)\\s*(&|and|And|AND)\\s*(Exit|exit))"
         }
         
         class AnnotationController {
             static let kRecurrenceArray = ["Every day", "Every week", "Every month", "Every year", "After a day", "After a week", "After a month", "After a year", "No repeat"]
             static let kDateArray = ["Today", "Tomorrow", "", "", "", "1 week", "No due date"]
+        }
+        
+        class LocationAnnotationController {
+            static let kChoiceNone = "None"
         }
         
         class Contacts {

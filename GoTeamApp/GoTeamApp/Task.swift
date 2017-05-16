@@ -24,6 +24,7 @@ class Task : NSObject {
     static let kTaskList = "kTaskList"
     static let kTaskContacts = "kTaskContacts"
     static let kTaskLocation = "kTaskLocation"
+    static let kTaskRegion  = "kTaskRegion"
     static let kTaskTimeSet = "kTaskTimeSet"
 
     
@@ -39,6 +40,7 @@ class Task : NSObject {
     var taskLabel : String?
     var taskLocation : Location?
     var taskContacts : [Contact]?
+    var taskRegion : Region?
     
     // sub ranges
     var taskPrioritySubrange : Range<String.Index>?

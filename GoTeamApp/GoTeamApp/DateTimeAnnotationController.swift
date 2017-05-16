@@ -199,6 +199,7 @@ class DateTimeAnnotationController : AnnotationControllerProtocol {
             delegate?.appendToTextView(sender: self, string: dateArray[indexPath.row])
         }
         setButtonStateAndAnnotation()
+        delegate?.hideTable(sender: self, annotationType: annotationType)
     }
     
     // MARK: - unwind segue from CalendarViewController

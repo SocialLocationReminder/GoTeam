@@ -16,14 +16,23 @@ class RegionManager : NSObject {
   static let sharedInstance = RegionManager()
   static let regionRadiuses = ["10","30","100"]
   static let boundaryCrossings = ["Notify on Entry", "Notify on Exit", "Notify on Entry & Exit"]
+  static let boundaryCrossingsSimpleText = ["On Entry", "On Exit", "On Entry & Exit"]
   
-  let locationManager = CLLocationManager()
+    var locationManager : CLLocationManager!
   
   var regions = [Region]()
   let dataStoreService : RegionDataStoreServiceProtocol = RegionDataStoreService()
   
   let queue = DispatchQueue(label: Resources.Strings.RegionManager.kRegionManagerQueue)
   
+    override init() {
+        super.init()
+        DispatchQueue.main.sync {
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+        }
+    }
+    
   func add(region : Region) {
     queue.async {
       self.regions.append(region)
@@ -38,13 +47,29 @@ class RegionManager : NSObject {
     }
   }
   
-  func startMonitoring(region : Region) {
-      let circularRegion = CLCircularRegion(center: region.coordinate, radius: region.radius!, identifier: region.regionName!)
-      circularRegion.notifyOnEntry = region.notifyOnEntry!
-      circularRegion.notifyOnExit = region.notifyOnExit!
-      locationManager.startMonitoring(for: circularRegion)
-  }
-  
+    func startMonitoring(region : Region) {
+        
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound], completionHandler: { (returnedBool, error) in
+            if let error = error {
+                print(error)
+            }
+        })
+        
+        let circularRegion = CLCircularRegion(center: region.coordinate, radius: region.radius!, identifier: region.regionName!)
+        circularRegion.notifyOnEntry = region.notifyOnEntry!
+        circularRegion.notifyOnExit = region.notifyOnExit!
+        locationManager.startMonitoring(for: circularRegion)
+    }
+
+    func stopMonitoring(region : Region) {
+        let circularRegion = CLCircularRegion(center: region.coordinate, radius: region.radius!, identifier: region.regionName!)
+        circularRegion.notifyOnEntry = region.notifyOnEntry!
+        circularRegion.notifyOnExit = region.notifyOnExit!
+        locationManager.stopMonitoring(for: circularRegion)
+    }
+
+    
     func allRegions(fetch: Bool, success:@escaping (([Region]) -> ()), error: @escaping (Error) -> ()) {
       queue.async {
         if fetch == false {
@@ -60,16 +85,16 @@ class RegionManager : NSObject {
   
   func showNotification(withMessage message: String) {
     let notification = UNMutableNotificationContent()
-    notification.title = "GoTeam App"
-    notification.subtitle = "Monitoring status"
+    notification.title = "On the Go"
+    notification.subtitle = "Location Update"
     notification.body = message
     notification.sound = .default()
     let center = UNUserNotificationCenter.current()
     center.requestAuthorization(options: [.alert, .sound], completionHandler: { (returnedBool, error) in
       if returnedBool == true && error == nil {
         let content = UNMutableNotificationContent()
-        content.title = "GoTeam App"
-        content.subtitle = "Monitoring status"
+        content.title = "On the Go"
+        content.subtitle = "Location Update"
         content.body = message
         content.sound = .default()
         UNUserNotificationCenter.current().delegate = self
@@ -97,5 +122,21 @@ extension RegionManager : UNUserNotificationCenterDelegate {
     //to distinguish between notifications
     completionHandler( [.alert,.sound,.badge])
   }
+}
+
+extension RegionManager : CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager,
+                         monitoringDidFailFor region: CLRegion?,
+                         withError error: Error){
+        print(error)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        print(region)
+    }
+
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        print(region)
+    }
 }
 

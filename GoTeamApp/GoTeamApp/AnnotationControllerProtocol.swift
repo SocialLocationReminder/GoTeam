@@ -27,7 +27,7 @@ import UIKit
     // state change related
     func reloadTable(sender : AnnotationControllerProtocol, annotationType: AnnotationType);
     func buttonTapped(sender : AnnotationControllerProtocol, annotationType: AnnotationType);
-
+    func hideTable(sender : AnnotationControllerProtocol, annotationType: AnnotationType);
     
     // updates to text view
     func appendToTextView(sender : AnnotationControllerProtocol, string : String)

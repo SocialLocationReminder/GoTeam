@@ -21,12 +21,14 @@ class TaskManager : NSObject {
         queue.async {
             self.tasks.append(task)
             self.addNotificationsIfDatePresent(task: task)
+            self.addGeoFenceAlertsIfPresent(task: task)
             self.dataStoreService.add(task: task)
         }
     }
 
     func update(task : Task) {
         queue.async {
+            // @todo: add in ability to update the geo fence alert
             self.updateNotificationsIfDatePresent(task: task)
             self.dataStoreService.update(task: task)
         }
@@ -37,6 +39,7 @@ class TaskManager : NSObject {
         queue.async {
             self.tasks = self.tasks.filter() { $0 !== task }
             self.cancelNotificationsIfDatePresent(task: task)
+            self.removeGeoFenceAlertsIfPresent(task: task)
             self.dataStoreService.delete(task: task)
         }
     }
@@ -48,13 +51,37 @@ class TaskManager : NSObject {
             } else {
                 self.dataStoreService.allTasks(success: { (tasks) in
                     self.tasks = tasks
+                    self.startMonitoringAlerts(tasks: tasks)
                     success(tasks)
                     }, error: error)
             }
         }
     }
     
-    // MARK: - static helpers
+    // MARK: - add geo fence alerts if required
+    internal func startMonitoringAlerts(tasks : [Task]) {
+        for task in tasks {
+            if let taskRegion = task.taskRegion {
+                RegionManager.sharedInstance.startMonitoring(region: taskRegion)
+            }
+        }
+    }
+    
+    internal func addGeoFenceAlertsIfPresent(task : Task) {
+        if let region = task.taskRegion {
+            RegionManager.sharedInstance.add(region: region)
+            RegionManager.sharedInstance.startMonitoring(region: region)
+        }
+    }
+    
+    internal func removeGeoFenceAlertsIfPresent(task : Task) {
+        if let region = task.taskRegion {
+            RegionManager.sharedInstance.delete(region: region)
+            RegionManager.sharedInstance.stopMonitoring(region: region)
+        }
+    }
+    
+    // MARK: -  add notifications if required
     internal func addNotificationsIfDatePresent(task : Task) {
         if let date = task.taskFromDate {
             addNotifications(task: task, date: date, minutes: -10, message: Resources.Strings.AddTasks.kFromDateSoonAlert)
