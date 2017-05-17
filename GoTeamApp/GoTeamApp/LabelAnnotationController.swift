@@ -36,6 +36,16 @@ class LabelAnnotationController : AnnotationControllerProtocol {
         self.button = button
         
         setupGestureRecognizer()
+        
+        registerForLabelUpdateNotificaiton()
+    }
+    
+    func registerForLabelUpdateNotificaiton() {
+        NotificationCenter.default.addObserver(self, selector: #selector(labelUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated), object: nil)
+    }
+    
+    @objc func labelUpdated() {
+        fetchLabels()
     }
     
     func clearAnnotationInTask() {
@@ -88,7 +98,7 @@ class LabelAnnotationController : AnnotationControllerProtocol {
 //                    }
                     
                     // @todo: need to support multiple labels
-                    task.taskLabel = labelName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    task.taskLabel = labels![ix]
                     task.taskLabelSubrange = textView.text.range(of: testString)
                     delegate?.attributeTextView(sender: self, pattern: testString, options: .caseInsensitive,
                                                 fgColor: Resources.Colors.Annotations.kLabelFGColor,

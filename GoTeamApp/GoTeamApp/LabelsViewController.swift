@@ -97,7 +97,7 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let editLabelVC = segue.source as! EditLabelViewController
         let label = editLabelVC.label
         if let newLabelName = editLabelVC.labelNameField.text {
-            label?.labelName = newLabelName
+            label?.labelName = newLabelName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             labelManager.updateLable(label: label!)
             self.applyLabelFilter()
             NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated)))

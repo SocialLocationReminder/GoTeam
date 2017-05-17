@@ -75,8 +75,9 @@ class TaskWithAnnotationsCell: UITableViewCell {
                     setAnnotation(text: TaskWithAnnotationsCell.priorityTextArray[priority - 1], image: UIImage(named: Resources.Images.Tasks.kExclamation))
                 }
                 
-                if let label = task.taskLabel {
-                    setAnnotation(text: label, image: UIImage(named: Resources.Images.Tasks.kTagIcon))
+                if let label = task.taskLabel,
+                    let labelName = label.labelName {
+                    setAnnotation(text: labelName, image: UIImage(named: Resources.Images.Tasks.kTagIcon))
                 }
                 
                 if let location = task.taskLocation {
