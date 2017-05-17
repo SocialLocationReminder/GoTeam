@@ -224,6 +224,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
           location.subtitle = alertController.location?.subtitle
           self.selectedLocationsManager.locations[index] = location
           self.selectedLocationsManager.update(location: location)
+          NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Resources.Strings.Notifications.kLocationsUpdated)))
         }
         
         self.tableView.reloadData()
@@ -313,6 +314,7 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
       filteredLocations = filteredLocations.filter() { $0.locationID != location.locationID }
       mapView.removeAnnotation(location)
       selectedLocationsManager.delete(location: location)
+      NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Resources.Strings.Notifications.kLocationsUpdated)))
       tableView.deleteRows(at: [indexPath], with: .automatic)
     }
   }

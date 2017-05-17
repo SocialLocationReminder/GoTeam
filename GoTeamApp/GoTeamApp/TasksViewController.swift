@@ -49,7 +49,7 @@ class TasksViewController: UIViewController {
         
         setupTapGestureRecognizer()
         
-        registerForLabelUpdateNotificaiton()
+        registerForUpdateNotificaiton()
     }
     
     func setupTapGestureRecognizer() {
@@ -59,11 +59,16 @@ class TasksViewController: UIViewController {
         self.view.addGestureRecognizer(tapGR)
     }
     
-    func registerForLabelUpdateNotificaiton() {
+    func registerForUpdateNotificaiton() {
         NotificationCenter.default.addObserver(self, selector: #selector(labelUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLocationsUpdated), object: nil)
     }
 
     func labelUpdated() {
+        fetchTasks()
+    }
+    
+    @objc func locationUpdated() {
         fetchTasks()
     }
     
