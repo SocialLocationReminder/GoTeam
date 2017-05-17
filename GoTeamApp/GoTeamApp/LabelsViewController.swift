@@ -10,7 +10,6 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var addButton: UIButton!
     
     // labels and filtered labels
-    var labels : [Labels]?
     var filteredLabels : [Labels]?
     var currentCellIndexPath: IndexPath?
     
@@ -79,6 +78,8 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if let labelName = addLabelVC.newLabelTextField.text {
             label.labelName = labelName
             labelManager.add(label: label)
+            self.applyLabelFilter()
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated)))
         }
         
         self.labelsTableView.reloadData()
@@ -88,7 +89,8 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let editLabelVC = segue.source as! EditLabelViewController
         let label = editLabelVC.label
         labelManager.deleteLabel(label: label!)
-        self.labelsTableView.reloadData()
+        self.applyLabelFilter()
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated)))
     }
     
     @IBAction func doneEditUnwindToLabelsViewControllerSegue(_ segue : UIStoryboardSegue){
@@ -97,15 +99,16 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if let newLabelName = editLabelVC.labelNameField.text {
             label?.labelName = newLabelName
             labelManager.updateLable(label: label!)
+            self.applyLabelFilter()
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated)))
         }
-        self.labelsTableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Resources.Strings.Label.kEditLabelSegue {
             let navigationController = segue.destination as! UINavigationController
             let editLabelViewController = navigationController.viewControllers[0] as! EditLabelViewController
-            let label = self.labels?[(self.currentCellIndexPath?.row)!]
+            let label = self.filteredLabels?[(self.currentCellIndexPath?.row)!]
             editLabelViewController.label = label
         }
     }
@@ -123,7 +126,7 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let navigationController = tabBarController.customizableViewControllers?[0] as! UINavigationController
             let tasksViewController = navigationController.viewControllers[0] as! TasksViewController
             if let indexPath = indexPath {
-                let label = self.labels?[indexPath.row]
+                let label = self.filteredLabels?[indexPath.row]
                 let selectedLabelName = label?.labelName
                 tasksViewController.searchBar?.text = "#"  + selectedLabelName!
                 tasksViewController.applyFilterPerSearchText()
@@ -136,19 +139,16 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         labelManager.deleteLabel(label: sender.label!)
         self.filteredLabels = self.filteredLabels?.filter() { $0 !== sender.label }
         self.labelsTableView.reloadData()
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated)))
     }
     
     func fetchLabels() {
-        self.filteredLabels = [Labels]()
-        self.labels = [Labels]()
         let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         labelSearchBar.text = ""
         labelManager.allLabels(fetch: true, success: { (receivedLabels) in
             DispatchQueue.main.async {
                 hud.hide(animated: true)
-                self.labels = receivedLabels
-                self.filteredLabels = self.labels
-                self.labelsTableView.reloadData()
+                self.applyLabelFilter()
             }
         }) { (error) in
             DispatchQueue.main.async {
@@ -179,7 +179,7 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func applyLabelFilter() {
         guard var searchText = labelSearchBar.text else { return; }
         searchText = searchText.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
+        let labels = labelManager.getLabels()
         if searchText.characters.count == 0 {
             filteredLabels = labels
             labelsTableView.reloadData()
@@ -187,7 +187,7 @@ class LabelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         filteredLabels = [Labels]()
-        for label in self.labels!
+        for label in labels
         {
             if (label.labelName?.lowercased().contains(searchText.lowercased()))!
             {
