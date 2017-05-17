@@ -764,7 +764,7 @@
 				DEVELOPMENT_TEAM = 85MGTY56YM;
 				INFOPLIST_FILE = GoTeamApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = KG.GoTeamApp;
+				PRODUCT_BUNDLE_IDENTIFIER = AkshayBhandary.GoTeamApp;
 				PRODUCT_NAME = "On the Go";
 				SWIFT_VERSION = 3.0;
 			};
@@ -778,7 +778,7 @@
 				DEVELOPMENT_TEAM = 85MGTY56YM;
 				INFOPLIST_FILE = GoTeamApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = KG.GoTeamApp;
+				PRODUCT_BUNDLE_IDENTIFIER = AkshayBhandary.GoTeamApp;
 				PRODUCT_NAME = "On the Go";
 				SWIFT_VERSION = 3.0;
 			};
