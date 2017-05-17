@@ -48,6 +48,8 @@ class TasksViewController: UIViewController {
         setupAddButton()
         
         setupTapGestureRecognizer()
+        
+        registerForLabelUpdateNotificaiton()
     }
     
     func setupTapGestureRecognizer() {
@@ -55,6 +57,14 @@ class TasksViewController: UIViewController {
         //tapGR.delegate = self
         tapGR.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGR)
+    }
+    
+    func registerForLabelUpdateNotificaiton() {
+        NotificationCenter.default.addObserver(self, selector: #selector(labelUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated), object: nil)
+    }
+
+    func labelUpdated() {
+        fetchTasks()
     }
     
     func didTapView(sender : UITapGestureRecognizer) {
@@ -278,10 +288,10 @@ extension TasksViewController : UISearchBarDelegate {
                 let startIndex = searchText.index(searchText.startIndex, offsetBy: 1)
                 let searchLabel = searchText.substring(from: startIndex).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
                 
-                if let labelName = task.taskLabel {
-                    if labelName.contains(searchLabel) {
+                if let label = task.taskLabel,
+                    let labelName = label.labelName, 
+                    labelName.contains(searchLabel) {
                         filteredTasks!.append(task);
-                    }
                 }
             }
             else {

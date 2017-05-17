@@ -9,6 +9,13 @@
 import UIKit
 
 class Labels: ListItem {
+    
+    static let kLabelsClass = "LabelsClassV2"
+    static let kTUserName = "UserName"
+    static let kLabelID   = "labelID"
+    static let kLabelName = "labelName"
+
+    
     var labelID : Date?
     var labelName : String?
     

@@ -157,6 +157,9 @@ class Resources {
             static let kLocationDataStoreServiceQueue = "kLocationDataStoreServiceQueue"
         }
         
+        class Notifications {
+            static let kLabelsUpdated = "kLabelsUpdated"
+        }
 
     }
     

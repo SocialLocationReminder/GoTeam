@@ -36,9 +36,19 @@ class LabelManager{
             if fetch == false {
                 success(self.labels)
             } else {
-                self.dataStoreService.allLabels(success: success, error: error)
+                self.dataStoreService.allLabels(success: { (receivedLabels) in
+                    self.labels = receivedLabels
+                    success(self.labels)
+                }, error: error)
             }
         }
     }
-
+    
+    func getLabels() -> [Labels] {
+        var result : [Labels]!
+        queue.sync {
+            result = labels
+        }
+        return result;
+    }
 }

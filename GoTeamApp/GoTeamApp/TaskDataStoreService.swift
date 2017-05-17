@@ -32,7 +32,14 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
         parseTask[Resources.Strings.Task.kTaskDate] = task.taskDate ?? NSNull()
         parseTask[Resources.Strings.Task.kTaskFromDate] = task.taskFromDate ?? NSNull()
         parseTask[Resources.Strings.Task.kTaskPriority] = task.taskPriority ?? NSNull()
-        parseTask[Resources.Strings.Task.kTaskList] = task.taskLabel ?? NSNull()
+        parseTask[Resources.Strings.Task.kTaskList] = NSNull()
+        
+        if let taskLabel = task.taskLabel {
+            if let pfObject = LabelDataStoreService.parseObject(label: taskLabel) {
+                parseTask[Resources.Strings.Task.kTaskList] = pfObject
+            }
+        }
+        
         parseTask[Resources.Strings.Task.kTaskReccurence] = task.taskRecurrence ?? NSNull()
         
         parseTask[Resources.Strings.Task.kTaskRegion] = NSNull()
@@ -152,7 +159,10 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
                 }
                 
                 
-                task.taskLabel = pfTask[Task.kTaskList] as? String
+                if let pfLabel = pfTask[Task.kTaskList] as? PFObject {
+                    try pfLabel.fetchIfNeeded()
+                    task.taskLabel = LabelDataStoreService.label(parseObject: pfLabel)
+                }
                 task.taskRecurrence = pfTask[Task.kTaskReccurence] as? Int
                 if let parseObjectsArray = pfTask[Task.kTaskContacts] as? [PFObject] {
                     task.taskContacts = [Contact]()

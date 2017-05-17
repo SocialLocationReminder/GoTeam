@@ -11,7 +11,7 @@ import Foundation
 
 class Task : NSObject {
     
-    static let kTaskClass = "TasksClassV6"
+    static let kTaskClass = "TasksClassV7"
     
     
     static let kTaskID   = "kTaskID"
@@ -37,7 +37,7 @@ class Task : NSObject {
     
     var taskRecurrence : Int?
     var taskPriority : Int?
-    var taskLabel : String?
+    var taskLabel : Labels?
     var taskLocation : Location?
     var taskContacts : [Contact]?
     var taskRegion : Region?
