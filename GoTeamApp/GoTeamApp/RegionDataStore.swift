@@ -11,13 +11,9 @@ import Parse
 
 class RegionDataStoreService : RegionDataStoreServiceProtocol {
   
-  // user related
-  let kUserName = "UserName"
-  var userName = "akshay"
-  
   func add(region : Region) {
     let parseTask = PFObject(className:Region.kRegionsClass)
-    parseTask[User.kUserName] = userName
+    parseTask[User.kUserName] = User.kCurrentUser
     parseTask[Region.kRegionID] = region.regionID
     parseTask[Region.kRegionName] = region.regionName
     parseTask[Region.kRegionLocationName] = region.regionLocationName
@@ -37,7 +33,7 @@ class RegionDataStoreService : RegionDataStoreServiceProtocol {
   
   func delete(region : Region) {
     let query = PFQuery(className:Region.kRegionsClass)
-    query.whereKey(kUserName, equalTo: userName)
+    query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
     query.whereKey(Region.kRegionID, equalTo: region.regionID)
     query.includeKey(Region.kRegionID)
     query.findObjectsInBackground(block: { (labels, error) in
@@ -49,8 +45,8 @@ class RegionDataStoreService : RegionDataStoreServiceProtocol {
   
   func allRegions(success:@escaping ([Region]) -> (), error: @escaping ((Error) -> ())) {
     let query = PFQuery(className:Region.kRegionsClass)
-    query.whereKey(kUserName, equalTo: userName)
-    query.includeKey(userName)
+    query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
+    query.includeKey(User.kUserName)
     query.findObjectsInBackground(block: { (regions, returnedError) in
       if let regions = regions {
         success(self.convertToRegions(pfRegions: regions))
@@ -89,7 +85,7 @@ class RegionDataStoreService : RegionDataStoreServiceProtocol {
     static func parseObject(region : Region) -> PFObject? {
         
         let query = PFQuery(className:Region.kRegionsClass)
-        query.whereKey(User.kUserName, equalTo: "akshay")
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.whereKey(Region.kRegionID, equalTo: region.regionID)
         
         var objects : [PFObject]?

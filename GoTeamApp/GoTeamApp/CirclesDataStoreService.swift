@@ -14,15 +14,12 @@ class CirclesDataStoreService : CirclesDataStoreServiceProtocol {
 
     let queue = DispatchQueue(label: Resources.Strings.CirclesDataStoreService.kCirclesDataStoreServiceQueue)
     
-    // user related
-    var userName = "akshay"
-    
     // application layer
     let contactManager = ContactManager.sharedInstance
     
     func add(group : Group, success:@escaping () -> (), error: @escaping ((Error) -> ())) {
         let pfGroup = newParseObject(group: group)
-        pfGroup[User.kUserName] = userName
+        pfGroup[User.kUserName] = User.kCurrentUser
         pfGroup.saveInBackground { (successStatus, errorStatus) in
             if successStatus {
                 success()
@@ -40,8 +37,8 @@ class CirclesDataStoreService : CirclesDataStoreServiceProtocol {
     func allCircles(success:@escaping ([Group]) -> (), error: @escaping ((Error) -> ())) {
         
         let query = PFQuery(className:Group.kGroupClass)
-        query.whereKey(User.kUserName, equalTo: userName)
-        query.includeKey(userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
+        query.includeKey(User.kCurrentUser)
         
         query.findObjectsInBackground(block: { (pfGroups, returnedError) in
             self.queue.async {
@@ -62,7 +59,7 @@ class CirclesDataStoreService : CirclesDataStoreServiceProtocol {
     func deleteGroups(groups : [Group]) {
         for group in groups {
             let query = PFQuery(className:Group.kGroupClass)
-            query.whereKey(User.kUserName, equalTo: userName)
+            query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
             query.whereKey(Group.kgroupID, equalTo: group.groupID!)
             query.includeKey(Group.kgroupID)
             query.findObjectsInBackground(block: { (group, error) in

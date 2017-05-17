@@ -483,7 +483,7 @@
 				TargetAttributes = {
 					E2F1C9881EAF013A0034E0A7 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = S6JSG6FHB3;
+						DevelopmentTeam = 85MGTY56YM;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -761,10 +761,10 @@
 			baseConfigurationReference = 31B4651248491BEA88B12926 /* Pods-GoTeamApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = S6JSG6FHB3;
+				DEVELOPMENT_TEAM = 85MGTY56YM;
 				INFOPLIST_FILE = GoTeamApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = AkshayBhandary.GoTeamApp;
+				PRODUCT_BUNDLE_IDENTIFIER = KG.GoTeamApp;
 				PRODUCT_NAME = "On the Go";
 				SWIFT_VERSION = 3.0;
 			};
@@ -775,10 +775,10 @@
 			baseConfigurationReference = 3C6BE0CBCD5FCF1ED8A0BBDA /* Pods-GoTeamApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = S6JSG6FHB3;
+				DEVELOPMENT_TEAM = 85MGTY56YM;
 				INFOPLIST_FILE = GoTeamApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = AkshayBhandary.GoTeamApp;
+				PRODUCT_BUNDLE_IDENTIFIER = KG.GoTeamApp;
 				PRODUCT_NAME = "On the Go";
 				SWIFT_VERSION = 3.0;
 			};

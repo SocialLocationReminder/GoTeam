@@ -13,11 +13,6 @@ import Parse
 class LocationDataStoreService : LocationDataStoreServiceProtocol {
     
     let queue = DispatchQueue(label: Resources.Strings.LocationDataStoreService.kLocationDataStoreServiceQueue)
-    
-    // user related
-
-    var userName = "akshay"
-    
     func add(location : Location) {
         
         let parseTask = newParseObject(location: location)
@@ -32,7 +27,7 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
     
     internal func newParseObject(location: Location) -> PFObject {
         let parseTask = PFObject(className:Location.kLocationsClass)
-        parseTask[User.kUserName] = userName
+        parseTask[User.kUserName] = User.kCurrentUser
         parseTask[Location.kLocationID] = location.locationID
         parseTask[Location.kLocationTitle] = location.title
         parseTask[Location.kLocationSubtitle] = location.subtitle
@@ -43,7 +38,7 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
     
     func delete(location : Location) {
         let query = PFQuery(className:Location.kLocationsClass)
-        query.whereKey(User.kUserName, equalTo: userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.whereKey(Location.kLocationID, equalTo: location.locationID!)
         query.includeKey(Location.kLocationID)
         query.findObjectsInBackground(block: { (locations, error) in
@@ -55,7 +50,7 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
 
   func update(location : Location) {
     let query = PFQuery(className:Location.kLocationsClass)
-    query.whereKey(User.kUserName, equalTo: userName)
+    query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
     query.whereKey(Location.kLocationID, equalTo: location.locationID!)
     query.includeKey(Location.kLocationID)
     query.findObjectsInBackground(block: { (locations, error) in
@@ -76,8 +71,8 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
 
     func allLocations(success:@escaping ([Location]) -> (), error: @escaping ((Error) -> ())) {
         let query = PFQuery(className:Location.kLocationsClass)
-        query.whereKey(User.kUserName, equalTo: userName)
-        query.includeKey(userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
+        query.includeKey(User.kUserName)
         query.findObjectsInBackground(block: { (locations, returnedError) in
             self.queue.async {
                 if let locations = locations {
@@ -116,7 +111,7 @@ class LocationDataStoreService : LocationDataStoreServiceProtocol {
     static func parseObject(location : Location) -> PFObject? {
         
         let query = PFQuery(className:Location.kLocationsClass)
-        query.whereKey(User.kUserName, equalTo: "akshay")
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.whereKey(Location.kLocationID, equalTo: location.locationID!)
 
         var objects : [PFObject]?

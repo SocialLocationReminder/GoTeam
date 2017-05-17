@@ -13,21 +13,15 @@ import Parse
 
 class LabelDataStoreService : LabelDataStoreServiceProtocol {
     
-    
-    // user related
-    let kTUserName = "UserName"
-    
     let queue = DispatchQueue(label: Resources.Strings.LabelDataStoreService.kLabelDataStoreServiceQueue)
     
     // label related
     let kLabelsClass = "LabelsClassV2"
-    var userName = "akshay"
-    
 
     func add(label : Labels) {
         
         let parseTask = PFObject(className:kLabelsClass)
-        parseTask[Labels.kTUserName] = userName
+        parseTask[User.kUserName] = User.kCurrentUser
         parseTask[Labels.kLabelName] = label.labelName
         parseTask[Labels.kLabelID] = label.labelID
         parseTask.saveInBackground { (success, error) in
@@ -41,9 +35,9 @@ class LabelDataStoreService : LabelDataStoreServiceProtocol {
     
     func update(label : Labels) {
         let query = PFQuery(className:kLabelsClass)
-        query.whereKey(Labels.kTUserName, equalTo: userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.whereKey(Labels.kLabelID, equalTo: label.labelID!)
-        query.includeKey(userName)
+        query.includeKey(User.kUserName)
         query.findObjectsInBackground(block: { (labels, returnedError) in
             if let labels = labels {
                 labels.first?[Labels.kLabelName] = label.labelName
@@ -54,7 +48,7 @@ class LabelDataStoreService : LabelDataStoreServiceProtocol {
     
     func delete(label : Labels) {
         let query = PFQuery(className:kLabelsClass)
-        query.whereKey(Labels.kTUserName, equalTo: userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.whereKey(Labels.kLabelID, equalTo: label.labelID!)
         query.includeKey(Labels.kLabelID)
         query.findObjectsInBackground(block: { (labels, error) in
@@ -67,8 +61,8 @@ class LabelDataStoreService : LabelDataStoreServiceProtocol {
     
     func allLabels(success:@escaping ([Labels]) -> (), error: @escaping ((Error) -> ())) {
         let query = PFQuery(className:Labels.kLabelsClass)
-        query.whereKey(Labels.kTUserName, equalTo: userName)
-        query.includeKey(userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
+        query.includeKey(User.kUserName)
         query.findObjectsInBackground(block: { (labels, returnedError) in
             self.queue.async {
                 if let labels = labels {
@@ -99,8 +93,8 @@ class LabelDataStoreService : LabelDataStoreServiceProtocol {
     
     static func parseObject(label : Labels) -> PFObject? {
         let query = PFQuery(className:Labels.kLabelsClass)
-        query.whereKey(Labels.kTUserName, equalTo: "akshay")
-        query.includeKey(Labels.kTUserName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
+        query.includeKey(User.kUserName)
         query.whereKey(Labels.kLabelID, equalTo: label.labelID!)
         
         var objects : [PFObject]?
@@ -114,7 +108,6 @@ class LabelDataStoreService : LabelDataStoreServiceProtocol {
     
     static func label(parseObject: PFObject) -> Labels {
         let label = Labels()
-        
         label.labelName = parseObject[Labels.kLabelName] as? String
         label.labelID =  parseObject[Labels.kLabelID] as? Date
         return label

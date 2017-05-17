@@ -11,10 +11,6 @@ import Parse
 
 class TaskDataStoreService : TaskDataStoreServiceProtocol {
     
-    // user related
-    let kTUserName = "UserName"
-    var userName = "akshay"
-    
     let queue = DispatchQueue(label: Resources.Strings.TaskDataStoreService.kTaskDataStoreServiceQueue)
     
     func add(task : Task) {
@@ -24,7 +20,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     }
     
     func update(parseTask: PFObject, task: Task) {
-        parseTask[kTUserName] = userName
+        parseTask[User.kUserName] = User.kCurrentUser
         parseTask[Resources.Strings.Task.kTaskName] = task.taskName
         parseTask[Resources.Strings.Task.kTaskID] = task.taskID
         
@@ -85,7 +81,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     
     func update(task : Task) {
         let query = PFQuery(className:Task.kTaskClass)
-        query.whereKey(kTUserName, equalTo: userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.whereKey(Task.kTaskID, equalTo: task.taskID!)
         //  query.includeKey(kTUserName)
         query.includeKey(Task.kTaskID)
@@ -101,7 +97,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     func delete(task : Task) {
         
         let query = PFQuery(className:Task.kTaskClass)
-        query.whereKey(kTUserName, equalTo: userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.whereKey(Task.kTaskID, equalTo: task.taskID!)
         //  query.includeKey(kTUserName)
         query.includeKey(Task.kTaskID)
@@ -117,8 +113,8 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
     func allTasks(success:@escaping ([Task]) -> (), error: @escaping ((Error) -> ())) {
         
         let query = PFQuery(className:Task.kTaskClass)
-        query.whereKey(kTUserName, equalTo: userName)
-        query.includeKey(userName)
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
+        query.includeKey(User.kUserName)
         
         query.findObjectsInBackground(block: { (tasks, returnedError) in
             self.queue.async {
