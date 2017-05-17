@@ -59,6 +59,11 @@ class TasksViewController: UIViewController {
         self.view.addGestureRecognizer(tapGR)
     }
     
+    @IBAction func hamburgerMenuTapped(_ sender: Any) {
+        if let hamburgerVC = self.view.window?.rootViewController as? HamburgerViewController {
+            hamburgerVC.toggleLeft()
+        }
+    }
     func registerForUpdateNotificaiton() {
         NotificationCenter.default.addObserver(self, selector: #selector(labelUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(locationUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLocationsUpdated), object: nil)

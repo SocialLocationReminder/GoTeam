@@ -76,6 +76,8 @@ class Resources {
             static let kShowEditTasksScreen = "showEditTasksScreen"
             static let kShowEditTasksScreenFromAnnotatedCell = "showEditTasksScreenFromAnnotatedCell"
             
+            @IBAction func hamburgerMenuTapped(_ sender: Any) {
+            }
         }
         
         class DateTimeAnnotationController {

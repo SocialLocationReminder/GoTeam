@@ -38,6 +38,9 @@
 		E2C9E1451EC0383700BBD78C /* LabelAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1441EC0383700BBD78C /* LabelAnnotationController.swift */; };
 		E2C9E1471EC03A7C00BBD78C /* ContactsAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1461EC03A7C00BBD78C /* ContactsAnnotationController.swift */; };
 		E2C9E1491EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E1481EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift */; };
+		E2E709CD1ECBEB01002A43E8 /* HamburgerContentSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E709CA1ECBEB01002A43E8 /* HamburgerContentSegue.swift */; };
+		E2E709CE1ECBEB01002A43E8 /* HamburgerMenuSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E709CB1ECBEB01002A43E8 /* HamburgerMenuSegue.swift */; };
+		E2E709CF1ECBEB01002A43E8 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E709CC1ECBEB01002A43E8 /* HamburgerViewController.swift */; };
 		E2EE10AB1EBAE15000D9835A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10A91EBAE15000D9835A /* Regex.swift */; };
 		E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */; };
 		E2EE10AF1EBAE35400D9835A /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */; };
@@ -112,6 +115,9 @@
 		E2C9E1441EC0383700BBD78C /* LabelAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelAnnotationController.swift; sourceTree = "<group>"; };
 		E2C9E1461EC03A7C00BBD78C /* ContactsAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsAnnotationController.swift; sourceTree = "<group>"; };
 		E2C9E1481EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromDateTimeAnnotationController.swift; sourceTree = "<group>"; };
+		E2E709CA1ECBEB01002A43E8 /* HamburgerContentSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerContentSegue.swift; sourceTree = "<group>"; };
+		E2E709CB1ECBEB01002A43E8 /* HamburgerMenuSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerMenuSegue.swift; sourceTree = "<group>"; };
+		E2E709CC1ECBEB01002A43E8 /* HamburgerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
 		E2EE10A91EBAE15000D9835A /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		E2EE10AA1EBAE15000D9835A /* TaskSpecialCharacters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSpecialCharacters.swift; sourceTree = "<group>"; };
 		E2EE10AE1EBAE35400D9835A /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
@@ -238,6 +244,16 @@
 			name = Annotations;
 			sourceTree = "<group>";
 		};
+		E2E709C91ECBEAA5002A43E8 /* HamburgerMenu */ = {
+			isa = PBXGroup;
+			children = (
+				E2E709CA1ECBEB01002A43E8 /* HamburgerContentSegue.swift */,
+				E2E709CB1ECBEB01002A43E8 /* HamburgerMenuSegue.swift */,
+				E2E709CC1ECBEB01002A43E8 /* HamburgerViewController.swift */,
+			);
+			name = HamburgerMenu;
+			sourceTree = "<group>";
+		};
 		E2EE10AD1EBAE34B00D9835A /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,6 +302,7 @@
 		E2F1C9A01EB1B4AA0034E0A7 /* UILayer */ = {
 			isa = PBXGroup;
 			children = (
+				E2E709C91ECBEAA5002A43E8 /* HamburgerMenu */,
 				E2FEDA301EBEC26D0020E3C0 /* Contacts */,
 				E2EE10AD1EBAE34B00D9835A /* Calendar */,
 				615B780B1EB64C8C006F59D8 /* Labels */,
@@ -594,6 +611,7 @@
 				E2C9E13F1EC030AE00BBD78C /* LocationAnnotationController.swift in Sources */,
 				E2F1C9BC1EB52AB30034E0A7 /* ListManagerProtocol.swift in Sources */,
 				E27F528D1EC4590100D1C8E6 /* SpeechToTextAnnotationController.swift in Sources */,
+				E2E709CF1ECBEB01002A43E8 /* HamburgerViewController.swift in Sources */,
 				E27F528F1EC5A1E400D1C8E6 /* DateTimeUtil.swift in Sources */,
 				61FF5CA91EC92EE30058CDA3 /* GroupManager.swift in Sources */,
 				E2F1C9B71EB522720034E0A7 /* TableCellUtil.swift in Sources */,
@@ -621,10 +639,12 @@
 				E2F1C98F1EAF013A0034E0A7 /* TasksViewController.swift in Sources */,
 				E2C9E1381EBF19FD00BBD78C /* ContactManager.swift in Sources */,
 				E2C9E1331EBF13D000BBD78C /* User.swift in Sources */,
+				E2E709CD1ECBEB01002A43E8 /* HamburgerContentSegue.swift in Sources */,
 				E2FEDA291EBD094E0020E3C0 /* LocationDataStore.swift in Sources */,
 				E2FEDA2C1EBD30840020E3C0 /* Resources.swift in Sources */,
 				E2F1C9AA1EB1B85A0034E0A7 /* Task.swift in Sources */,
 				E2C9E1361EBF166700BBD78C /* DataStoreServiceErrorCodes.swift in Sources */,
+				E2E709CE1ECBEB01002A43E8 /* HamburgerMenuSegue.swift in Sources */,
 				61C9BEFC1EBFEB500017C220 /* EditLabelViewController.swift in Sources */,
 				E2C9E13D1EBF945300BBD78C /* AnnotationControllerProtocol.swift in Sources */,
 				E2EE10AC1EBAE15000D9835A /* TaskSpecialCharacters.swift in Sources */,
