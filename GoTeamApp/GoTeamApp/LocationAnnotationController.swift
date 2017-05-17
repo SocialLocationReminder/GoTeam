@@ -50,6 +50,8 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         self.button = button
         
         setupGestureRecognizer()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(locationUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLocationsUpdated), object: nil)
     }
     
     func clearAnnotationInTask() {
@@ -68,6 +70,9 @@ class LocationAnnotationController : AnnotationControllerProtocol {
         
     }
     
+    @objc func locationUpdated() {
+        fetchLocations()
+    }
     
     // MARK: - gesture recognizer
     @objc func buttonTapped(sender : UITapGestureRecognizer) {

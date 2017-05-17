@@ -159,6 +159,7 @@ class Resources {
         
         class Notifications {
             static let kLabelsUpdated = "kLabelsUpdated"
+            static let kLocationsUpdated = "kLocationsUpdated"
         }
 
     }
