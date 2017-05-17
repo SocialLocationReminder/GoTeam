@@ -167,6 +167,7 @@ class TaskDataStoreService : TaskDataStoreServiceProtocol {
                 if let parseObjectsArray = pfTask[Task.kTaskContacts] as? [PFObject] {
                     task.taskContacts = [Contact]()
                     for parseObject in parseObjectsArray {
+                        try parseObject.fetchIfNeeded()
                         task.taskContacts?.append(ContactDataStoreService.contact(pfObject: parseObject))
                     }
                 }

@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapAlertView" customModule="GoTeamApp" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MapAlertView" customModule="On_the_Go" customModuleProvider="target">
             <connections>
                 <outlet property="addressTextField" destination="9Cy-LO-vfR" id="0oU-lE-ldO"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="JhE-vG-jTa"/>

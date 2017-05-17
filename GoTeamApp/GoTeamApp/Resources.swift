@@ -75,10 +75,17 @@ class Resources {
             static let kTaskWithAnnotationsCell = "TaskWithAnnotationsCell"
             static let kShowEditTasksScreen = "showEditTasksScreen"
             static let kShowEditTasksScreenFromAnnotatedCell = "showEditTasksScreenFromAnnotatedCell"
+            static let kAllTasksTitle = "All Tasks"
             
-            @IBAction func hamburgerMenuTapped(_ sender: Any) {
-            }
+            static let kTodayTasks =  "Today"
+            static let kTomorrowTasks = "Tomorrow"
+            static let kThisWeekTasks = "This Week"
+            
+            static let kLocationTasksTitle = "Location Tasks"
+            static let kPriorityTasksTitle = "Priority Tasks"
+            static let kSharedTasksTitle = "Shared Tasks"
         }
+        
         
         class DateTimeAnnotationController {
             static let kUnwindCalendarSegue = "unwindDoneCalendarViewController"

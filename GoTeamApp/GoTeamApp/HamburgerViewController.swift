@@ -45,7 +45,7 @@ class HamburgerViewController: UIViewController {
     @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: view)
         let velocity = sender.velocity(in: view)
-        
+        return;
         if sender.state == .began {
             originalLeftMargin = contentViewLeadingConstraint.constant
         } else if sender.state == .changed {

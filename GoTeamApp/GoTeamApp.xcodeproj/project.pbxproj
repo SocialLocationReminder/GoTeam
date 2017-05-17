@@ -19,6 +19,7 @@
 		61FF5CB21EC966EA0058CDA3 /* CircleMembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CB11EC966EA0058CDA3 /* CircleMembersViewController.swift */; };
 		61FF5CB41EC9869D0058CDA3 /* CircleContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF5CB31EC9869D0058CDA3 /* CircleContactTableViewCell.swift */; };
 		9543997C7F6C4C1BFF1777E2 /* Pods_GoTeamApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0026F3FB5EF194A301C1BA /* Pods_GoTeamApp.framework */; };
+		E2199FCB1ECC0D660041D506 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2199FCA1ECC0D660041D506 /* MenuTableViewController.swift */; };
 		E2256FDC1EC6DD2A005EF28A /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2256FDB1EC6DD2A005EF28A /* Group.swift */; };
 		E2256FDE1EC6DD44005EF28A /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */; };
 		E2256FE01EC6DD9A005EF28A /* TestLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = E2256FDF1EC6DD9A005EF28A /* TestLocations.gpx */; };
@@ -96,6 +97,7 @@
 		61FF5CAF1EC955D60058CDA3 /* CircleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleTableViewCell.swift; sourceTree = "<group>"; };
 		61FF5CB11EC966EA0058CDA3 /* CircleMembersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMembersViewController.swift; sourceTree = "<group>"; };
 		61FF5CB31EC9869D0058CDA3 /* CircleContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleContactTableViewCell.swift; sourceTree = "<group>"; };
+		E2199FCA1ECC0D660041D506 /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		E2256FDB1EC6DD2A005EF28A /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		E2256FDD1EC6DD44005EF28A /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
 		E2256FDF1EC6DD9A005EF28A /* TestLocations.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = TestLocations.gpx; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				E2E709CA1ECBEB01002A43E8 /* HamburgerContentSegue.swift */,
 				E2E709CB1ECBEB01002A43E8 /* HamburgerMenuSegue.swift */,
 				E2E709CC1ECBEB01002A43E8 /* HamburgerViewController.swift */,
+				E2199FCA1ECC0D660041D506 /* MenuTableViewController.swift */,
 			);
 			name = HamburgerMenu;
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				61FF5CAE1EC92FEA0058CDA3 /* CirclesDataStoreService.swift in Sources */,
 				E2C9E1491EC2FD7100BBD78C /* FromDateTimeAnnotationController.swift in Sources */,
 				F415AA661EC89EC6006AF953 /* RegionDataStoreProtocol.swift in Sources */,
+				E2199FCB1ECC0D660041D506 /* MenuTableViewController.swift in Sources */,
 				F41DE07D1EC86A7900DD9E6C /* RegionManager.swift in Sources */,
 				615B780F1EB65418006F59D8 /* Labels.swift in Sources */,
 				E2F1C9BA1EB5297D0034E0A7 /* TableViewGenericDataSource.swift in Sources */,

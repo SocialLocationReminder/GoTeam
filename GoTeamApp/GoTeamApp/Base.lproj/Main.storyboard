@@ -302,7 +302,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" title="All Tasks" id="8HT-Kc-GKp">
+                    <navigationItem key="navigationItem" title="Tasks" id="8HT-Kc-GKp">
                         <barButtonItem key="leftBarButtonItem" image="hamburger_icon" id="jTg-ho-GKJ">
                             <color key="tintColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -1637,10 +1637,10 @@
             </objects>
             <point key="canvasLocation" x="-612" y="1030"/>
         </scene>
-        <!--Menu View Controller-->
+        <!--Menu Table View Controller-->
         <scene sceneID="azi-hy-XEy">
             <objects>
-                <tableViewController id="ag6-d2-vEB" customClass="MenuViewController" customModule="TwitterClient" sceneMemberID="viewController">
+                <tableViewController id="ag6-d2-vEB" customClass="MenuTableViewController" customModule="On_the_Go" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="ZRi-Li-77d">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1832,7 +1832,7 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Settings" id="Xt9-GA-Yi7">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="x1n-BT-Lgj" style="IBUITableViewCellStyleDefault" id="qvq-7R-eoD">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="x1n-BT-Lgj" style="IBUITableViewCellStyleDefault" id="qvq-7R-eoD">
                                         <rect key="frame" x="0.0" y="483" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qvq-7R-eoD" id="rqa-vp-FOe">
@@ -1857,7 +1857,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.30196078430000001" green="0.32549019610000002" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="WQd-Zu-0IZ" style="IBUITableViewCellStyleDefault" id="GlT-Tl-ZuK">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" textLabel="WQd-Zu-0IZ" style="IBUITableViewCellStyleDefault" id="GlT-Tl-ZuK">
                                         <rect key="frame" x="0.0" y="527" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GlT-Tl-ZuK" id="nkd-jC-gY5">
