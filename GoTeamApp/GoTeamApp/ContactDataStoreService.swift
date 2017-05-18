@@ -14,7 +14,7 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
     
     func add(contact : Contact, success:@escaping () -> (), error: @escaping ((Error) -> ())) {
         let parseContact = ContactDataStoreService.newParseObject(contact: contact)
-        parseContact[User.kUserName] = "akshay"
+        parseContact[User.kUserName] = User.kCurrentUser
         parseContact.saveInBackground { (successStatus, errorStatus) in
             if successStatus {
                 success()
@@ -35,7 +35,7 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
 
     func fetchAllContacts(success:@escaping ([Contact]) -> (), error: @escaping ((Error) -> ())) {
         let query = PFQuery(className:Contact.kContactClass)
-        query.whereKey(User.kUserName, equalTo: "akshay")
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.includeKey(User.kUserName)
         query.findObjectsInBackground(block: { (pfContacts, returnedError) in
             if let pfContacts = pfContacts {
@@ -66,7 +66,7 @@ class ContactDataStoreService : ContactDataStoreServiceProtocol {
         
     
         let query = PFQuery(className:Contact.kContactClass)
-        query.whereKey(User.kUserName, equalTo: "akshay")
+        query.whereKey(User.kUserName, equalTo: User.kCurrentUser)
         query.whereKey(Contact.kContactID, equalTo: contactID)
         query.includeKey(User.kUserName)
         query.includeKey(Contact.kContactID)
