@@ -1908,9 +1908,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Bx-y3-Ubn" userLabel="Menu View">
-                                <rect key="frame" x="0.0" y="-12" width="375" height="679"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Bx-y3-Ubn" userLabel="Menu View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2l4-wD-dbw" userLabel="Content View">
@@ -1923,8 +1922,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="0Bx-y3-Ubn" firstAttribute="top" secondItem="jX8-uu-Pcu" secondAttribute="top" id="5nh-Tf-ZtV"/>
+                            <constraint firstItem="pGe-Sg-WML" firstAttribute="top" secondItem="0Bx-y3-Ubn" secondAttribute="bottom" id="Idk-uo-7tq"/>
                             <constraint firstItem="2l4-wD-dbw" firstAttribute="height" secondItem="jX8-uu-Pcu" secondAttribute="height" id="R3d-DX-vkc"/>
                             <constraint firstItem="2l4-wD-dbw" firstAttribute="top" secondItem="jX8-uu-Pcu" secondAttribute="top" id="TPV-sU-XSF"/>
+                            <constraint firstAttribute="trailing" secondItem="0Bx-y3-Ubn" secondAttribute="trailing" id="o9l-tB-7Kj"/>
+                            <constraint firstItem="0Bx-y3-Ubn" firstAttribute="leading" secondItem="jX8-uu-Pcu" secondAttribute="leading" id="uh0-La-jzg"/>
                             <constraint firstItem="2l4-wD-dbw" firstAttribute="width" secondItem="jX8-uu-Pcu" secondAttribute="width" id="uxP-Wb-avs"/>
                             <constraint firstItem="2l4-wD-dbw" firstAttribute="leading" secondItem="jX8-uu-Pcu" secondAttribute="leading" id="vYc-N1-uke"/>
                         </constraints>

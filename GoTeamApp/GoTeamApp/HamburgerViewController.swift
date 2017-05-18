@@ -29,8 +29,6 @@ class HamburgerViewController: UIViewController {
     
     var originalLeftMargin : CGFloat!
     
-    let kRevealViewEndYOffset : CGFloat = 50.0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.performSegue(withIdentifier: HamburgerMenuSegue.kHamburgerMenuSegue, sender: self)
@@ -45,7 +43,10 @@ class HamburgerViewController: UIViewController {
     @IBAction func panGesture(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: view)
         let velocity = sender.velocity(in: view)
-        return;
+        
+        if state == .leftCollapsed {
+            return;
+        }
         if sender.state == .began {
             originalLeftMargin = contentViewLeadingConstraint.constant
         } else if sender.state == .changed {
@@ -72,7 +73,7 @@ class HamburgerViewController: UIViewController {
     
     func revealLeft() {
         DispatchQueue.main.async {
-            self.contentViewLeadingConstraint.constant = self.view.frame.size.width - self.kRevealViewEndYOffset
+            self.contentViewLeadingConstraint.constant = self.view.frame.size.width * 0.8
             UIView.animate(withDuration: 0.4, animations: {
                 self.view.layoutIfNeeded()
             })
