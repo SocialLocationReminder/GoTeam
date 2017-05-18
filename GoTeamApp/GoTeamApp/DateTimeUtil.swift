@@ -35,17 +35,18 @@ class DateTimeUtil {
         let shortTimeRegEx =  Resources.Strings.RegEx.kHourOnlyTimeRegExPattern
         
         var patterns = [
-            dateRegEx,
             dateRegEx + "\\s*at" + fullTimeRegEx,
+            dateRegEx,
             "\\s*at" + fullTimeRegEx,
             "\\s*at" + shortTimeRegEx,
             ]
-        let patternsWithSpecialChar = patterns.map { "\\" + specialChar + $0}
-        patterns.append(contentsOf: patternsWithSpecialChar)
+        var patternsWithSpecialChar = patterns.map { "\\" + specialChar + $0}
+        patternsWithSpecialChar.append(contentsOf: patterns)
+        patterns = patternsWithSpecialChar
         
         var dateFormats : [(String, DateFormatType)] = [
-            ("ddMMMyyyy", .dateOnly),
             ("ddMMMyyyy'at'hh:mma", .dateAndTime),
+            ("ddMMMyyyy", .dateOnly),
             ("'at'hh:mma", .timeOnly),
             ("'at'hha", .timeOnly)
             ]

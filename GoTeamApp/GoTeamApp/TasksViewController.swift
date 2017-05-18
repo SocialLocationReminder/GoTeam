@@ -59,6 +59,13 @@ class TasksViewController: UIViewController {
         self.view.addGestureRecognizer(tapGR)
     }
     
+    @IBAction func hamburgerMenuTapped(_ sender: Any) {
+        if let hamburgerVC = self.view.window?.rootViewController as? HamburgerViewController {
+            searchBar.resignFirstResponder()
+            hamburgerVC.toggleLeft()
+            tableView.isUserInteractionEnabled = !tableView.isUserInteractionEnabled
+        }
+    }
     func registerForUpdateNotificaiton() {
         NotificationCenter.default.addObserver(self, selector: #selector(labelUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLabelsUpdated), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(locationUpdated), name: Notification.Name(rawValue: Resources.Strings.Notifications.kLocationsUpdated), object: nil)
@@ -299,6 +306,47 @@ extension TasksViewController : UISearchBarDelegate {
                         filteredTasks!.append(task);
                 }
             }
+            else if( searchText[searchText.startIndex] == TaskSpecialCharacter.priority.rawValue) {
+                if let _ = task.taskPriority {
+                    filteredTasks!.append(task);
+                }
+            }
+            else if( searchText[searchText.startIndex] == TaskSpecialCharacter.contact.rawValue) {
+                if let _ = task.taskContacts {
+                    filteredTasks!.append(task);
+                }
+            }
+            else if( searchText[searchText.startIndex] == TaskSpecialCharacter.location.rawValue) {
+                if let _ = task.taskLocation {
+                    filteredTasks!.append(task);
+                }
+            }
+            else if( searchText.lowercased().contains((TaskSpecialCharacter.dueDate.stringValue() + Resources.Strings.TasksViewController.kTodayTasks).lowercased())) {
+                if let taskDate = task.taskDate,
+                    Calendar.current.isDateInToday(taskDate) {
+                    filteredTasks!.append(task);
+                }
+            }
+            else if( searchText.lowercased().contains((TaskSpecialCharacter.dueDate.stringValue() + Resources.Strings.TasksViewController.kTomorrowTasks).lowercased())) {
+                if let taskDate = task.taskDate {
+                    let today = Date()
+                    let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)
+                    if let tomorrow = tomorrow,
+                        Calendar.current.isDate(tomorrow, inSameDayAs: taskDate) {
+                        filteredTasks!.append(task);
+                    }
+                }
+                
+            }
+            else if( searchText.lowercased().contains((TaskSpecialCharacter.dueDate.stringValue() + Resources.Strings.TasksViewController.kThisWeekTasks).replacingOccurrences(of: " ", with:"").lowercased())) {
+                if let taskDate = task.taskDate {
+                    let today = Date()
+                    if Calendar.current.compare(taskDate, to: today, toGranularity: .weekOfYear) == .orderedSame {
+                        filteredTasks!.append(task);
+                    }
+                }
+            }
+
             else {
                 if let taskName = task.taskName {
                     let taskNameRange = taskName.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil)
