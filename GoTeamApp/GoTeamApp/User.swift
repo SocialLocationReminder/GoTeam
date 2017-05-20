@@ -10,5 +10,5 @@ import Foundation
 
 class User {
     static let kUserName = "kUserName"
-    static let kCurrentUser = "akshay"
+    static let kCurrentUser = "akshaySim"
 }

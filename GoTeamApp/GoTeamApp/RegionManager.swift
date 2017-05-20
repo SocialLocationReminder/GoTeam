@@ -51,15 +51,17 @@ class RegionManager : NSObject {
         
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound], completionHandler: { (returnedBool, error) in
+            
             if let error = error {
                 print(error)
+            } else {
+                let circularRegion = CLCircularRegion(center: region.coordinate, radius: region.radius!, identifier: region.regionName!)
+                circularRegion.notifyOnEntry = region.notifyOnEntry!
+                circularRegion.notifyOnExit = region.notifyOnExit!
+                self.locationManager.startMonitoring(for: circularRegion)
             }
         })
         
-        let circularRegion = CLCircularRegion(center: region.coordinate, radius: region.radius!, identifier: region.regionName!)
-        circularRegion.notifyOnEntry = region.notifyOnEntry!
-        circularRegion.notifyOnExit = region.notifyOnExit!
-        locationManager.startMonitoring(for: circularRegion)
     }
 
     func stopMonitoring(region : Region) {
